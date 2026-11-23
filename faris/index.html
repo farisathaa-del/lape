@@ -6,103 +6,126 @@
 <meta name="color-scheme" content="light dark"/>
 <link rel="icon" href="data:,"/>
 <title>Ruang Belajar Faris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet" />
 <style>
 :root{
   color-scheme: light dark;
-  --bg:#fafafa; --surface:#ffffff; --ink:#17181c; --muted:#6b7280; --line:#e5e5e7;
-  --accent:#17181c; --accent-ink:#ffffff; --field:#f1f1f3;
-  --ok:#1e7a3c;
-  --c-pidsus:#0f4c5c; --c-pidum:#7a3b12; --c-datun:#3d5a2e; --c-intel:#274156; --c-lain:#5b4a68;
+  --bg:#fdf6f0; --bg-soft:#fbeae2; --surface:#fffdfb; --ink:#3d2b2b; --ink-soft:#7a5f5c; --line:#eed9cf;
+  --teal:#0f4c5c; --teal-deep:#0b3a44; --teal-tint:#dcebee;
+  --gold:#c98a2d; --gold-deep:#8f6113; --gold-tint:#f7ecd2;
+  --amber:#b07c1e; --amber-deep:#8f6113; --amber-tint:#f7ecd2;
+  --sage:#3f7d5c; --sage-deep:#2f6247; --sage-tint:#e2efe4;
+  --indigo:#4658a8; --indigo-deep:#33417f; --indigo-tint:#e4e8fb;
+  --plum:#5b4a68; --plum-deep:#463755; --plum-tint:#ece4f1;
+  --ok:#3f7d5c;
+  --shadow:0 10px 30px rgba(142,42,56,.08),0 2px 6px rgba(61,43,43,.05);
+  --shadow-hover:0 18px 40px rgba(15,76,92,.14),0 4px 10px rgba(61,43,43,.07);
 }
 @media (prefers-color-scheme: dark){
-  :root{ --bg:#121316; --surface:#1b1c20; --ink:#f2f2f4; --muted:#9a9ea8; --line:#2c2e34;
-  --accent:#f2f2f4; --accent-ink:#17181c; --field:#242529; --ok:#5cc97a;
-  --c-pidsus:#4fa3b8; --c-pidum:#d08a4e; --c-datun:#8fbc6a; --c-intel:#7fa3c4; --c-lain:#b39cc9; }
+  :root{ --bg:#1d1416; --bg-soft:#2a1b1e; --surface:#2b1d20; --ink:#f3e4de; --ink-soft:#c4a49c; --line:#4a3236;
+  --teal:#4fa3b8; --teal-deep:#7fc3d4; --teal-tint:#1e3238;
+  --gold:#e0aa4e; --gold-deep:#f0cd8f; --gold-tint:#3a2f1c;
+  --amber:#e3b566; --amber-deep:#f0cd8f; --amber-tint:#3a2f1c;
+  --sage:#8fcea6; --sage-deep:#a9dcbc; --sage-tint:#22362a;
+  --indigo:#a8b4ea; --indigo-deep:#c2cbf2; --indigo-tint:#2c3455;
+  --plum:#b39cc9; --plum-deep:#cdb8dd; --plum-tint:#332741;
+  --ok:#8fcea6;
+  --shadow:0 10px 30px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.3);
+  --shadow-hover:0 18px 40px rgba(0,0,0,.45),0 4px 10px rgba(0,0,0,.35); }
 }
 html{box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{margin:0;color:var(--ink);
+  font-family:"Nunito Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:radial-gradient(60rem 30rem at 110% -10%,var(--bg-soft) 0%,transparent 55%),radial-gradient(50rem 26rem at -15% 110%,var(--bg-soft) 0%,transparent 55%),var(--bg);
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;min-height:100vh}
 h1,h2,h3,p,ul{margin:0}
-.wrap{max-width:640px;margin:0 auto;padding:28px 16px 48px}
+.wrap{max-width:880px;margin:0 auto;padding:clamp(1.5rem,5vw,3rem) clamp(1.1rem,4vw,2rem) 2.5rem}
 
 /* HEADER */
-header h1{font-size:1.75rem;font-weight:800;letter-spacing:-.02em;line-height:1.15}
-header p.lead{color:var(--muted);font-size:.98rem;margin-top:6px}
-header p.summary{font-size:.85rem;color:var(--muted);margin-top:12px}
+header{text-align:center;margin-bottom:clamp(1.6rem,4vw,2.4rem)}
+.back{text-align:left;margin:0 0 14px}
+.back a{color:var(--ink-soft);text-decoration:none;font-weight:700;font-size:.95rem}
+.back a:hover{color:var(--teal-deep)}
+.kicker{display:inline-flex;align-items:center;gap:.45rem;font-size:.8rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:0 0 .9rem}
+.kicker svg{width:.95rem;height:.95rem}
+header h1{font-family:"Lora",Georgia,"Times New Roman",serif;font-weight:700;font-size:clamp(2rem,7vw,2.8rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 .6rem}
+header p.lead{color:var(--ink-soft);font-size:clamp(1rem,3.6vw,1.1rem);line-height:1.6;max-width:34rem;margin:0 auto}
+header p.summary{font-size:.85rem;color:var(--ink-soft);margin-top:12px}
 header p.summary strong{color:var(--ink);font-weight:700}
 
 /* CONTROLS */
-.controls{margin-top:22px}
-.search{display:flex;align-items:center;gap:9px;background:var(--field);border-radius:12px;padding:0 14px}
-.search svg{flex:0 0 auto;color:var(--muted)}
-.search input{flex:1;min-width:0;border:none;background:transparent;color:var(--ink);
-  font-size:16px;font-family:inherit;min-height:50px;outline:none}
-.search input::placeholder{color:var(--muted)}
-.filters{display:flex;gap:4px;background:var(--field);border-radius:12px;padding:4px;margin-top:10px}
-.filters button{flex:1;border:none;background:transparent;color:var(--muted);border-radius:9px;
-  padding:10px 4px;font-size:.9rem;font-weight:600;font-family:inherit;cursor:pointer;min-height:44px}
-.filters button[aria-pressed="true"]{background:var(--surface);color:var(--ink);
-  box-shadow:0 1px 3px rgba(0,0,0,.12)}
-.result-count{font-size:.82rem;color:var(--muted);margin-top:12px}
+.controls{margin-top:8px}
+.search{display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0 14px;box-shadow:var(--shadow)}
+.search svg{flex:0 0 auto;color:var(--ink-soft)}
+.search input{flex:1;min-width:0;border:none;background:transparent;color:var(--ink);font-size:16px;font-family:inherit;min-height:50px;outline:none}
+.search input::placeholder{color:var(--ink-soft)}
+.filters{display:flex;gap:6px;margin-top:12px}
+.filters button{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);border-radius:999px;padding:10px 4px;font-size:.9rem;font-weight:700;font-family:inherit;cursor:pointer;min-height:44px}
+.filters button[aria-pressed="true"]{background:var(--teal-tint);color:var(--teal-deep);border-color:var(--teal)}
+.result-count{font-size:.82rem;color:var(--ink-soft);margin-top:12px;text-align:center}
 
 /* SECTION HEADS */
-.sec-head{margin:30px 0 12px}
-.sec-head h2{font-size:1.05rem;font-weight:700}
+.sec-head{margin:30px 0 14px}
+.sec-head h2{font-family:"Lora",Georgia,serif;font-size:1.3rem;font-weight:700}
 
 /* ROOM CARDS */
-.stack{display:flex;flex-direction:column;gap:12px}
-.room{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
-.room-head{display:flex;align-items:center;gap:9px}
-.dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:var(--rc,var(--muted))}
-.room-head h3{flex:1;min-width:0;font-size:1.12rem;font-weight:700;line-height:1.25}
-.status{flex:0 0 auto;font-size:.78rem;font-weight:600;white-space:nowrap}
+.stack{display:flex;flex-direction:column;gap:1.1rem}
+.room{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:1.6rem 1.5rem;box-shadow:var(--shadow);overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.room::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--rc)}
+.room[data-status="ready"]:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--rc)}
+.room-head{display:flex;align-items:center;gap:12px}
+.icon-badge{flex:0 0 auto;width:58px;height:58px;border-radius:16px;background:var(--tint);color:var(--deep);display:grid;place-items:center}
+.icon-badge svg{width:32px;height:32px}
+.room-head h3{flex:1;min-width:0;font-family:"Lora",Georgia,serif;font-size:1.35rem;font-weight:700;line-height:1.2}
+.status{flex:0 0 auto;font-size:.78rem;font-weight:700;white-space:nowrap}
 .status.ready{color:var(--ok)}
-.status.soon{color:var(--muted)}
-.room .bidang{font-size:.8rem;color:var(--muted);margin-top:2px}
-.room p.desc{color:var(--muted);font-size:.94rem;margin-top:10px}
+.status.soon{color:var(--ink-soft)}
+.room .bidang{font-size:.85rem;color:var(--ink-soft);margin-top:6px}
+.room p.desc{color:var(--ink-soft);font-size:.98rem;line-height:1.6;margin-top:10px}
 .room.soon p.desc{margin-top:6px}
 
 /* MODULE LIST (Pidsus) */
-.modules{list-style:none;margin:14px 0 0;padding:0}
-.modules li{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
-.mnum{flex:0 0 auto;font-size:.85rem;font-weight:700;color:var(--muted);padding-top:1px;min-width:1.1em}
-.modules .mt{display:block;font-weight:600;font-size:.95rem}
-.modules .md{display:block;color:var(--muted);font-size:.88rem;margin-top:1px}
+.modules{list-style:none;margin:16px 0 0;padding:0}
+.modules li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.mnum{flex:0 0 auto;font-size:.9rem;font-weight:800;color:var(--teal-deep);padding-top:1px;min-width:1.1em}
+.modules .mt{display:block;font-weight:700;font-size:.98rem}
+.modules .md{display:block;color:var(--ink-soft);font-size:.9rem;margin-top:1px;line-height:1.55}
 
 /* ACTIONS */
-.enter{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;
-  background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;font-size:1rem;
-  border-radius:12px;padding:14px 16px;min-height:52px}
-.enter:active{opacity:.85}
+.enter{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px;background:var(--teal);color:#fff;text-decoration:none;font-weight:800;font-size:1rem;border-radius:12px;padding:14px 16px;min-height:52px;transition:transform .18s ease,background .18s ease}
+.enter:hover{background:var(--teal-deep)}
+.enter:active{transform:translateY(1px)}
 .enter::after{content:"";position:absolute;inset:0}
-.soon-note{font-size:.85rem;color:var(--muted);margin-top:12px}
+.soon-note{font-size:.88rem;color:var(--ink-soft);margin-top:12px}
 
-.empty{display:none;border:1px dashed var(--line);border-radius:14px;padding:24px 16px;
-  text-align:center;color:var(--muted);margin-top:12px;font-size:.94rem}
+.empty{display:none;border:1px dashed var(--line);border-radius:22px;padding:24px 16px;text-align:center;color:var(--ink-soft);margin-top:12px;font-size:.94rem;background:var(--surface)}
 .empty.show{display:block}
 .empty strong{color:var(--ink);display:block;margin-bottom:2px}
 
-footer{color:var(--muted);font-size:.85rem;margin-top:36px;border-top:1px solid var(--line);padding-top:14px}
+footer{color:var(--ink-soft);font-size:.88rem;margin-top:36px;border-top:1px solid var(--line);padding-top:16px;text-align:center;line-height:1.6}
 footer p{margin:0 0 6px}
 [hidden]{display:none !important}
+@media (prefers-reduced-motion: reduce){ .room,.enter{transition:none} .room[data-status="ready"]:hover{transform:none} }
 </style>
 </head>
 <body>
-<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:24px;box-sizing:border-box">
-<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
-<h1 style="font-size:1.4rem;margin:0 0 8px;color:#17181c">Ruang Belajar</h1>
-<p style="color:#6b7280;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
-<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #e5e5e7;border-radius:10px;box-sizing:border-box" />
-<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:700;border:0;border-radius:10px;background:#17181c;color:#fff;cursor:pointer">Masuk</button>
-<p id="lape-gate-err" style="color:#b3261e;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
+<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fdf6f0;padding:24px;box-sizing:border-box">
+<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:'Nunito Sans',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<h1 style="font-family:'Lora',Georgia,'Times New Roman',serif;font-size:1.6rem;font-weight:700;margin:0 0 8px;color:#3d2b2b">Ruang Belajar</h1>
+<p style="color:#7a5f5c;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
+<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #eed9cf;border-radius:12px;box-sizing:border-box;background:#fffdfb;color:#3d2b2b" />
+<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:800;border:0;border-radius:12px;background:#0f4c5c;color:#fff;cursor:pointer">Masuk</button>
+<p id="lape-gate-err" style="color:#b23a48;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
 </form>
 </div>
 <div class="wrap">
 
 <header>
-  <p style="margin:0 0 12px"><a href="../">← Beranda</a></p>
+  <p class="back"><a href="../">← Beranda</a></p>
+  <p class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16"/><path d="M4 6h16"/><path d="M4 6 1.5 12h5L4 6Z"/><path d="M20 6l-2.5 6h5L20 6Z"/><path d="M8 21h8"/></svg>Bidang Hukum</p>
   <h1>Ruang Belajar Faris</h1>
   <p class="lead">Semua ruang belajar bidang hukum dalam satu halaman — dibuka dari HP atau laptop, kapan saja.</p>
   <p class="summary"><strong>1 tersedia</strong> · 4 dalam rencana</p>
@@ -125,9 +148,9 @@ footer p{margin:0 0 6px}
 <div class="sec-head" data-sec="ready"><h2>Tersedia</h2></div>
 
 <div class="stack" id="readyStack">
-<article class="room" style="--rc:var(--c-pidsus)" data-status="ready" data-search="pidsus tindak pidana khusus korupsi tppu pajak perpajakan bea cukai kepabeanan ham berat uu 20/2025 kuhap administrasi telaah">
+<article class="room" style="--rc:var(--teal);--tint:var(--teal-tint);--deep:var(--teal-deep)" data-status="ready" data-search="pidsus tindak pidana khusus korupsi tppu pajak perpajakan bea cukai kepabeanan ham berat uu 20/2025 kuhap administrasi telaah">
   <div class="room-head">
-    <span class="dot" aria-hidden="true"></span>
+    <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16"/><path d="M4 6h16"/><path d="M4 6 1.5 12h5L4 6Z"/><path d="M20 6l-2.5 6h5L20 6Z"/><path d="M8 21h8"/></svg></span>
     <h3>Ruang Belajar Pidsus</h3>
     <span class="status ready">Tersedia</span>
   </div>
@@ -150,9 +173,9 @@ footer p{margin:0 0 6px}
 <div class="sec-head" data-sec="soon"><h2>Segera hadir</h2></div>
 
 <div class="stack" id="soonStack">
-  <article class="room soon" style="--rc:var(--c-pidum)" data-status="soon" data-search="pidum tindak pidana umum prapenuntutan penuntutan spdp p-19 p-21 tahap ii sidang eksekusi">
+  <article class="room soon" style="--rc:var(--amber);--tint:var(--amber-tint);--deep:var(--amber-deep)" data-status="soon" data-search="pidum tindak pidana umum prapenuntutan penuntutan spdp p-19 p-21 tahap ii sidang eksekusi">
     <div class="room-head">
-      <span class="dot" aria-hidden="true"></span>
+      <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v14c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-14c-4 0-6.5.5-8 2Z"/><path d="M12 6.5v14"/></svg></span>
       <h3>Ruang Belajar Pidum</h3>
       <span class="status soon">Dalam rencana</span>
     </div>
@@ -161,9 +184,9 @@ footer p{margin:0 0 6px}
     <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
   </article>
 
-  <article class="room soon" style="--rc:var(--c-datun)" data-status="soon" data-search="datun perdata tata usaha negara jaksa pengacara negara bantuan hukum pertimbangan hukum pelayanan hukum">
+  <article class="room soon" style="--rc:var(--sage);--tint:var(--sage-tint);--deep:var(--sage-deep)" data-status="soon" data-search="datun perdata tata usaha negara jaksa pengacara negara bantuan hukum pertimbangan hukum pelayanan hukum">
     <div class="room-head">
-      <span class="dot" aria-hidden="true"></span>
+      <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.7 10v8M14.3 10v8M19 10v8"/><path d="M3 21h18"/><path d="M3 18h18"/></svg></span>
       <h3>Ruang Belajar Datun</h3>
       <span class="status soon">Dalam rencana</span>
     </div>
@@ -172,9 +195,9 @@ footer p{margin:0 0 6px}
     <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
   </article>
 
-  <article class="room soon" style="--rc:var(--c-intel)" data-status="soon" data-search="intel intelijen penyelidikan pengamanan penggalangan lid pam gal penegakan hukum">
+  <article class="room soon" style="--rc:var(--indigo);--tint:var(--indigo-tint);--deep:var(--indigo-deep)" data-status="soon" data-search="intel intelijen penyelidikan pengamanan penggalangan lid pam gal penegakan hukum">
     <div class="room-head">
-      <span class="dot" aria-hidden="true"></span>
+      <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></span>
       <h3>Ruang Belajar Intel</h3>
       <span class="status soon">Dalam rencana</span>
     </div>
@@ -183,9 +206,9 @@ footer p{margin:0 0 6px}
     <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
   </article>
 
-  <article class="room soon" style="--rc:var(--c-lain)" data-status="soon" data-search="lainnya pembinaan pengawasan bidang lain menyusul baru">
+  <article class="room soon" style="--rc:var(--plum);--tint:var(--plum-tint);--deep:var(--plum-deep)" data-status="soon" data-search="lainnya pembinaan pengawasan bidang lain menyusul baru">
     <div class="room-head">
-      <span class="dot" aria-hidden="true"></span>
+      <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></span>
       <h3>Ruang Berikutnya</h3>
       <span class="status soon">Dalam rencana</span>
     </div>
@@ -247,6 +270,7 @@ q.addEventListener("input",apply);
 apply();
 })();
 </script>
+
 <script>
 (function(){
 var HASH='4e533dd40116d43b0b2926d0b4f49958849c4f6c8ec3c1f685e8e8e872b344da';
@@ -254,11 +278,11 @@ var gate=document.getElementById('lape-gate');
 function unlock(){try{sessionStorage.setItem('lape-unlocked','1');}catch(e){}if(gate)gate.remove();}
 try{if(sessionStorage.getItem('lape-unlocked')==='1'){unlock();return;}}catch(e){}
 if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){
-gate.style.background='#121316';
-var h=gate.querySelector('h1');if(h)h.style.color='#f2f2f4';
-var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#9a9ea8';}
-var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#1b1c20';inp.style.color='#f2f2f4';inp.style.borderColor='#2c2e34';}
-var btn=gate.querySelector('button');if(btn){btn.style.background='#f2f2f4';btn.style.color='#17181c';}
+gate.style.background='#1d1416';
+var h=gate.querySelector('h1');if(h)h.style.color='#f3e4de';
+var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#c4a49c';}
+var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#2b1d20';inp.style.color='#f3e4de';inp.style.borderColor='#4a3236';}
+var btn=gate.querySelector('button');if(btn){btn.style.background='#4fa3b8';btn.style.color='#17181c';}
 }
 var form=document.getElementById('lape-gate-form');
 var input=document.getElementById('lape-pin');

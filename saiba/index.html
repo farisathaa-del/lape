@@ -259,13 +259,13 @@
     </style>
   </head>
   <body>
-<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:24px;box-sizing:border-box">
-<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
-<h1 style="font-size:1.4rem;margin:0 0 8px;color:#17181c">Ruang Belajar</h1>
-<p style="color:#6b7280;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
-<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #e5e5e7;border-radius:10px;box-sizing:border-box" />
-<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:700;border:0;border-radius:10px;background:#17181c;color:#fff;cursor:pointer">Masuk</button>
-<p id="lape-gate-err" style="color:#b3261e;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
+<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fdf6f0;padding:24px;box-sizing:border-box">
+<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:'Nunito Sans',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<h1 style="font-family:'Lora',Georgia,'Times New Roman',serif;font-size:1.6rem;font-weight:700;margin:0 0 8px;color:#3d2b2b">Ruang Belajar</h1>
+<p style="color:#7a5f5c;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
+<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #eed9cf;border-radius:12px;box-sizing:border-box;background:#fffdfb;color:#3d2b2b" />
+<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:800;border:0;border-radius:12px;background:#0f4c5c;color:#fff;cursor:pointer">Masuk</button>
+<p id="lape-gate-err" style="color:#b23a48;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
 </form>
 </div>
     <div class="wrap">
@@ -397,18 +397,19 @@
         untuk mahasiswa Farmasi UNJANI
       </footer>
     </div>
-  <script>
+  
+<script>
 (function(){
 var HASH='4e533dd40116d43b0b2926d0b4f49958849c4f6c8ec3c1f685e8e8e872b344da';
 var gate=document.getElementById('lape-gate');
 function unlock(){try{sessionStorage.setItem('lape-unlocked','1');}catch(e){}if(gate)gate.remove();}
 try{if(sessionStorage.getItem('lape-unlocked')==='1'){unlock();return;}}catch(e){}
 if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){
-gate.style.background='#121316';
-var h=gate.querySelector('h1');if(h)h.style.color='#f2f2f4';
-var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#9a9ea8';}
-var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#1b1c20';inp.style.color='#f2f2f4';inp.style.borderColor='#2c2e34';}
-var btn=gate.querySelector('button');if(btn){btn.style.background='#f2f2f4';btn.style.color='#17181c';}
+gate.style.background='#1d1416';
+var h=gate.querySelector('h1');if(h)h.style.color='#f3e4de';
+var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#c4a49c';}
+var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#2b1d20';inp.style.color='#f3e4de';inp.style.borderColor='#4a3236';}
+var btn=gate.querySelector('button');if(btn){btn.style.background='#4fa3b8';btn.style.color='#17181c';}
 }
 var form=document.getElementById('lape-gate-form');
 var input=document.getElementById('lape-pin');
