@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Ruang Belajar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fdf6f0;
+        --bg-soft: #fbeae2;
+        --surface: #fffdfb;
+        --ink: #3d2b2b;
+        --ink-soft: #7a5f5c;
+        --line: #eed9cf;
+        --rose: #b23a48;
+        --rose-deep: #8e2a38;
+        --rose-tint: #fbe3e1;
+        --sage: #3f7d5c;
+        --sage-deep: #2f6247;
+        --sage-tint: #e2efe4;
+        --amber: #b07c1e;
+        --amber-deep: #8f6113;
+        --amber-tint: #f7ecd2;
+        --indigo: #4658a8;
+        --indigo-deep: #33417f;
+        --indigo-tint: #e4e8fb;
+        --gold: #c98a2d;
+        --shadow: 0 10px 30px rgba(142, 42, 56, 0.10), 0 2px 6px rgba(61, 43, 43, 0.06);
+        --shadow-hover: 0 18px 40px rgba(142, 42, 56, 0.16), 0 4px 10px rgba(61, 43, 43, 0.08);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1d1416;
+          --bg-soft: #2a1b1e;
+          --surface: #2b1d20;
+          --ink: #f3e4de;
+          --ink-soft: #c4a49c;
+          --line: #4a3236;
+          --rose: #e88a97;
+          --rose-deep: #f0a3ae;
+          --rose-tint: #3d2429;
+          --sage: #8fceA6;
+          --sage: #8fcea6;
+          --sage-deep: #a9dcbc;
+          --sage-tint: #22362a;
+          --amber: #e3b566;
+          --amber-deep: #f0cd8f;
+          --amber-tint: #3a2f1c;
+          --indigo: #a8b4ea;
+          --indigo-deep: #c2cbf2;
+          --indigo-tint: #2c3455;
+          --gold: #e0aa4e;
+          --shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.3);
+          --shadow-hover: 0 18px 40px rgba(0, 0, 0, 0.45), 0 4px 10px rgba(0, 0, 0, 0.35);
+        }
+      }
+
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(60rem 30rem at 110% -10%, var(--bg-soft) 0%, transparent 55%),
+          radial-gradient(50rem 26rem at -15% 110%, var(--bg-soft) 0%, transparent 55%),
+          var(--bg);
+        color: var(--ink);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .wrap {
+        width: 100%;
+        max-width: 880px;
+        margin: 0 auto;
+        padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1.1rem, 4vw, 2rem) 2.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ---------- Header ---------- */
+      header { text-align: center; margin-bottom: clamp(1.8rem, 5vw, 2.8rem); }
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--rose);
+        margin: 0 0 0.9rem;
+      }
+      .kicker .heart { width: 0.95rem; height: 0.95rem; flex: none; }
+      h1 {
+        font-family: "Lora", Georgia, "Times New Roman", serif;
+        font-weight: 700;
+        font-size: clamp(2.3rem, 8vw, 3.4rem);
+        line-height: 1.08;
+        margin: 0 0 0.7rem;
+        letter-spacing: -0.01em;
+      }
+      .lede {
+        margin: 0 auto;
+        max-width: 34rem;
+        font-size: clamp(1rem, 3.6vw, 1.13rem);
+        line-height: 1.6;
+        color: var(--ink-soft);
+      }
+      .lede em { font-family: "Lora", Georgia, serif; color: var(--rose-deep); }
+
+      /* ---------- Cards ---------- */
+      .choices {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.1rem;
+      }
+      @media (min-width: 640px) {
+        .choices { grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+      }
+      @media (min-width: 1100px) {
+        .wrap { max-width: 1280px; }
+        .choices { grid-template-columns: repeat(4, 1fr); }
+      }
+
+      .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 1.7rem 1.6rem 1.5rem;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        min-height: 44px;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 6px;
+        background: var(--accent);
+      }
+      .card:hover, .card:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--accent);
+      }
+      .card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+      .card:active { transform: translateY(-1px); }
+
+      .card--herbal { --accent: var(--rose); --tint: var(--rose-tint); --deep: var(--rose-deep); }
+      .card--lingkungan { --accent: var(--sage); --tint: var(--sage-tint); --deep: var(--sage-deep); }
+      .card--rkpo { --accent: var(--amber); --tint: var(--amber-tint); --deep: var(--amber-deep); }
+      .card--etika { --accent: var(--indigo); --tint: var(--indigo-tint); --deep: var(--indigo-deep); }
+
+      .card-art {
+        position: absolute;
+        right: -14px;
+        top: 18px;
+        width: 118px;
+        height: 118px;
+        color: var(--accent);
+        opacity: 0.14;
+        pointer-events: none;
+      }
+      .icon-badge {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+        background: var(--tint);
+        color: var(--deep);
+        display: grid;
+        place-items: center;
+        margin-bottom: 1.05rem;
+      }
+      .icon-badge svg { width: 32px; height: 32px; }
+      .card h2 {
+        font-family: "Lora", Georgia, serif;
+        font-size: clamp(1.5rem, 5.5vw, 1.8rem);
+        font-weight: 700;
+        line-height: 1.15;
+        margin: 0 0 0.45rem;
+      }
+      .card p {
+        margin: 0 0 1.15rem;
+        font-size: 0.98rem;
+        line-height: 1.55;
+        color: var(--ink-soft);
+        max-width: 26ch;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin-bottom: 1.35rem;
+      }
+      .chip {
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        padding: 0.34rem 0.7rem;
+        border-radius: 999px;
+        background: var(--tint);
+        color: var(--deep);
+        white-space: nowrap;
+      }
+      .enter {
+        margin-top: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 800;
+        font-size: 1rem;
+        color: var(--deep);
+      }
+      .enter .arrow {
+        width: 1.15rem; height: 1.15rem;
+        transition: transform 0.18s ease;
+      }
+      .card:hover .enter .arrow, .card:focus-visible .enter .arrow { transform: translateX(4px); }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: clamp(2rem, 6vw, 3rem);
+        text-align: center;
+        color: var(--ink-soft);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+      footer .heart { width: 0.85rem; height: 0.85rem; vertical-align: -0.12em; color: var(--rose); }
+      footer .wish {
+        font-family: "Lora", Georgia, serif;
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--ink);
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .card, .enter .arrow { transition: none; }
+        .card:hover, .card:focus-visible { transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:24px;box-sizing:border-box">
+<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<h1 style="font-size:1.4rem;margin:0 0 8px;color:#17181c">Ruang Belajar</h1>
+<p style="color:#6b7280;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
+<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #e5e5e7;border-radius:10px;box-sizing:border-box" />
+<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:700;border:0;border-radius:10px;background:#17181c;color:#fff;cursor:pointer">Masuk</button>
+<p id="lape-gate-err" style="color:#b3261e;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
+</form>
+</div>
+    <div class="wrap">
+      <header>
+        <p class="kicker">
+          <svg class="heart" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.6 2.3 5 5.7 5c2 0 3.4 1.1 4.3 2.4h4c.9-1.3 2.3-2.4 4.3-2.4 3.4 0 5.3 3.6 3.7 6.7C19.5 16.1 12 21 12 21Z" transform="scale(0.92) translate(1,0)"/></svg>
+          Ruang Belajar
+        </p>
+        <h1>Mau belajar<br />yang mana hari ini?</h1>
+        <p class="lede">
+          Empat mata kuliah, satu tujuan: UTS yang lancar.
+          Pilih materinya, lalu belajar pelan-pelan — <em>semangat ya, calon apoteker.</em>
+        </p>
+      </header>
+
+      <main class="choices">
+        <a class="card card--herbal" href="obat-herbal/">
+          <svg class="card-art" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+            <path d="M50 88 C50 55 50 30 50 14" />
+            <path d="M50 62 C34 62 22 50 20 32 C38 34 50 46 50 62 Z" />
+            <path d="M50 46 C66 46 78 34 80 16 C62 18 50 30 50 46 Z" />
+            <path d="M50 78 C38 78 28 70 26 58 C40 60 50 68 50 78 Z" />
+          </svg>
+          <span class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 21v-8" />
+              <path d="M12 13c-4.5 0-7.5-3-8-8 5 .5 8 3.5 8 8Z" />
+              <path d="M12 10c0-4.5 3-7.5 8-8-.5 5-3.5 8-8 8Z" />
+            </svg>
+          </span>
+          <h2>Obat Herbal</h2>
+          <p>Latihan soal lengkap dengan kunci jawaban, pembahasan, dan sumber halaman PPT di tiap soal.</p>
+          <span class="chips">
+            <span class="chip">60 soal latihan</span>
+            <span class="chip">Persiapan UTS</span>
+          </span>
+          <span class="enter">
+            Masuk materi
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </span>
+        </a>
+
+        <a class="card card--lingkungan" href="farmasi-lingkungan/">
+          <svg class="card-art" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+            <circle cx="50" cy="50" r="34" />
+            <path d="M18 44 C34 40 44 52 50 50 C60 47 70 38 84 42" />
+            <path d="M20 62 C36 58 44 68 54 66 C64 64 72 56 82 58" />
+            <path d="M50 16 C54 28 54 72 50 84" />
+          </svg>
+          <span class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3.5c3.2 4.3 6 7.7 6 11a6 6 0 1 1-12 0c0-3.3 2.8-6.7 6-11Z" />
+              <path d="M9.5 14.5a2.8 2.8 0 0 0 2 3" />
+            </svg>
+          </span>
+          <h2>Farmasi Lingkungan</h2>
+          <p>Soal per pertemuan dan per level, plus kartu kilat, angka kunci, dan jebakan UTS yang sering keluar.</p>
+          <span class="chips">
+            <span class="chip">50 soal latihan</span>
+            <span class="chip">Persiapan UTS</span>
+          </span>
+          <span class="enter">
+            Masuk materi
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </span>
+        </a>
+
+        <a class="card card--rkpo" href="rkpo/">
+          <svg class="card-art" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+            <circle cx="50" cy="50" r="36" />
+            <circle cx="50" cy="50" r="22" />
+            <circle cx="50" cy="50" r="8" />
+          </svg>
+          <span class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.5" />
+              <circle cx="12" cy="12" r="4.5" />
+              <circle cx="12" cy="12" r="0.5" fill="currentColor" />
+            </svg>
+          </span>
+          <h2>RKPO</h2>
+          <p>Rancangan Kualitas Produk Obat — latihan soal perancangan mutu produk, dari atribut kritis sampai pengendalian kualitas.</p>
+          <span class="chips">
+            <span class="chip">50 soal latihan</span>
+            <span class="chip">Persiapan UTS</span>
+          </span>
+          <span class="enter">
+            Masuk materi
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </span>
+        </a>
+
+        <a class="card card--etika" href="etika-regulasi/">
+          <svg class="card-art" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+            <path d="M50 10v76" />
+            <path d="M20 24h60" />
+            <path d="M20 24 10 50M20 24l10 26" />
+            <path d="M10 50a10 8 0 0 0 20 0" />
+            <path d="M80 24 70 50M80 24l10 26" />
+            <path d="M70 50a10 8 0 0 0 20 0" />
+            <path d="M36 90h28" />
+          </svg>
+          <span class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 4v16" />
+              <path d="M4 6h16" />
+              <path d="M4 6 1.5 12h5L4 6Z" />
+              <path d="M20 6l-2.5 6h5L20 6Z" />
+              <path d="M8 21h8" />
+            </svg>
+          </span>
+          <h2>Etika dan Regulasi Farmasi</h2>
+          <p>Etika profesi, hierarki peraturan, UU 17/2023 dan PP 28/2024 — sampai penegakan disiplin profesi.</p>
+          <span class="chips">
+            <span class="chip">40 soal latihan</span>
+            <span class="chip">Persiapan UTS</span>
+          </span>
+          <span class="enter">
+            Masuk materi
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </span>
+        </a>
+      </main>
+
+      <footer>
+        <span class="wish">Belajar yang rajin, istirahat yang cukup.</span>
+        Dibuat dengan
+        <svg class="heart" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.7C6.4 17 3 13.6 3 9.9 3 7.2 5 5 7.6 5c1.7 0 3.3.9 4.4 2.4C13.1 5.9 14.7 5 16.4 5 19 5 21 7.2 21 9.9c0 3.7-3.4 7.1-9 10.8Z" /></svg>
+        untuk mahasiswa Farmasi UNJANI
+      </footer>
+    </div>
+  <script>
+(function(){
+var HASH='4e533dd40116d43b0b2926d0b4f49958849c4f6c8ec3c1f685e8e8e872b344da';
+var gate=document.getElementById('lape-gate');
+function unlock(){try{sessionStorage.setItem('lape-unlocked','1');}catch(e){}if(gate)gate.remove();}
+try{if(sessionStorage.getItem('lape-unlocked')==='1'){unlock();return;}}catch(e){}
+if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){
+gate.style.background='#121316';
+var h=gate.querySelector('h1');if(h)h.style.color='#f2f2f4';
+var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#9a9ea8';}
+var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#1b1c20';inp.style.color='#f2f2f4';inp.style.borderColor='#2c2e34';}
+var btn=gate.querySelector('button');if(btn){btn.style.background='#f2f2f4';btn.style.color='#17181c';}
+}
+var form=document.getElementById('lape-gate-form');
+var input=document.getElementById('lape-pin');
+var err=document.getElementById('lape-gate-err');
+if(input)input.focus();
+form.addEventListener('submit',function(ev){
+ev.preventDefault();
+var v=(input.value||'').trim();
+if(!v)return;
+function fail(){err.textContent='PIN salah, coba lagi.';input.value='';input.focus();}
+if(window.crypto&&crypto.subtle&&crypto.subtle.digest){
+crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(buf){
+var hex=Array.prototype.map.call(new Uint8Array(buf),function(b){return('00'+b.toString(16)).slice(-2);}).join('');
+if(hex===HASH){unlock();}else{fail();}
+}).catch(fail);
+}else{fail();}
+});
+})();
+</script>
+</body>
+</html>

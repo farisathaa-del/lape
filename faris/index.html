@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="icon" href="data:,"/>
+<title>Ruang Belajar Faris</title>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#fafafa; --surface:#ffffff; --ink:#17181c; --muted:#6b7280; --line:#e5e5e7;
+  --accent:#17181c; --accent-ink:#ffffff; --field:#f1f1f3;
+  --ok:#1e7a3c;
+  --c-pidsus:#0f4c5c; --c-pidum:#7a3b12; --c-datun:#3d5a2e; --c-intel:#274156; --c-lain:#5b4a68;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#121316; --surface:#1b1c20; --ink:#f2f2f4; --muted:#9a9ea8; --line:#2c2e34;
+  --accent:#f2f2f4; --accent-ink:#17181c; --field:#242529; --ok:#5cc97a;
+  --c-pidsus:#4fa3b8; --c-pidum:#d08a4e; --c-datun:#8fbc6a; --c-intel:#7fa3c4; --c-lain:#b39cc9; }
+}
+html{box-sizing:border-box}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+h1,h2,h3,p,ul{margin:0}
+.wrap{max-width:640px;margin:0 auto;padding:28px 16px 48px}
+
+/* HEADER */
+header h1{font-size:1.75rem;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+header p.lead{color:var(--muted);font-size:.98rem;margin-top:6px}
+header p.summary{font-size:.85rem;color:var(--muted);margin-top:12px}
+header p.summary strong{color:var(--ink);font-weight:700}
+
+/* CONTROLS */
+.controls{margin-top:22px}
+.search{display:flex;align-items:center;gap:9px;background:var(--field);border-radius:12px;padding:0 14px}
+.search svg{flex:0 0 auto;color:var(--muted)}
+.search input{flex:1;min-width:0;border:none;background:transparent;color:var(--ink);
+  font-size:16px;font-family:inherit;min-height:50px;outline:none}
+.search input::placeholder{color:var(--muted)}
+.filters{display:flex;gap:4px;background:var(--field);border-radius:12px;padding:4px;margin-top:10px}
+.filters button{flex:1;border:none;background:transparent;color:var(--muted);border-radius:9px;
+  padding:10px 4px;font-size:.9rem;font-weight:600;font-family:inherit;cursor:pointer;min-height:44px}
+.filters button[aria-pressed="true"]{background:var(--surface);color:var(--ink);
+  box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.result-count{font-size:.82rem;color:var(--muted);margin-top:12px}
+
+/* SECTION HEADS */
+.sec-head{margin:30px 0 12px}
+.sec-head h2{font-size:1.05rem;font-weight:700}
+
+/* ROOM CARDS */
+.stack{display:flex;flex-direction:column;gap:12px}
+.room{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
+.room-head{display:flex;align-items:center;gap:9px}
+.dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:var(--rc,var(--muted))}
+.room-head h3{flex:1;min-width:0;font-size:1.12rem;font-weight:700;line-height:1.25}
+.status{flex:0 0 auto;font-size:.78rem;font-weight:600;white-space:nowrap}
+.status.ready{color:var(--ok)}
+.status.soon{color:var(--muted)}
+.room .bidang{font-size:.8rem;color:var(--muted);margin-top:2px}
+.room p.desc{color:var(--muted);font-size:.94rem;margin-top:10px}
+.room.soon p.desc{margin-top:6px}
+
+/* MODULE LIST (Pidsus) */
+.modules{list-style:none;margin:14px 0 0;padding:0}
+.modules li{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.mnum{flex:0 0 auto;font-size:.85rem;font-weight:700;color:var(--muted);padding-top:1px;min-width:1.1em}
+.modules .mt{display:block;font-weight:600;font-size:.95rem}
+.modules .md{display:block;color:var(--muted);font-size:.88rem;margin-top:1px}
+
+/* ACTIONS */
+.enter{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;
+  background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;font-size:1rem;
+  border-radius:12px;padding:14px 16px;min-height:52px}
+.enter:active{opacity:.85}
+.enter::after{content:"";position:absolute;inset:0}
+.soon-note{font-size:.85rem;color:var(--muted);margin-top:12px}
+
+.empty{display:none;border:1px dashed var(--line);border-radius:14px;padding:24px 16px;
+  text-align:center;color:var(--muted);margin-top:12px;font-size:.94rem}
+.empty.show{display:block}
+.empty strong{color:var(--ink);display:block;margin-bottom:2px}
+
+footer{color:var(--muted);font-size:.85rem;margin-top:36px;border-top:1px solid var(--line);padding-top:14px}
+footer p{margin:0 0 6px}
+[hidden]{display:none !important}
+</style>
+</head>
+<body>
+<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:24px;box-sizing:border-box">
+<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<h1 style="font-size:1.4rem;margin:0 0 8px;color:#17181c">Ruang Belajar</h1>
+<p style="color:#6b7280;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
+<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #e5e5e7;border-radius:10px;box-sizing:border-box" />
+<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:700;border:0;border-radius:10px;background:#17181c;color:#fff;cursor:pointer">Masuk</button>
+<p id="lape-gate-err" style="color:#b3261e;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
+</form>
+</div>
+<div class="wrap">
+
+<header>
+  <p style="margin:0 0 12px"><a href="../">← Beranda</a></p>
+  <h1>Ruang Belajar Faris</h1>
+  <p class="lead">Semua ruang belajar bidang hukum dalam satu halaman — dibuka dari HP atau laptop, kapan saja.</p>
+  <p class="summary"><strong>1 tersedia</strong> · 4 dalam rencana</p>
+</header>
+
+<div class="controls">
+  <label class="search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+    <input type="search" id="q" placeholder="Cari ruang…" aria-label="Cari ruang belajar"/>
+  </label>
+  <div class="filters" role="group" aria-label="Saring ruang">
+    <button type="button" data-filter="all" aria-pressed="true">Semua</button>
+    <button type="button" data-filter="ready" aria-pressed="false">Tersedia</button>
+    <button type="button" data-filter="soon" aria-pressed="false">Segera hadir</button>
+  </div>
+</div>
+<p class="result-count" id="count" role="status" aria-live="polite"></p>
+
+<!-- ================= TERSEDIA ================= -->
+<div class="sec-head" data-sec="ready"><h2>Tersedia</h2></div>
+
+<div class="stack" id="readyStack">
+<article class="room" style="--rc:var(--c-pidsus)" data-status="ready" data-search="pidsus tindak pidana khusus korupsi tppu pajak perpajakan bea cukai kepabeanan ham berat uu 20/2025 kuhap administrasi telaah">
+  <div class="room-head">
+    <span class="dot" aria-hidden="true"></span>
+    <h3>Ruang Belajar Pidsus</h3>
+    <span class="status ready">Tersedia</span>
+  </div>
+  <p class="bidang">Bidang Tindak Pidana Khusus</p>
+  <p class="desc">Ruang belajar lengkap untuk siap sewaktu-waktu ditempatkan di Seksi Pidsus — dari tupoksi dan alur tahapan, pagar-pagar KUHAP baru, administrasi perkara, sampai substansi delik dan simulasi kasus end-to-end. Dilengkapi kuis, flashcard, dan self-check di tiap modul.</p>
+
+  <ul class="modules" aria-label="Isi Ruang Belajar Pidsus">
+    <li><span class="mnum">1</span><div><span class="mt">Tupoksi &amp; Alur Tahapan</span><span class="md">Pembeda Pidsus vs Pidum, struktur organisasi Perka 3/2024, dan diagram alur 6 tahap yang bisa diklik.</span></div></li>
+    <li><span class="mnum">2</span><div><span class="mt">Penyelidikan &amp; Penyidikan</span><span class="md">Kerangka UU 20/2025: penyelidikan tanpa upaya paksa, SPDP maks 7 hari, penetapan tersangka min 2 alat bukti, praperadilan yang diperluas.</span></div></li>
+    <li><span class="mnum">3</span><div><span class="mt">Administrasi Pidsus</span><span class="md">Formulir P- dan Pidsus-, register perkara/tahanan/barang bukti, dan pencatatan CMS yang sinkron.</span></div></li>
+    <li><span class="mnum">4</span><div><span class="mt">Substansi Delik Khusus</span><span class="md">Peta korupsi Pasal 603–606 KUHP, TPPU, pajak Pasal 44B, kepabeanan &amp; cukai, dan HAM berat.</span></div></li>
+    <li><span class="mnum">5</span><div><span class="mt">Simulasi Kasus End-to-End</span><span class="md">Kasus fiktif mark-up pengadaan laptop — jalani 10 langkahnya dan ambil keputusan di tiap titik kritis.</span></div></li>
+  </ul>
+
+  <a class="enter" href="../pidsus/">Masuk Ruang Pidsus <span aria-hidden="true">→</span></a>
+</article>
+</div>
+
+<!-- ================= SEGERA HADIR ================= -->
+<div class="sec-head" data-sec="soon"><h2>Segera hadir</h2></div>
+
+<div class="stack" id="soonStack">
+  <article class="room soon" style="--rc:var(--c-pidum)" data-status="soon" data-search="pidum tindak pidana umum prapenuntutan penuntutan spdp p-19 p-21 tahap ii sidang eksekusi">
+    <div class="room-head">
+      <span class="dot" aria-hidden="true"></span>
+      <h3>Ruang Belajar Pidum</h3>
+      <span class="status soon">Dalam rencana</span>
+    </div>
+    <p class="bidang">Bidang Tindak Pidana Umum</p>
+    <p class="desc">Bidang pekerjaan harianmu sekarang: alur SPDP, prapenuntutan (P-19 / P-21), Tahap II, penuntutan, masa penahanan, dan administrasi BA-15 — dirangkum jadi ruang belajar seperti Pidsus.</p>
+    <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
+  </article>
+
+  <article class="room soon" style="--rc:var(--c-datun)" data-status="soon" data-search="datun perdata tata usaha negara jaksa pengacara negara bantuan hukum pertimbangan hukum pelayanan hukum">
+    <div class="room-head">
+      <span class="dot" aria-hidden="true"></span>
+      <h3>Ruang Belajar Datun</h3>
+      <span class="status soon">Dalam rencana</span>
+    </div>
+    <p class="bidang">Bidang Perdata &amp; TUN</p>
+    <p class="desc">Jaksa sebagai pengacara negara: bantuan hukum, pertimbangan hukum, pelayanan hukum, penegakan hukum, dan tindakan hukum lain untuk negara dan pemerintah.</p>
+    <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
+  </article>
+
+  <article class="room soon" style="--rc:var(--c-intel)" data-status="soon" data-search="intel intelijen penyelidikan pengamanan penggalangan lid pam gal penegakan hukum">
+    <div class="room-head">
+      <span class="dot" aria-hidden="true"></span>
+      <h3>Ruang Belajar Intel</h3>
+      <span class="status soon">Dalam rencana</span>
+    </div>
+    <p class="bidang">Bidang Intelijen</p>
+    <p class="desc">Intelijen penegakan hukum: penyelidikan, pengamanan, dan penggalangan (LID/PAM/GAL), produk intelijen, dan perannya menopang bidang pidana maupun Datun.</p>
+    <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
+  </article>
+
+  <article class="room soon" style="--rc:var(--c-lain)" data-status="soon" data-search="lainnya pembinaan pengawasan bidang lain menyusul baru">
+    <div class="room-head">
+      <span class="dot" aria-hidden="true"></span>
+      <h3>Ruang Berikutnya</h3>
+      <span class="status soon">Dalam rencana</span>
+    </div>
+    <p class="bidang">Bidang Lainnya</p>
+    <p class="desc">Slot untuk bidang lain — misalnya Pembinaan atau Pengawasan. Setiap ruang belajar baru yang dibuat akan ditambahkan ke halaman ini.</p>
+    <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
+  </article>
+</div>
+
+<div class="empty" id="empty">
+  <strong>Tidak ada ruang yang cocok</strong>
+  Coba kata kunci lain, atau pilih saringan “Semua”.
+</div>
+
+<footer>
+  <p><strong>Cara menambah ruang:</strong> cukup bilang bidang apa berikutnya — ruangnya dibuat, lalu kartunya di halaman ini berubah jadi “Tersedia” dan bisa diklik masuk.</p>
+  <p>Terakhir diperbarui 23 November 2026 · 1 ruang tersedia (Pidsus), 4 dalam rencana.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var q=document.getElementById("q");
+var cards=Array.prototype.slice.call(document.querySelectorAll(".room"));
+var secs=Array.prototype.slice.call(document.querySelectorAll(".sec-head"));
+var stacks={ready:document.getElementById("readyStack"),soon:document.getElementById("soonStack")};
+var empty=document.getElementById("empty");
+var count=document.getElementById("count");
+var filter="all";
+function apply(){
+  var term=(q.value||"").trim().toLowerCase();
+  var shown=0;
+  cards.forEach(function(c){
+    var okStatus=(filter==="all"||c.getAttribute("data-status")===filter);
+    var okTerm=(!term||(c.getAttribute("data-search")+" "+c.textContent).toLowerCase().indexOf(term)>-1);
+    var show=okStatus&&okTerm;
+    c.hidden=!show;
+    if(show) shown++;
+  });
+  secs.forEach(function(s){
+    var key=s.getAttribute("data-sec");
+    var any=cards.some(function(c){ return !c.hidden && c.getAttribute("data-status")===key; });
+    s.hidden=!any;
+    if(stacks[key]) stacks[key].hidden=!any;
+  });
+  empty.classList.toggle("show", shown===0);
+  count.textContent="Menampilkan "+shown+" dari "+cards.length+" ruang";
+}
+document.querySelectorAll(".filters button").forEach(function(b){
+  b.addEventListener("click",function(){
+    document.querySelectorAll(".filters button").forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+    b.setAttribute("aria-pressed","true");
+    filter=b.getAttribute("data-filter");
+    apply();
+  });
+});
+q.addEventListener("input",apply);
+apply();
+})();
+</script>
+<script>
+(function(){
+var HASH='4e533dd40116d43b0b2926d0b4f49958849c4f6c8ec3c1f685e8e8e872b344da';
+var gate=document.getElementById('lape-gate');
+function unlock(){try{sessionStorage.setItem('lape-unlocked','1');}catch(e){}if(gate)gate.remove();}
+try{if(sessionStorage.getItem('lape-unlocked')==='1'){unlock();return;}}catch(e){}
+if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){
+gate.style.background='#121316';
+var h=gate.querySelector('h1');if(h)h.style.color='#f2f2f4';
+var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#9a9ea8';}
+var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#1b1c20';inp.style.color='#f2f2f4';inp.style.borderColor='#2c2e34';}
+var btn=gate.querySelector('button');if(btn){btn.style.background='#f2f2f4';btn.style.color='#17181c';}
+}
+var form=document.getElementById('lape-gate-form');
+var input=document.getElementById('lape-pin');
+var err=document.getElementById('lape-gate-err');
+if(input)input.focus();
+form.addEventListener('submit',function(ev){
+ev.preventDefault();
+var v=(input.value||'').trim();
+if(!v)return;
+function fail(){err.textContent='PIN salah, coba lagi.';input.value='';input.focus();}
+if(window.crypto&&crypto.subtle&&crypto.subtle.digest){
+crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(buf){
+var hex=Array.prototype.map.call(new Uint8Array(buf),function(b){return('00'+b.toString(16)).slice(-2);}).join('');
+if(hex===HASH){unlock();}else{fail();}
+}).catch(fail);
+}else{fail();}
+});
+})();
+</script>
+</body>
+</html>
