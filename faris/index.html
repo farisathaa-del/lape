@@ -74,8 +74,8 @@ header p.summary strong{color:var(--ink);font-weight:700}
 
 /* ROOM CARDS */
 .stack{display:grid;grid-template-columns:1fr;gap:1.1rem}
-@media (min-width:640px){#soonStack{grid-template-columns:1fr 1fr}}
-@media (min-width:1100px){#soonStack{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:640px){#kantorStack{grid-template-columns:1fr}}
+@media (min-width:1100px){#kantorStack{grid-template-columns:1fr}}
 .room{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:1.6rem 1.5rem;box-shadow:var(--shadow);overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
 .room::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--rc)}
 .room[data-status="ready"]:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--rc)}
@@ -130,8 +130,8 @@ footer p{margin:0 0 6px}
   <p class="back"><a href="../">← Beranda</a></p>
   <p class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16"/><path d="M4 6h16"/><path d="M4 6 1.5 12h5L4 6Z"/><path d="M20 6l-2.5 6h5L20 6Z"/><path d="M8 21h8"/></svg>Bidang Hukum</p>
   <h1>Ruang Belajar Faris</h1>
-  <p class="lead">Semua ruang belajar bidang hukum dalam satu halaman — dibuka dari HP atau laptop, kapan saja.</p>
-  <p class="summary"><strong>2 tersedia</strong> · 3 dalam rencana</p>
+  <p class="lead">Ruang kantor dan pribadi dalam satu halaman — belajar bidang hukum dan log gym, dibuka dari HP atau laptop, kapan saja.</p>
+  <p class="summary"><strong>3 tersedia</strong> · 3 dalam rencana</p>
 </header>
 
 <div class="controls">
@@ -147,10 +147,10 @@ footer p{margin:0 0 6px}
 </div>
 <p class="result-count" id="count" role="status" aria-live="polite"></p>
 
-<!-- ================= TERSEDIA ================= -->
-<div class="sec-head" data-sec="ready"><h2>Tersedia</h2></div>
+<!-- ================= KANTOR ================= -->
+<div class="sec-head" data-sec="kantor"><h2>Kantor</h2></div>
 
-<div class="stack" id="readyStack">
+<div class="stack" id="kantorStack">
 <article class="room" style="--rc:var(--teal);--tint:var(--teal-tint);--deep:var(--teal-deep)" data-status="ready" data-search="pidsus tindak pidana khusus korupsi tppu pajak perpajakan bea cukai kepabeanan ham berat uu 20/2025 kuhap administrasi telaah">
   <div class="room-head">
     <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16"/><path d="M4 6h16"/><path d="M4 6 1.5 12h5L4 6Z"/><path d="M20 6l-2.5 6h5L20 6Z"/><path d="M8 21h8"/></svg></span>
@@ -170,7 +170,7 @@ footer p{margin:0 0 6px}
 
   <a class="enter" href="../pidsus/">Masuk Ruang Pidsus <span aria-hidden="true">→</span></a>
 </article>
-  <article class="room" style="--rc:var(--amber);--tint:var(--amber-tint);--deep:var(--amber-deep)" data-status="ready" data-search="pidum tindak pidana umum prapenuntutan penuntutan spdp p-19 p-21 tahap ii sidang eksekusi dakwaan tuntutan perlawanan ba-15">
+<article class="room" style="--rc:var(--amber);--tint:var(--amber-tint);--deep:var(--amber-deep)" data-status="ready" data-search="pidum tindak pidana umum prapenuntutan penuntutan spdp p-19 p-21 tahap ii sidang eksekusi dakwaan tuntutan perlawanan ba-15">
     <div class="room-head">
       <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v14c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-14c-4 0-6.5.5-8 2Z"/><path d="M12 6.5v14"/></svg></span>
       <h3>Ruang Belajar Pidum</h3>
@@ -189,15 +189,7 @@ footer p{margin:0 0 6px}
 
   <a class="enter" href="../pidum/">Masuk Ruang Pidum <span aria-hidden="true">→</span></a>
 </article>
-</div>
-
-<!-- ================= SEGERA HADIR ================= -->
-<div class="sec-head" data-sec="soon"><h2>Segera hadir</h2></div>
-
-<div class="stack" id="soonStack">
-
-
-  <article class="room soon" style="--rc:var(--sage);--tint:var(--sage-tint);--deep:var(--sage-deep)" data-status="soon" data-search="datun perdata tata usaha negara jaksa pengacara negara bantuan hukum pertimbangan hukum pelayanan hukum">
+<article class="room soon" style="--rc:var(--sage);--tint:var(--sage-tint);--deep:var(--sage-deep)" data-status="soon" data-search="datun perdata tata usaha negara jaksa pengacara negara bantuan hukum pertimbangan hukum pelayanan hukum">
     <div class="room-head">
       <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.7 10v8M14.3 10v8M19 10v8"/><path d="M3 21h18"/><path d="M3 18h18"/></svg></span>
       <h3>Ruang Belajar Datun</h3>
@@ -207,8 +199,7 @@ footer p{margin:0 0 6px}
     <p class="desc">Jaksa sebagai pengacara negara: bantuan hukum, pertimbangan hukum, pelayanan hukum, penegakan hukum, dan tindakan hukum lain untuk negara dan pemerintah.</p>
     <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
   </article>
-
-  <article class="room soon" style="--rc:var(--indigo);--tint:var(--indigo-tint);--deep:var(--indigo-deep)" data-status="soon" data-search="intel intelijen penyelidikan pengamanan penggalangan lid pam gal penegakan hukum">
+<article class="room soon" style="--rc:var(--indigo);--tint:var(--indigo-tint);--deep:var(--indigo-deep)" data-status="soon" data-search="intel intelijen penyelidikan pengamanan penggalangan lid pam gal penegakan hukum">
     <div class="room-head">
       <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></span>
       <h3>Ruang Belajar Intel</h3>
@@ -218,8 +209,7 @@ footer p{margin:0 0 6px}
     <p class="desc">Intelijen penegakan hukum: penyelidikan, pengamanan, dan penggalangan (LID/PAM/GAL), produk intelijen, dan perannya menopang bidang pidana maupun Datun.</p>
     <p class="soon-note">Belum tersedia — ruangnya belum dibuat.</p>
   </article>
-
-  <article class="room soon" style="--rc:var(--plum);--tint:var(--plum-tint);--deep:var(--plum-deep)" data-status="soon" data-search="lainnya pembinaan pengawasan bidang lain menyusul baru">
+<article class="room soon" style="--rc:var(--plum);--tint:var(--plum-tint);--deep:var(--plum-deep)" data-status="soon" data-search="lainnya pembinaan pengawasan bidang lain menyusul baru">
     <div class="room-head">
       <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></span>
       <h3>Ruang Berikutnya</h3>
@@ -231,6 +221,31 @@ footer p{margin:0 0 6px}
   </article>
 </div>
 
+<!-- ================= PRIBADI ================= -->
+<div class="sec-head" data-sec="pribadi"><h2>Pribadi</h2></div>
+
+<div class="stack" id="pribadiStack">
+<article class="room" style="--rc:var(--sage);--tint:var(--sage-tint);--deep:var(--sage-deep)" data-status="ready" data-search="log gym latihan beban riwayat progres berat terakhir volume sesi upper lower push pull legs">
+    <div class="room-head">
+      <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 8v8"/><path d="M17.5 8v8"/><path d="M6.5 12h11"/><path d="M3.5 10v4"/><path d="M20.5 10v4"/></svg></span>
+      <h3>Log Gym</h3>
+      <span class="status ready">Tersedia</span>
+    </div>
+    <p class="bidang">Riwayat Latihan Beban</p>
+    <p class="desc">Riwayat latihan bebanmu — berat terakhir tiap gerakan, riwayat tiap sesi, dan volume total. Baca-saja; mencatat tetap lewat chat, halamannya diperbarui tiap selesai sesi.</p>
+
+  <ul class="modules" aria-label="Isi Log Gym">
+    <li><span class="mnum">1</span><div><span class="mt">Berat terakhir per gerakan</span><span class="md">27 gerakan, lengkap dengan selisih vs catatan sebelumnya dan e1RM.</span></div></li>
+    <li><span class="mnum">2</span><div><span class="mt">Riwayat sesi</span><span class="md">20 sesi dari 26 Okt 2026 — selesai, parsial, skip, sampai yang tidak diketahui.</span></div></li>
+    <li><span class="mnum">3</span><div><span class="mt">Catatan sumber</span><span class="md">Jujur soal asal data: Sheet sampai 30 Okt, laporan chat sesudahnya, plus yang belum pasti.</span></div></li>
+  </ul>
+
+  <a class="enter" href="log-gym/">Lihat Log Gym <span aria-hidden="true">→</span></a>
+</article>
+</div>
+
+</div>
+
 <div class="empty" id="empty">
   <strong>Tidak ada ruang yang cocok</strong>
   Coba kata kunci lain, atau pilih saringan “Semua”.
@@ -238,7 +253,7 @@ footer p{margin:0 0 6px}
 
 <footer>
   <p><strong>Cara menambah ruang:</strong> cukup bilang bidang apa berikutnya — ruangnya dibuat, lalu kartunya di halaman ini berubah jadi “Tersedia” dan bisa diklik masuk.</p>
-  <p>Terakhir diperbarui 24 November 2026 · 2 ruang tersedia (Pidsus, Pidum), 3 dalam rencana.</p>
+  <p>Terakhir diperbarui 24 November 2026 · 3 ruang tersedia (Pidsus, Pidum, Log Gym), 3 dalam rencana.</p>
 </footer>
 </div>
 
@@ -248,7 +263,7 @@ footer p{margin:0 0 6px}
 var q=document.getElementById("q");
 var cards=Array.prototype.slice.call(document.querySelectorAll(".room"));
 var secs=Array.prototype.slice.call(document.querySelectorAll(".sec-head"));
-var stacks={ready:document.getElementById("readyStack"),soon:document.getElementById("soonStack")};
+var stacks={kantor:document.getElementById("kantorStack"),pribadi:document.getElementById("pribadiStack")};
 var empty=document.getElementById("empty");
 var count=document.getElementById("count");
 var filter="all";
@@ -264,9 +279,10 @@ function apply(){
   });
   secs.forEach(function(s){
     var key=s.getAttribute("data-sec");
-    var any=cards.some(function(c){ return !c.hidden && c.getAttribute("data-status")===key; });
+    var st=stacks[key];
+    var any=st?Array.prototype.slice.call(st.querySelectorAll(".room")).some(function(c){ return !c.hidden; }):false;
     s.hidden=!any;
-    if(stacks[key]) stacks[key].hidden=!any;
+    if(st) st.hidden=!any;
   });
   empty.classList.toggle("show", shown===0);
   count.textContent="Menampilkan "+shown+" dari "+cards.length+" ruang";
