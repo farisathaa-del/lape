@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet"/>
+<link rel="icon" href="data:,"/>
+<title>Ruang Belajar Pidum</title>
+<style>
+:root{
+  --bg:#fdf6f0; --surface:#fffdfb; --surface2:#f7ecdc; --ink:#3d2b2b; --muted:#7d665c; --line:#e9dac6;
+  --teal:#0f4c5c; --gold:#c98a2d; --gold-soft:#f6e3ba;
+  --m1:#0f4c5c; --m2:#8a4a1d; --m3:#47632f; --m4:#7c2d3e; --m5:#2c4a63;
+  --ok:#1e7a3c; --okbg:#e3f2e1; --bad:#b3261e; --badbg:#fbe8e2;
+  --radius:22px;
+  --shadow:0 2px 6px rgba(61,43,43,.05),0 16px 36px -20px rgba(61,43,43,.25);
+  --shadow-lift:0 4px 10px rgba(61,43,43,.06),0 24px 46px -20px rgba(61,43,43,.32);
+  --serif:"Lora",Georgia,"Times New Roman",serif;
+  --sans:"Nunito Sans",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#1d1410; --surface:#2b1e16; --surface2:#3a2a1e; --ink:#f5ead9; --muted:#c6ad9a; --line:#4e3a2b;
+  --teal:#8ec9d8; --gold:#e2ab4f; --gold-soft:#4d3a15;
+  --m1:#8ec9d8; --m2:#e2a468; --m3:#aacb8d; --m4:#e79cae; --m5:#a3c2de;
+  --ok:#82d198; --okbg:#1d3a22; --bad:#f0988d; --badbg:#43221b;
+  --shadow:0 2px 6px rgba(0,0,0,.35),0 16px 36px -20px rgba(0,0,0,.65);
+  --shadow-lift:0 4px 10px rgba(0,0,0,.4),0 24px 46px -20px rgba(0,0,0,.75); }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--sans);line-height:1.62;
+  background:
+    radial-gradient(1100px 540px at 10% -6%, rgba(201,138,45,.15), transparent 60%),
+    radial-gradient(920px 500px at 106% 2%, rgba(15,76,92,.13), transparent 55%),
+    radial-gradient(820px 620px at 50% 116%, rgba(201,138,45,.09), transparent 60%),
+    var(--bg);
+  background-attachment:fixed}
+@media (prefers-color-scheme: dark){
+  body{background:
+    radial-gradient(1100px 540px at 10% -6%, rgba(226,171,79,.10), transparent 60%),
+    radial-gradient(920px 500px at 106% 2%, rgba(142,201,216,.08), transparent 55%),
+    radial-gradient(820px 620px at 50% 116%, rgba(226,171,79,.06), transparent 60%),
+    var(--bg);
+  background-attachment:fixed}
+}
+::selection{background:var(--gold-soft)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+button,[role="button"],select,summary{min-height:2.25rem}
+.sans{font-family:var(--sans)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 16px 64px}
+/* HERO */
+.hero{padding:40px 0 8px}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,5.4vw,3.2rem);line-height:1.08;margin:0 0 12px;letter-spacing:-.01em}
+.hero h1 mark{background:var(--gold-soft);color:inherit;padding:0 .18em;border-radius:6px}
+.hero p.lead{font-size:1.1rem;color:var(--muted);max-width:46rem;margin:0 0 18px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--sans);font-size:.82rem;font-weight:600}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 13px;box-shadow:0 1px 3px rgba(61,43,43,.05)}
+/* PROGRESS */
+.progress-box{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:var(--radius);padding:16px 18px;margin:20px 0 6px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.progress-box:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.progress-box .row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--sans);font-size:.86rem;gap:10px;flex-wrap:wrap}
+.pbar{height:10px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:10px}
+.pbar>div{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:99px;transition:width .5s ease}
+.pdots{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;font-family:var(--sans);font-size:.78rem}
+.pdot{border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--surface2);color:var(--muted)}
+.pdot.done{background:var(--okbg);color:var(--ok);border-color:var(--ok);font-weight:700}
+/* NAV */
+nav.modules{position:sticky;top:0;z-index:20;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+nav.modules .links{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;font-family:var(--sans)}
+nav.modules a{flex:0 0 auto;text-decoration:none;color:var(--ink);border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-size:.88rem;font-weight:700;display:inline-flex;align-items:center;min-height:2.25rem;box-shadow:0 1px 3px rgba(61,43,43,.05);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+nav.modules a .dot{width:9px;height:9px;border-radius:50%;margin-right:8px;display:inline-block}
+nav.modules a:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:var(--shadow)}
+/* SECTIONS */
+section.module{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--mc,var(--gold));border-radius:var(--radius);padding:26px 24px;margin:24px 0;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+section.module:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+section.module h2{font-family:var(--serif);font-weight:600;margin:0 0 6px;font-size:1.65rem;line-height:1.2}
+.kicker{font-family:var(--sans);font-size:.74rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--mc,var(--gold))}
+.sub{color:var(--muted);margin:0 0 16px;font-size:1.02rem}
+h3{font-family:var(--serif);font-weight:600;font-size:1.22rem;margin:24px 0 8px}
+h4{font-family:var(--serif);font-weight:600;font-size:1.04rem;margin:16px 0 6px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:4px 0}
+.callout{border-radius:16px;padding:13px 16px;margin:14px 0;font-size:.97rem}
+.callout.warn{background:var(--badbg);border:1px solid var(--bad)}
+.callout.note{background:var(--surface2);border:1px solid var(--line)}
+.callout.good{background:var(--okbg);border:1px solid var(--ok)}
+.callout b.t{display:block;font-family:var(--sans);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.94rem;background:var(--surface)}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--surface2);font-family:var(--sans);font-size:.82rem;font-weight:800}
+code,.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;background:var(--surface2);padding:1px 5px;border-radius:5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}section.module{padding:22px 16px}}
+.mini-card{border:1px solid var(--line);border-top:4px solid var(--mc,var(--gold));border-radius:16px;padding:14px 16px;background:var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.mini-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.mini-card h4{margin-top:0}
+/* FLOW */
+.flow{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px;font-family:var(--sans)}
+.flow button{flex:1 1 140px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:16px;padding:11px 8px;cursor:pointer;font-size:.86rem;font-weight:700;text-align:center;font-family:var(--sans);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.flow button:hover{transform:translateY(-1px);border-color:var(--gold)}
+.flow button .ic{display:block;font-size:1.3rem;margin-bottom:4px}
+.flow button.active{border-color:var(--gold);background:var(--gold-soft)}
+.flow-detail{border:1.5px dashed var(--gold);border-radius:16px;padding:15px 17px;margin-top:10px;background:var(--surface)}
+.flow-detail h4{margin:0 0 6px}
+/* FLASHCARDS */
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:12px 0}
+.flash{display:block;width:100%;perspective:700px;cursor:pointer;min-height:118px;background:none;border:none;padding:0;font-family:inherit;text-align:center;transition:transform .25s ease}
+.flash:hover{transform:translateY(-2px)}
+.flash-inner{display:block;position:relative;width:100%;height:100%;min-height:118px;transition:transform .45s;transform-style:preserve-3d}
+.flash.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;border:1.5px solid var(--line);box-shadow:var(--shadow)}
+.flash-front{background:var(--surface2);font-weight:800;font-size:1.02rem}
+.flash-front small{font-weight:600;color:var(--muted);font-size:.72rem;font-family:var(--sans);margin-top:6px;letter-spacing:.06em;text-transform:uppercase}
+.flash-back{background:var(--gold-soft);transform:rotateY(180deg);font-size:.92rem;line-height:1.45}
+/* QUIZ */
+.quiz{border:1px solid var(--line);border-top:5px solid var(--mc,var(--gold));border-radius:var(--radius);padding:20px;margin:18px 0;background:var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.quiz:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.quiz h4{margin:0 0 4px;font-family:var(--sans);font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.q{margin:14px 0;padding-top:12px;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:none;padding-top:4px}
+.q p.qq{font-weight:700;margin:0 0 8px}
+.opts{display:grid;gap:8px}
+.opts button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 13px;text-align:left;cursor:pointer;font-size:.95rem;font-family:inherit;min-height:2.5rem;transition:border-color .2s ease,background .2s ease,transform .2s ease}
+.opts button:hover{border-color:var(--gold);transform:translateY(-1px)}
+.opts button.correct{border-color:var(--ok);background:var(--okbg);font-weight:700}
+.opts button.wrong{border-color:var(--bad);background:var(--badbg)}
+.opts button:disabled{cursor:default;opacity:.92}
+.opts button:disabled:hover{transform:none}
+.fb{display:none;margin-top:8px;border-radius:12px;padding:10px 13px;font-size:.92rem}
+.fb.show{display:block}
+.fb.ok{background:var(--okbg);border:1px solid var(--ok)}
+.fb.no{background:var(--badbg);border:1px solid var(--bad)}
+.quiz-score{font-family:var(--sans);font-size:.88rem;font-weight:800;margin-top:10px}
+/* SIM */
+.sim-steps{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0;font-family:var(--sans)}
+.sim-steps span{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;background:var(--surface2);color:var(--muted)}
+.sim-steps span.cur{border-color:var(--gold);background:var(--gold-soft);color:var(--ink)}
+.sim-steps span.done{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.sim-panel{border:1px solid var(--line);border-top:5px solid var(--mc,var(--gold));border-radius:var(--radius);padding:20px;background:var(--surface);box-shadow:var(--shadow)}
+.sim-nav{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--gold);background:var(--gold);color:#2b1c10;border-radius:999px;padding:9px 20px;font-weight:800;cursor:pointer;font-family:var(--sans);font-size:.9rem;min-height:2.5rem;transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled:hover{transform:none;box-shadow:none}
+footer{color:var(--muted);font-size:.9rem;margin-top:34px}
+footer h3{color:var(--ink)}
+footer li{margin:3px 0}
+.tag{font-family:var(--sans);font-size:.72rem;font-weight:700;border-radius:99px;padding:3px 9px;background:var(--surface2);border:1px solid var(--line);white-space:nowrap;display:inline-block;margin:2px 0}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fdf6f0;padding:24px;box-sizing:border-box">
+<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:'Nunito Sans',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<h1 style="font-family:'Lora',Georgia,'Times New Roman',serif;font-size:1.6rem;font-weight:700;margin:0 0 8px;color:#3d2b2b">Ruang Belajar</h1>
+<p style="color:#7a5f5c;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
+<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #eed9cf;border-radius:12px;box-sizing:border-box;background:#fffdfb;color:#3d2b2b" />
+<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:800;border:0;border-radius:12px;background:#0f4c5c;color:#fff;cursor:pointer">Masuk</button>
+<p id="lape-gate-err" style="color:#b23a48;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
+</form>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <h1>Ruang Belajar <mark>Pidum</mark></h1>
+  <p class="lead">Halo Faris — ini bidang pekerjaan harianmu: dari SPDP yang masuk, penelitian berkas di prapenuntutan, Tahap II, sampai dakwaan, sidang, dan eksekusi. Semua modulnya memakai kerangka KUHAP baru UU 20/2025 — dan Modul 2 dibangun dari checklist analisis berkas pra-penuntutanmu sendiri.</p>
+  <div class="hero-meta">
+    <span class="chip">5 modul lengkap</span>
+    <span class="chip">Kerangka KUHAP baru — UU 20/2025</span>
+    <span class="chip">Kasus latihan: fiktif, aman untuk belajar</span>
+  </div>
+  <div class="progress-box" role="status" aria-live="polite">
+    <div class="row"><span><strong>Progres belajarmu</strong> <span style="color:var(--muted)">(tersimpan selama halaman ini terbuka)</span></span><span id="progText">0%</span></div>
+    <div class="pbar"><div id="progBar"></div></div>
+    <div class="pdots" id="progDots">
+      <span class="pdot" data-p="m1">Modul 1 · Tupoksi</span>
+      <span class="pdot" data-p="m2">Modul 2 · Prapenuntutan</span>
+      <span class="pdot" data-p="m3">Modul 3 · Administrasi</span>
+      <span class="pdot" data-p="m4">Modul 4 · Dakwaan &amp; Tuntutan</span>
+      <span class="pdot" data-p="m5">Modul 5 · Simulasi</span>
+    </div>
+  </div>
+</header>
+
+<nav class="modules" aria-label="Navigasi modul">
+  <div class="links">
+    <a href="#modul1"><span class="dot" style="background:var(--m1)"></span>1 · Tupoksi &amp; Alur</a>
+    <a href="#modul2"><span class="dot" style="background:var(--m2)"></span>2 · Penelitian Berkas</a>
+    <a href="#modul3"><span class="dot" style="background:var(--m3)"></span>3 · Administrasi</a>
+    <a href="#modul4"><span class="dot" style="background:var(--m4)"></span>4 · Dakwaan &amp; Tuntutan</a>
+    <a href="#modul5"><span class="dot" style="background:var(--m5)"></span>5 · Simulasi Kasus</a>
+    <a href="#sumber">Sumber</a>
+  </div>
+</nav>
+
+<section class="module" id="modul1" style="--mc:var(--m1)" data-module="m1">
+  <p class="kicker">Modul 1</p>
+  <h2>Tupoksi &amp; Alur Pidum</h2>
+  <p class="sub">Peta besarnya dulu: siapa mengerjakan apa, dan perkara berjalan lewat pintu mana saja — dari SPDP sampai putusan dieksekusi.</p>
+
+  <h3>Pembeda paling mendasar: Pidum vs Pidsus</h3>
+  <div class="grid2">
+    <div class="mini-card"><h4>Pidum</h4><p>Kejaksaan <strong>menerima</strong> berkas dari penyidik Polri atau PPNS lewat SPDP, meneliti di prapenuntutan (P-19 / P-21), menerima Tahap II, lalu menuntut. Penyidiknya orang lain.</p></div>
+    <div class="mini-card"><h4>Pidsus (terutama korupsi)</h4><p>Kejaksaan <strong>menyidik sendiri</strong> — Pasal 30 ayat (1) huruf d UU 16/2004 jo. UU 11/2021: penyidikan tindak pidana tertentu. Analogi gampangnya: di sana kita merangkap jadi “penyidiknya”.</p></div>
+  </div>
+
+  <h3>Tugas dan wewenang di bidang pidana — Pasal 30 ayat (1) UU 16/2004 jo. UU 11/2021</h3>
+  <ul>
+    <li><strong>Huruf a — melakukan penuntutan.</strong> Inti pekerjaan Seksi Pidum.</li>
+    <li><strong>Huruf b — melaksanakan penetapan hakim dan putusan pengadilan yang telah memperoleh kekuatan hukum tetap.</strong> Ini dasar peran jaksa eksekutor.</li>
+    <li><strong>Huruf c — pengawasan terhadap pelaksanaan putusan pidana bersyarat, pidana pengawasan, dan keputusan lepas bersyarat.</strong></li>
+    <li><strong>Huruf e — melengkapi berkas perkara tertentu</strong>, dan untuk itu dapat melakukan <strong>pemeriksaan tambahan</strong> sebelum dilimpahkan ke pengadilan, yang pelaksanaannya dikoordinasikan dengan penyidik. Ini dasar hukum pemeriksaan tambahan di prapenuntutan.</li>
+    <li>Huruf d — penyidikan terhadap tindak pidana tertentu — itu ranah Pidsus, bukan Pidum.</li>
+  </ul>
+
+  <h3>Struktur Seksi Pidum di Kejari (Perka 3/2024)</h3>
+  <table>
+    <tr><th style="width:22%">Tingkat</th><th>Struktur Pidum</th></tr>
+    <tr><td><strong>Kejagung</strong></td><td><strong>Jampidum</strong> — Jaksa Agung Muda Bidang Tindak Pidana Umum.</td></tr>
+    <tr><td><strong>Kejati</strong></td><td><strong>Aspidum</strong> (Pasal 851) — Asisten Bidang Tindak Pidana Umum.</td></tr>
+    <tr><td><strong>Kejari</strong></td><td><strong>Kasi Pidum</strong> — hanya <strong>dua subseksi</strong> (Pasal 970): Subseksi Prapenuntutan; dan Subseksi Penuntutan, Eksekusi, dan Eksaminasi.</td></tr>
+  </table>
+  <p>Fungsi Seksi Pidum (Pasal 968) antara lain: prapenuntutan, penuntutan, pemeriksaan tambahan, diversi, pertemuan pendahuluan, penghentian penuntutan, pelaksanaan penetapan dan putusan yang telah berkekuatan hukum tetap, upaya hukum, eksaminasi, serta pengawasan terhadap pelaksanaan pidana bersyarat, pidana pengawasan, pidana kerja sosial, dan keputusan pembebasan bersyarat.</p>
+  <div class="callout note"><b class="t">Posisimu di alur ini</b>Sebagai <strong>Penelaah Penuntutan &amp; Penegakan Hukum</strong>, mejamu berada di jantung alur ini: menelaah berkas prapenuntutan yang masuk, menguji syarat formil dan materiilnya, lalu menyiapkan bahan penuntutan dan eksekusi. Modul 2 adalah modul yang paling dekat dengan pekerjaan harianmu.</div>
+
+  <h3>Diagram alur 6 tahap — klik tiap tahap</h3>
+  <div class="flow" id="flow1" role="tablist" aria-label="Alur tahapan Pidum">
+    <button data-flow="0" class="active"><span class="ic">📩</span>SPDP &amp; Koordinasi</button>
+    <button data-flow="1"><span class="ic">🔍</span>Penelitian Berkas</button>
+    <button data-flow="2"><span class="ic">🤝</span>Tahap II</button>
+    <button data-flow="3"><span class="ic">📄</span>Dakwaan &amp; Pelimpahan</button>
+    <button data-flow="4"><span class="ic">⚖️</span>Sidang &amp; Tuntutan</button>
+    <button data-flow="5"><span class="ic">🔒</span>Upaya Hukum &amp; Eksekusi</button>
+  </div>
+  <div class="flow-detail" id="flowDetail"></div>
+
+  <div class="quiz" data-quiz="m1">
+    <h4>Kuis Modul 1 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. SPDP dicatat di register, didisposisikan, dan JPU peneliti ditunjuk dengan P-16 untuk mengikuti perkembangan penyidikan — dakwaan baru disusun jauh di hilir, setelah berkas lengkap dan Tahap II.">
+      <p class="qq">1. SPDP perkara pencurian masuk ke Kejari. Langkah pertama Seksi Pidum yang benar?</p>
+      <div class="opts"><button>Langsung menyusun surat dakwaan</button><button>Mencatat di register, disposisi, lalu menunjuk JPU peneliti (P-16)</button><button>Memanggil tersangka untuk diperiksa</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Itulah pembeda organisasinya: di Pidum Kejaksaan menerima berkas dari penyidik lain; di Pidsus korupsi Kejaksaan menyidik sendiri berdasarkan Pasal 30 ayat (1) huruf d UU 16/2004.">
+      <p class="qq">2. Apa pembeda paling mendasar Pidum dan Pidsus (korupsi)?</p>
+      <div class="opts"><button>Pidum ditangani Polri, Pidsus ditangani Kejaksaan</button><button>Di Pidum penyidiknya Polri/PPNS dan Kejaksaan meneliti lalu menuntut; di Pidsus korupsi Kejaksaan menyidik sendiri</button><button>Tidak ada bedanya, sama-sama disidik Kejaksaan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Pasal 970 Perka 3/2024: Subseksi Prapenuntutan dan Subseksi Penuntutan, Eksekusi, dan Eksaminasi — hanya dua subseksi, seperti Pidsus.">
+      <p class="qq">3. Seksi Pidum di Kejari terdiri atas subseksi apa saja?</p>
+      <div class="opts"><button>Prapenuntutan; Penuntutan, Eksekusi, dan Eksaminasi</button><button>Penyidikan; Penuntutan, ULB &amp; Eksekusi</button><button>Prapenuntutan; Penyidikan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Huruf e adalah dasar hukum pemeriksaan tambahan di prapenuntutan — pelaksanaannya dikoordinasikan dengan penyidik, bukan jalan sendiri.">
+      <p class="qq">4. Pasal 30 ayat (1) huruf e UU 16/2004 memberi wewenang apa kepada Kejaksaan?</p>
+      <div class="opts"><button>Menyidik semua tindak pidana umum</button><button>Melengkapi berkas perkara tertentu dan melakukan pemeriksaan tambahan sebelum pelimpahan, dikoordinasikan dengan penyidik</button><button>Menghentikan penyidikan tanpa pemberitahuan</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul2" style="--mc:var(--m2)" data-module="m2">
+  <p class="kicker">Modul 2</p>
+  <h2>Penelitian Berkas &amp; Pra-Penuntutan</h2>
+  <p class="sub">Ini inti pekerjaanmu sehari-hari — dan modul ini dibangun dari checklist analisis berkas pra-penuntutanmu. Pelajari pagar tenggatnya, lalu uji unsur demi unsur.</p>
+
+  <h3>Langkah nol: tentukan rezim acaranya dulu (Pasal 361)</h3>
+  <div class="callout warn"><b class="t">Jangan campur dua rezim</b>UU 20/2025 berlaku 2 Januari 2026. Penyidikan/penuntutan yang sudah berjalan saat tanggal itu → diselesaikan dengan KUHAP lama (UU 8/1981). Peristiwa terjadi sebelum 2 Januari 2026 tetapi penyidikan/penuntutan belum dimulai → KUHAP baru. Sudah dilimpahkan ke pengadilan: pemeriksaan Terdakwa sudah dimulai → KUHAP lama (kecuali PK); belum dimulai → KUHAP baru. Catat rezim yang berlaku di lembar penelitian.</div>
+
+  <h3>Koordinasi dan tenggat — Pasal 58–62</h3>
+  <table>
+    <tr><th style="width:34%">Tenggat</th><th>Isi &amp; dasar</th></tr>
+    <tr><td><strong>SPDP maks 7 hari</strong></td><td>Sejak penyidikan dimulai (Pasal 60 ayat (1)).</td></tr>
+    <tr><td><strong>Koordinasi awal maks 3 hari</strong></td><td>Sejak SPDP diterima kejaksaan (Pasal 60 ayat (2)).</td></tr>
+    <tr><td><strong>Berita acara koordinasi</strong></td><td>Semua koordinasi dituangkan dalam berita acara (Pasal 59 ayat (4)).</td></tr>
+    <tr><td><strong>Koordinasi pasca-berkas: 1 kali</strong></td><td>Setelah hasil penyidikan dikirim, koordinasi hanya 1 kali per perkara (Pasal 59 ayat (5)) — karena itu petunjuk harus lengkap sekali jalan.</td></tr>
+    <tr><td><strong>Penelitian berkas maks 7 hari</strong></td><td>Sejak berkas diterima (Pasal 61 ayat (1)).</td></tr>
+    <tr><td><strong>Belum lengkap → kembali + petunjuk</strong></td><td>Berkas dikembalikan disertai petunjuk berdasarkan hasil koordinasi (Pasal 61 ayat (2)).</td></tr>
+    <tr><td><strong>Melengkapi maks 14 hari</strong></td><td>Penyidikan tambahan oleh penyidik sejak pengembalian diterima (Pasal 61 ayat (3)).</td></tr>
+    <tr><td><strong>Masih belum lengkap → gelar perkara</strong></td><td>Mekanisme Pasal 62: penyidik melengkapi maks 14 hari dan mengundang gelar perkara (penyidik, pengawas penyidik, penuntut umum, pengawas penuntut umum, ahli).</td></tr>
+    <tr><td><strong>Beda pendapat</strong></td><td>Penyidik menilai cukup bukti, PU menilai belum maksimal → penyidik dapat menyerahkan tersangka + hasil penyidikan + bukti; PU menentukan lanjut/tidak ke persidangan maks 14 hari (Pasal 62 ayat (5)–(6)).</td></tr>
+    <tr><td><strong>P-21 &amp; Tahap II</strong></td><td>Pemberitahuan berkas lengkap ditandatangani Kajari selaku penanggung jawab penuntutan (Pasal 59 ayat (7)); penyidik menyerahkan tersangka dan barang bukti / Tahap II (Pasal 59 ayat (8) jo. Pasal 61 ayat (4)).</td></tr>
+  </table>
+
+  <h3>Syarat formil — cek sebelum isi</h3>
+  <ul>
+    <li>SPDP, surat perintah penyidikan, dan penetapan tersangka ada dan konsisten (identitas, pasal, tanggal).</li>
+    <li>Penetapan tersangka didukung <strong>minimal 2 alat bukti</strong> dan didahului pemeriksaan calon tersangka (Pasal 90).</li>
+    <li>BAP saksi/tersangka/ahli: identitas lengkap, tanggal, tanda tangan, sumpah (bila disumpah), keterangan dibacakan/disetujui pemeriksa-terperiksa.</li>
+    <li>Pendampingan advokat terpenuhi, terutama perkara wajib bantuan hukum; pemberitahuan hak tercatat.</li>
+    <li>Upaya paksa sah: penangkapan, penahanan, penggeledahan, penyitaan, pemeriksaan surat, penyadapan, pemblokiran — masing-masing dengan surat perintah, izin/persetujuan yang disyaratkan, dan berita acara.</li>
+    <li>Barang bukti: daftar sita cocok dengan berita acara, label/segel utuh, rantai penguasaan (<em>chain of custody</em>) jelas, daftar cocok dengan fisik yang akan diserahkan saat Tahap II.</li>
+    <li>Dokumen ahli/pendukung resmi ada: visum et repertum, hasil laboratorium forensik, keterangan instansi, dan sejenisnya.</li>
+    <li>Resume/kesimpulan penyidik sesuai isi berkas, tidak melampaui fakta BAP.</li>
+  </ul>
+
+  <h3>Syarat materiil — uji unsur demi unsur</h3>
+  <p>Untuk setiap unsur pasal yang disangkakan, tulis tiga kolom: <strong>fakta pendukung → alat bukti pendukung → celah</strong>.</p>
+  <ul>
+    <li><strong>Subjek:</strong> identitas benar, umur/pertanggungjawaban pidana jelas, bukan orang yang salah.</li>
+    <li><strong>Perbuatan:</strong> perbuatan konkret teruraikan, bukan hanya kesimpulan penyidik.</li>
+    <li><strong>Kesalahan:</strong> sengaja/alpa terbaca dari fakta, bukan diasumsikan.</li>
+    <li><strong>Melawan hukum dan alasan peniada pidana:</strong> alasan pembenar/pemaaf sudah disaring.</li>
+    <li><strong>Akibat dan hubungan kausal</strong> terhubung dengan perbuatan tersangka.</li>
+    <li><strong>Locus dan tempus delicti</strong> pasti dan masuk daerah hukum serta tidak daluwarsa.</li>
+    <li><strong>Penerapan pasal materiil temporal benar:</strong> KUHP lama vs KUHP baru (UU 1/2023) mengikuti aturan peralihan dan asas ketentuan paling menguntungkan; nomor pasal dicek pada versi terbaru.</li>
+    <li><strong>Konstruksi alternatif/subsidair</strong> disiapkan sejak awal bila unsur pasal utama rapuh.</li>
+  </ul>
+
+  <h3>Matriks alat bukti — Pasal 235</h3>
+  <p><span class="tag">Keterangan saksi</span> <span class="tag">Keterangan ahli</span> <span class="tag">Surat</span> <span class="tag">Keterangan terdakwa</span> <span class="tag">Barang bukti</span> <span class="tag">Bukti elektronik</span> <span class="tag">Pengamatan hakim</span> <span class="tag">Segala sesuatu yang diperoleh tidak melawan hukum</span></p>
+  <ul>
+    <li><strong>Unus testis:</strong> satu saksi saja tidak cukup (Pasal 237) — kecuali diperkuat alat bukti lain.</li>
+    <li><strong>Ahli:</strong> kualifikasi dan dasar keahlian jelas, metode dapat dijelaskan di sidang.</li>
+    <li><strong>Surat:</strong> masuk kategori surat Pasal 239 dan dibuat oleh pejabat berwenang/dengan sumpah jabatan bila disyaratkan.</li>
+    <li><strong>Keterangan tersangka/terdakwa:</strong> tidak berdiri sendiri, didukung alat bukti lain (Pasal 240).</li>
+    <li><strong>Barang bukti:</strong> kaitan dengan tindak pidana jelas — alat, objek, atau hasil (Pasal 241).</li>
+    <li><strong>Bukti elektronik:</strong> autentikasi, metadata, cara perolehan, dan hasil forensik digital dapat ditunjukkan (Pasal 242).</li>
+    <li><strong>Uji perolehan sah:</strong> alat bukti harus autentik dan diperoleh secara tidak melawan hukum; yang dinyatakan hakim tidak autentik/melawan hukum tidak punya kekuatan pembuktian (Pasal 235 ayat (3)–(5)). Tandai bukti yang rawan gugur di praperadilan.</li>
+  </ul>
+
+  <h3>Jalur penyelesaian lain — saring sejak pra-penuntutan</h3>
+  <ul>
+    <li><strong>Keadilan restoratif</strong> (Pasal 79–88): syarat terpenuhi dan bukan perkara yang dikecualikan.</li>
+    <li><strong>Denda damai</strong> (Pasal 65 huruf i jo. Pasal 66): mekanisme penghentian perkara di luar pengadilan dengan membayar denda yang disetujui Jaksa Agung.</li>
+    <li><strong>Perjanjian penundaan penuntutan</strong> (Pasal 65 huruf k): relevan atau tidak — terutama korporasi.</li>
+    <li><strong>Pengakuan bersalah</strong> (Pasal 78): baru pertama kali, ancaman maks 5 tahun atau denda kategori V, bersedia membayar ganti rugi/restitusi.</li>
+    <li><strong>Gugurnya kewenangan menuntut</strong> (Pasal 71): ne bis in idem, daluwarsa, tersangka meninggal, aduan dicabut, amnesti/abolisi — sudah dicek semuanya.</li>
+  </ul>
+
+  <h3>Dari meja kerja: format telaahan kantor</h3>
+  <div class="callout note"><b class="t">Telaah staf Seksi Pidum ke Kajari</b>Format kantor: <strong>1. Kasus Posisi, 2. Fakta-Fakta, 3. Analisa Yuridis, 4. Kesimpulan, 5. Pendapat/Saran</strong>. Analisa yuridis mengutip pasal aturan main dulu, lalu memetakan penyimpangan, lalu menyebut pasal yang dilanggar. Bila fakta masih minim, sarannya bukan langsung penyelidikan — melainkan <strong>SPT pulbaket</strong> (Surat Jampidsus B-845/F/Fjp/05/2018).</div>
+
+  <h3>Uji diri sebelum tanda tangan</h3>
+  <div class="callout good"><b class="t">Tiga pertanyaan penutup</b>Keputusan harus tegas: <strong>Lengkap / Belum lengkap / Naik gelar perkara</strong>. Bila belum lengkap, setiap petunjuk menjawab tiga hal: apa yang kurang, unsur/fakta apa yang akan dibuktikan dengannya, dan bagaimana cara memperolehnya. Hindari petunjuk generik seperti “lengkapi alat bukti”. Terakhir: andaikan saya yang menuntut di sidang — bisakah setiap unsur saya buktikan dengan berkas ini? Serangan pembela dan praperadilan paling kuat akan datang dari mana?</div>
+
+  <h3>Titik rawan praperadilan — Pasal 158</h3>
+  <p>Objek praperadilan kini meliputi: sah/tidaknya upaya paksa; sah/tidaknya penghentian penyidikan/penuntutan; ganti rugi/rehabilitasi; penyitaan benda yang tidak terkait perkara; <strong>penundaan penanganan perkara tanpa alasan sah</strong>; dan penangguhan pembantaran. Hak tersangka, saksi, dan korban dihormati selama penyidikan (Pasal 53) — dengan perhatian khusus pada saksi/korban penyandang disabilitas, perempuan, lanjut usia, dan anak.</p>
+
+  <h3>Flashcard tenggat — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashTenggat"></div>
+
+  <div class="quiz" data-quiz="m2">
+    <h4>Kuis Modul 2 · Cek Pemahaman</h4>
+    <div class="q" data-answer="0" data-explain="Betul. Penelitian berkas paling lama 7 hari sejak berkas diterima (Pasal 61 ayat 1). Lewat dari itu, berkas menggantung tanpa dasar.">
+      <p class="qq">1. Berkas perkara diterima JPU peneliti tanggal 10 November. Batas akhir penelitiannya?</p>
+      <div class="opts"><button>17 November — 7 hari (Pasal 61 ayat 1)</button><button>24 November — 14 hari</button><button>10 Desember — 30 hari</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Pasal 61 ayat (2): berkas dikembalikan disertai petunjuk. Petunjuk yang baik menjawab tiga hal — bukan sekadar 'lengkapi alat bukti'.">
+      <p class="qq">2. Berkas belum lengkap. Tindakan yang benar?</p>
+      <div class="opts"><button>Terbitkan P-21 saja, kekurangan menyusul di sidang</button><button>Kembalikan dengan P-19 disertai petunjuk yang menjawab tiga hal: apa yang kurang, unsur/fakta apa yang dibuktikan, dan cara memperolehnya</button><button>Diamkan sampai penyidik datang sendiri</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Karena hanya ada satu kali koordinasi pasca-berkas, petunjuk pertama harus sudah lengkap dan tajam. Inilah alasan checklist bagian 8 menekankan kualitas petunjuk.">
+      <p class="qq">3. Koordinasi setelah berkas dikirim hanya 1 kali per perkara (Pasal 59 ayat 5). Apa konsekuensi praktisnya?</p>
+      <div class="opts"><button>Petunjuk boleh disusul berkali-kali lewat telepon</button><button>Petunjuk harus lengkap sekali jalan — tidak ada putaran kedua</button><button>Koordinasi awal 3 hari menjadi tidak berlaku</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Pasal 62: gelar perkara dihadiri penyidik, pengawas penyidik, penuntut umum, pengawas penuntut umum, dan ahli. Hasil gelar: dihentikan atau lengkap dan lanjut ke penuntutan.">
+      <p class="qq">4. Setelah 14 hari tambahan, berkas masih belum lengkap. Mekanisme berikutnya?</p>
+      <div class="opts"><button>JPU menuntut saja dengan berkas seadanya</button><button>Gelar perkara menurut Pasal 62 — penyidik melengkapi maks 14 hari dan mengundang gelar</button><button>Berkas dikembalikan ke polisi tanpa batas waktu</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Penetapan tersangka (Pasal 90) mensyaratkan minimal 2 alat bukti dan notifikasi maks 1 hari. Satu alat bukti = syarat formil belum terpenuhi, dan sahnya penetapan tersangka adalah objek praperadilan (Pasal 158).">
+      <p class="qq">5. Calon tersangka hanya didukung satu alat bukti. Apa risikonya bila tetap ditetapkan?</p>
+      <div class="opts"><button>Tidak ada risiko, satu alat bukti cukup</button><button>Rawan praperadilan — Pasal 90 mensyaratkan minimal 2 alat bukti</button><button>Hanya risiko administratif di register</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul3" style="--mc:var(--m3)" data-module="m3">
+  <p class="kicker">Modul 3</p>
+  <h2>Administrasi Pidum</h2>
+  <p class="sub">Adm bukan birokrasi kosong — setiap formulir adalah bukti bahwa tahapan berjalan sah. Sumber: KEP-132/JA/11/1994 jo. KEP-518/A/JA/11/2001 dan Pedoman Kejaksaan No. 1/2026.</p>
+
+  <div class="callout note"><b class="t">Catatan kejujuran</b>Penomoran sebagian formulir berbeda antar-sumber sekunder, dan Pedoman Administrasi sedang ditata ulang. Daftar di bawah menampilkan kode jangkar yang paling mapan; bila ragu pada satu kode, <strong>verifikasi ke teks peraturan / lampiran Perja</strong> sebelum memakai. Hal yang sama berlaku untuk BA-15 — lihat catatan di bawah tabel berita acara.</div>
+
+  <h3>Tiga keluarga administrasi</h3>
+  <div class="grid2">
+    <div class="mini-card"><h4>Formulir P-</h4><p>Formulir lintas-bidang penanganan perkara: dari SPDP sampai kartu perkara.</p></div>
+    <div class="mini-card"><h4>Formulir BA-</h4><p>Berita acara: penerimaan dan penelitian tersangka/barang bukti, pelaksanaan penahanan, dan pelaksanaan putusan.</p></div>
+  </div>
+  <p>Ditambah <strong>register</strong>: RP- (register perkara), RT- (register tahanan), RB- (register barang bukti).</p>
+
+  <h3>Jangkar formulir P-</h3>
+  <table>
+    <tr><th style="width:16%">Kode</th><th>Isi</th></tr>
+    <tr><td><code>P-1</code></td><td>Penerimaan laporan</td></tr>
+    <tr><td><code>P-15</code></td><td>Surat perintah penyerahan berkas perkara</td></tr>
+    <tr><td><code>P-16</code></td><td>Penunjukan JPU mengikuti perkembangan penyidikan</td></tr>
+    <tr><td><code>P-16A</code></td><td>Penunjukan JPU penyelesaian perkara</td></tr>
+    <tr><td><code>P-17</code></td><td>Permintaan perkembangan hasil penyidikan</td></tr>
+    <tr><td><code>P-18</code></td><td>Pemberitahuan hasil penyidikan belum lengkap</td></tr>
+    <tr><td><code>P-19</code></td><td>Pengembalian berkas perkara + petunjuk</td></tr>
+    <tr><td><code>P-21</code></td><td>Pemberitahuan berkas perkara lengkap</td></tr>
+    <tr><td><code>P-22</code></td><td>Penyerahan tersangka &amp; barang bukti (Tahap II)</td></tr>
+    <tr><td><code>P-29</code></td><td>Surat dakwaan</td></tr>
+    <tr><td><code>P-31</code></td><td>Surat pelimpahan perkara</td></tr>
+    <tr><td><code>P-33</code></td><td>Rencana tuntutan</td></tr>
+    <tr><td><code>P-35</code></td><td>Laporan pelimpahan perkara</td></tr>
+    <tr><td><code>P-44</code></td><td>Berita acara pelaksanaan putusan</td></tr>
+    <tr><td><code>P-48</code></td><td>Surat perintah pelaksanaan putusan</td></tr>
+    <tr><td><code>P-53</code></td><td>Kartu perkara</td></tr>
+  </table>
+
+  <h3>Berita acara kunci</h3>
+  <table>
+    <tr><th style="width:16%">Kode</th><th>Isi</th></tr>
+    <tr><td><code>BA-15</code></td><td><strong>Berita Acara Penerimaan dan Penelitian Tersangka</strong> — dibuat JPU saat Tahap II ketika menerima tersangka. Tujuannya: meneliti kebenaran keterangan tersangka dalam BAP, memastikan identitas (mencegah <em>error in persona</em>), status penahanan, dan riwayat hukuman. Berfungsi sebagai bahan pertimbangan penahanan; bila terdakwa mungkir di sidang padahal di penyidikan dan prapenuntutan ia mengakui, BA-15 dapat berfungsi sebagai alat bukti surat.</td></tr>
+    <tr><td><code>BA-18</code></td><td><strong>Berita Acara Penerimaan dan Penelitian Benda Sitaan/Barang Bukti</strong> — pasangan BA-15 di Tahap II: meneliti apakah barang bukti sesuai dengan yang tercantum dalam berkas, lalu disimpan di gudang barang bukti Kejaksaan dan disegel.</td></tr>
+    <tr><td><code>BA-10</code></td><td><strong>Berita Acara Pelaksanaan Perintah Penahanan / Penahanan Lanjutan</strong> — dasar menyerahkan terdakwa ke rumah tahanan, mencantumkan tanggal, rutan yang ditunjuk, dan lamanya penahanan.</td></tr>
+    <tr><td><code>BA-5A</code></td><td><strong>Nota Pendapat Hasil Penyerahan Tersangka dan Barang Bukti</strong> — dibuat JPU peneliti setelah Tahap II. (Template-nya sudah kamu bangun sebagai Google Doc.)</td></tr>
+  </table>
+  <div class="callout warn"><b class="t">BA-15 punya dua arti di lapangan</b>Petunjuk teknis Raker Kejaksaan 1993 memakai BA-15 untuk <strong>Berita Acara Penerimaan dan Penelitian Tersangka</strong> (Tahap II, seperti di atas). Sebagian checklist satker memakai kode BA-15 untuk <strong>Berita Acara Pelaksanaan Penetapan Hakim</strong> di tahap eksekusi. Bila ragu, cek pedoman administrasi yang berlaku di satkermu sebelum mengutip kodenya.</div>
+
+  <h3>Register utama</h3>
+  <p><span class="tag">RP-1 Penerimaan laporan</span> <span class="tag">RP-9 Penerimaan SPDP</span> <span class="tag">RP-10 Berkas perkara tahap pertama</span> <span class="tag">RP-12 Pelaksanaan putusan &amp; gugurnya kewenangan eksekusi</span> <span class="tag">RT Tahanan</span> <span class="tag">RB Barang bukti</span></p>
+  <p style="font-size:.9rem;color:var(--muted)">Catatan: penomoran register juga bervariasi antar-sumber — sebagian daftar memakai RP-9 untuk register penuntutan. Cek panduan register yang berlaku di satker.</p>
+
+  <h3>Alur adm per tahap — klik tahapnya</h3>
+  <div class="flow" id="flowAdm">
+    <button data-adm="0" class="active">SPDP</button>
+    <button data-adm="1">Penelitian</button>
+    <button data-adm="2">Tahap II</button>
+    <button data-adm="3">Penuntutan</button>
+    <button data-adm="4">Eksekusi</button>
+  </div>
+  <div class="flow-detail" id="admDetail"></div>
+
+  <div class="callout note"><b class="t">Praktik digital &amp; pengendalian</b>Pencatatan juga berjalan lewat <strong>CMS (Case Management System)</strong> Kejaksaan — register kertas dan CMS harus sinkron; keterlambatan input membuat perkara tak terpantau pimpinan. Pengendalian berjalan berjenjang: Kejari → Kejati (Aspidum) → Jampidum. <strong>Eksaminasi</strong> adalah pengujian internal oleh atasan atas penanganan/putusan perkara.</div>
+
+  <h3>Flashcard kode formulir — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashForm"></div>
+
+  <div class="quiz" data-quiz="m3">
+    <h4>Kuis Modul 3 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. P-18 memberitahukan hasil penyidikan belum lengkap; P-19 mengembalikan berkas disertai petunjuk. P-21 justru pemberitahuan berkas sudah lengkap.">
+      <p class="qq">1. Berkas belum lengkap dan harus dikembalikan ke penyidik. Formulirnya?</p>
+      <div class="opts"><button>P-18</button><button>P-19 — pengembalian berkas + petunjuk</button><button>P-21</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. BA-15 dibuat saat Tahap II untuk meneliti tersangka — tujuan utamanya mencegah error in persona — dan menjadi bahan pertimbangan penahanan.">
+      <p class="qq">2. Saat Tahap II, JPU menerima tersangka dan meneliti identitasnya. Dokumen yang dibuat?</p>
+      <div class="opts"><button>P-48</button><button>BA-15 — Berita Acara Penerimaan dan Penelitian Tersangka</button><button>P-33</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. P-16 mendampingi penyidikan sejak dini (inilah yang membuat koordinasi 3 hari Pasal 60 berjalan nyambung); P-16A menunjuk JPU yang menyelesaikan perkara sampai ke sidang.">
+      <p class="qq">3. Bedanya P-16 dan P-16A?</p>
+      <div class="opts"><button>P-16 menunjuk JPU mengikuti perkembangan penyidikan; P-16A menunjuk JPU penyelesaian perkara</button><button>P-16 untuk Pidsus, P-16A untuk Pidum</button><button>Keduanya sama, hanya beda tahun terbit</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Pengendalian berjalan berjenjang Kejari → Kejati → Jampidum; perkara yang tidak ter-input tidak terpantau, dan tenggatnya bisa terlewat tanpa ada yang tahu.">
+      <p class="qq">4. Register kertas dan CMS tidak sinkron. Mengapa berbahaya?</p>
+      <div class="opts"><button>Karena CMS menghapus register kertas</button><button>Karena perkara menjadi tak terpantau pimpinan dalam laporan berjenjang</button><button>Karena formulir P- otomatis batal</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul4" style="--mc:var(--m4)" data-module="m4">
+  <p class="kicker">Modul 4</p>
+  <h2>Surat Dakwaan &amp; Tuntutan</h2>
+  <p class="sub">Dua dokumen yang menentukan nasib perkara di sidang: dakwaan yang membuka jalan, dan tuntutan yang menutup pembuktian.</p>
+
+  <h3>Dakwaan: tenggat dan isi — Pasal 70 &amp; 75</h3>
+  <ul>
+    <li><strong>Dakwaan dibuat maks 7 hari</strong> sejak Penuntut Umum berpendapat dapat dilakukan penuntutan (Pasal 70).</li>
+    <li><strong>Pelimpahan ke pengadilan negeri maks 14 hari</strong>, disertai surat dakwaan (Pasal 75 ayat (1)). Salinan pelimpahan beserta dakwaan disampaikan ke penyidik, tersangka, dan advokat bersamaan dengan pelimpahan (Pasal 75 ayat (6)).</li>
+    <li><strong>Isi dakwaan (Pasal 75 ayat (2)):</strong> identitas lengkap tersangka (nama, tempat/tanggal lahir, umur, jenis kelamin, kebangsaan, tempat tinggal, agama, pekerjaan); uraian secara <strong>cermat, jelas, dan lengkap</strong> mengenai tindak pidana dengan menyebutkan waktu dan tempat; pasal UU yang dilanggar; dan tanda tangan Penuntut Umum.</li>
+    <li><strong>Batal demi hukum:</strong> dakwaan yang uraiannya tidak cermat, jelas, dan lengkap batal demi hukum (Pasal 75 ayat (3)); hakim memberi kesempatan <strong>1 kali</strong> untuk memperbaiki dan mengajukan kembali (Pasal 75 ayat (4)).</li>
+    <li><strong>Penyempurnaan dakwaan:</strong> dapat dilakukan 1 kali, paling lambat <strong>7 hari sebelum sidang dimulai</strong> (Pasal 76); salinan disampaikan ke penyidik, terdakwa, dan advokat.</li>
+    <li><strong>Penggabungan (Pasal 72):</strong> beberapa tindak pidana — atau 2+ terdakwa yang melakukan penyertaan — dapat dituntut dalam 1 surat dakwaan bila memenuhi syarat.</li>
+  </ul>
+
+  <h3>Bentuk dakwaan yang dikenal dalam praktik</h3>
+  <table>
+    <tr><th style="width:20%">Bentuk</th><th>Cara kerja</th></tr>
+    <tr><td><strong>Tunggal</strong></td><td>Satu perbuatan, satu pasal. Paling sederhana — dipakai bila unsurnya sudah padat.</td></tr>
+    <tr><td><strong>Alternatif</strong></td><td>Beberapa pasal disusun dengan “atau” — hakim memilih satu yang terbukti.</td></tr>
+    <tr><td><strong>Subsidair</strong></td><td>Berlapis: primair dulu, bila tidak terbukti turun ke subsidair. Aman bila ada unsur yang rapuh.</td></tr>
+    <tr><td><strong>Kumulatif</strong></td><td>Beberapa perbuatan sekaligus dalam satu dakwaan — dasarnya Pasal 72.</td></tr>
+    <tr><td><strong>Kombinasi</strong></td><td>Gabungan bentuk-bentuk di atas, mis. kumulatif-subsidair.</td></tr>
+  </table>
+  <p style="font-size:.9rem;color:var(--muted)">Catatan: nama-nama bentuk ini berasal dari doktrin dan praktik penuntutan, bukan penamaan dalam teks UU 20/2025. Yang diatur UU adalah penggabungan (Pasal 72) dan syarat isi dakwaan (Pasal 75).</p>
+
+  <h3>Perlawanan atas dakwaan — Pasal 206 (dulu “eksepsi”)</h3>
+  <p>Terdakwa atau Advokat dapat mengajukan <strong>perlawanan</strong> bahwa pengadilan tidak berwenang mengadili perkaranya, atau dakwaan tidak dapat diterima, atau surat dakwaan harus dibatalkan. Hakim mempertimbangkan setelah memberi kesempatan kepada Penuntut Umum untuk menyatakan pendapatnya.</p>
+  <ul>
+    <li><strong>Perlawanan diterima</strong> → perkara tidak diperiksa lebih lanjut (Pasal 206 ayat (2)). Penuntut Umum dapat melawan putusan itu ke pengadilan tinggi (ayat (4)).</li>
+    <li><strong>Perlawanan tidak diterima</strong>, atau hakim berpendapat hal itu baru dapat diputus setelah selesai pemeriksaan → sidang dilanjutkan (ayat (3)).</li>
+    <li>Bila perlawanan yang diajukan bersama banding diterima pengadilan tinggi, PT dalam 14 hari membatalkan putusan PN dan menunjuk PN yang berwenang (ayat (5)–(6)).</li>
+  </ul>
+  <div class="callout warn"><b class="t">Mitos yang harus diluruskan</b>Istilah <strong>“eksepsi”</strong> dan <strong>“putusan sela”</strong> berasal dari KUHAP lama (Pasal 156). UU 20/2025 memakai istilah <strong>“perlawanan”</strong> (Pasal 206) dan keputusannya disebut <strong>“keputusan”</strong> Hakim — frasa “putusan sela” tidak muncul dalam UU 20/2025. Di ruang sidang orang masih akan menyebutnya eksepsi; yang penting kamu tahu pasal barunya.</div>
+
+  <h3>Tuntutan pidana — Pasal 231</h3>
+  <ul>
+    <li>Setelah pemeriksaan dinyatakan selesai, Penuntut Umum mengajukan <strong>tuntutan pidana</strong> setelah menguraikan <strong>hal yang memberatkan dan meringankan</strong> Terdakwa (ayat (2)).</li>
+    <li>Lalu <strong>pembelaan (pledoi)</strong> Terdakwa/Advokat; Penuntut Umum menjawab; Terdakwa atau Advokatnya <strong>selalu mendapat giliran terakhir</strong> (ayat (3)).</li>
+    <li>Tuntutan dan jawaban atas pembelaan dibuat <strong>tertulis</strong>; setelah dibacakan, diserahkan kepada Hakim ketua sidang <strong>paling lambat 1 hari</strong>, salinannya kepada pihak yang berkepentingan (ayat (4)).</li>
+    <li>Setelah itu Hakim ketua sidang menyatakan pemeriksaan <strong>ditutup</strong> (ayat (5)).</li>
+    <li><strong>Rencana tuntutan (P-33)</strong> disusun sebelum requisitoir dibacakan — konsultasikan dengan pimpinan (Kasi/Kajari) sesuai jenjang.</li>
+  </ul>
+
+  <h3>Putusan — Pasal 244 &amp; 250</h3>
+  <ul>
+    <li><strong>Terbukti secara sah dan meyakinkan</strong> → Terdakwa dikenai pidana atau tindakan (Pasal 244 ayat (1)).</li>
+    <li><strong>Tidak terbukti</strong> → diputus <strong>bebas</strong>; tahanan dilepas sejak putusan diucapkan (ayat (2) dan (4)).</li>
+    <li><strong>Terbukti tetapi ada dasar peniadaan pidana</strong> → diputus <strong>lepas dari segala tuntutan hukum</strong>; tahanan dilepas sejak putusan diucapkan bila PU tidak banding (ayat (3) dan (5)).</li>
+    <li>Bila Terdakwa dipidana, Hakim dapat memerintahkan Terdakwa ditahan jika memenuhi syarat penahanan (Pasal 244 ayat (6) jo. Pasal 100 ayat (5)).</li>
+    <li><strong>Isi putusan pemidanaan (Pasal 250):</strong> kepala putusan “DEMI KEADILAN BERDASARKAN KETUHANAN YANG MAHA ESA”, identitas Terdakwa, dakwaan, pertimbangan yang jelas dan lengkap, dan amar.</li>
+    <li>Hakim <strong>wajib mempertimbangkan pedoman pemidanaan</strong> dalam KUHP dan UU lain; format putusan memuat bagian khusus tentang itu (Pasal 251).</li>
+  </ul>
+
+  <h3>Acara singkat &amp; acara cepat</h3>
+  <div class="grid2">
+    <div class="mini-card"><h4>Acara singkat — Pasal 257</h4><p>Perkara yang menurut PU pembuktian dan penerapan hukumnya mudah dan sifatnya sederhana. Terkait Pasal 234: saat dakwaan dibacakan, bila Terdakwa mengakui semua perbuatan dan ancaman pidananya tidak lebih dari 7 tahun, PU dapat melimpahkan ke sidang acara pemeriksaan singkat.</p></div>
+    <div class="mini-card"><h4>Acara cepat — Pasal 258–263</h4><p>Tindak pidana ringan: ancaman penjara maks 6 bulan dan/atau denda maks kategori II. Penyidik atas kuasa PU; pengadilan menetapkan hari sidang maks 7 hari; saksi tidak wajib bersumpah kecuali hakim menganggap perlu.</p></div>
+  </div>
+
+  <h3>Flashcard dakwaan &amp; tuntutan — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashDakwaan"></div>
+
+  <div class="quiz" data-quiz="m4">
+    <h4>Kuis Modul 4 · Cek Pemahaman</h4>
+    <div class="q" data-answer="0" data-explain="Betul. Pasal 70: surat dakwaan dibuat paling lama 7 hari sejak PU berpendapat dapat dilakukan penuntutan. Setelah itu pelimpahan maks 14 hari (Pasal 75 ayat 1).">
+      <p class="qq">1. PU berpendapat perkara dapat dituntut. Batas waktu membuat surat dakwaan?</p>
+      <div class="opts"><button>7 hari (Pasal 70)</button><button>14 hari</button><button>30 hari</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Pasal 75 ayat (3): dakwaan yang tidak memenuhi Pasal 75 ayat (2) huruf b batal demi hukum — dan ayat (4) memberi kesempatan satu kali untuk memperbaiki dan mengajukan kembali.">
+      <p class="qq">2. Uraian tindak pidana dalam dakwaan tidak cermat, jelas, dan lengkap. Akibatnya?</p>
+      <div class="opts"><button>Dakwaan tetap sah, cukup diperbaiki di pledoi</button><button>Dakwaan batal demi hukum; hakim memberi kesempatan 1 kali untuk memperbaiki (Pasal 75 ayat 3–4)</button><button>Perkara langsung bebas</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Pasal 206 ayat (2): bila perlawanan diterima, perkara tidak diperiksa lebih lanjut. PU dapat melawan putusan itu ke pengadilan tinggi (ayat 4).">
+      <p class="qq">3. Terdakwa mengajukan perlawanan bahwa dakwaan tidak dapat diterima, dan hakim menerimanya. Akibatnya?</p>
+      <div class="opts"><button>Sidang dilanjutkan seperti biasa</button><button>Perkara tidak diperiksa lebih lanjut (Pasal 206 ayat 2)</button><button>Dakwaan otomatis diperbaiki oleh hakim</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Pasal 231 ayat (2)–(3): PU mengajukan tuntutan pidana setelah menguraikan hal yang memberatkan dan meringankan, lalu pledoi, lalu jawaban PU — dan terdakwa atau advokatnya selalu mendapat giliran terakhir.">
+      <p class="qq">4. Pemeriksaan dinyatakan selesai. Urutan yang benar?</p>
+      <div class="opts"><button>Pledoi dulu, baru tuntutan</button><button>Tuntutan PU (dengan hal memberatkan &amp; meringankan) → pledoi → jawaban PU → terdakwa giliran terakhir</button><button>Putusan langsung tanpa tuntutan</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul5" style="--mc:var(--m5)" data-module="m5">
+  <p class="kicker">Modul 5</p>
+  <h2>Simulasi End-to-End: Pencurian Sepeda Motor</h2>
+  <p class="sub">Kasus hipotetis — semua nama, tempat, dan angka fiktif. Pencurian satu unit sepeda motor di area parkir pasar, Kota Fiktif. Jalani 10 langkahnya; di titik keputusan, pilih tindakanmu dan lihat umpan baliknya.</p>
+
+  <div class="sim-steps" id="simDots" aria-hidden="true"></div>
+  <div class="sim-panel" id="simPanel"></div>
+  <div class="sim-nav">
+    <button class="btn ghost" id="simPrev">← Langkah sebelumnya</button>
+    <button class="btn" id="simNext">Langkah berikutnya →</button>
+  </div>
+
+  <div class="quiz" data-quiz="final">
+    <h4>Self-Check Akhir · 5 Soal</h4>
+    <div class="q" data-answer="1" data-explain="Kunci: SPDP maks 7 hari sejak penyidikan dimulai dan koordinasi dengan JPU maks 3 hari sejak SPDP diterima (Pasal 60). Penelitian berkas sendiri maks 7 hari sejak berkas diterima (Pasal 61 ayat 1).">
+      <p class="qq">1. SPDP diterima 18 November. Batas koordinasi awal JPU dan batas penelitian berkas?</p>
+      <div class="opts"><button>Koordinasi 7 hari, penelitian 14 hari</button><button>Koordinasi 3 hari (Pasal 60 ayat 2), penelitian 7 hari (Pasal 61 ayat 1)</button><button>Koordinasi 14 hari, penelitian 30 hari</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Kunci: urutannya P-19 (petunjuk melengkapi) → dilengkapi penyidik dalam 14 hari → P-21 diterbitkan Kajari → Tahap II (P-22). Tanpa P-21 tidak ada Tahap II.">
+      <p class="qq">2. Berkas dikembalikan dengan P-19. Setelah dilengkapi penyidik, urutan yang benar?</p>
+      <div class="opts"><button>Langsung Tahap II</button><button>P-21 terbit otomatis setelah 14 hari</button><button>Penyidik melengkapi → P-21 diterbitkan Kajari → Tahap II (P-22)</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Kunci: BA-15 mencatat penelitian tersangka di Tahap II — identitas, status penahanan, riwayat hukuman. Temuan identitas yang tidak cocok wajib ditindaklanjuti sebelum dakwaan disusun, karena dakwaan memuat identitas lengkap (Pasal 75 ayat 2 huruf a).">
+      <p class="qq">3. Di Tahap II, JPU menemukan identitas tersangka di BAP tidak cocok dengan KTP. Dokumen yang mencatat penelitian ini?</p>
+      <div class="opts"><button>P-19</button><button>BA-15 — dan temuan ini wajib ditindaklanjuti sebelum dakwaan</button><button>P-48</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Kunci: dakwaan yang uraiannya tidak cermat, jelas, dan lengkap batal demi hukum (Pasal 75 ayat 3) — dan memberi amunisi perlawanan Pasal 206 di sidang. Waktu dan tempat adalah bagian wajib dari uraian (Pasal 75 ayat 2 huruf b).">
+      <p class="qq">4. Dakwaan disusun dengan uraian waktu dan tempat yang kabur. Risiko terbesarnya?</p>
+      <div class="opts"><button>Tidak ada — hakim akan menebak sendiri</button><button>Dakwaan batal demi hukum (Pasal 75 ayat 3) dan memberi amunisi perlawanan Pasal 206</button><button>Hanya perlu perbaikan ejaan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Kunci: Pasal 346 ayat (2) — bila denda tidak dibayar, jaksa melakukan penyitaan harta/pendapatan Terpidana atas izin ketua pengadilan negeri, pelelangan dengan bantuan kantor lelang negara, dan/atau pengajuan pidana pengganti sesuai KUHP.">
+      <p class="qq">5. Putusan inkracht menjatuhkan denda, tetapi terpidana tidak membayar. Langkah jaksa eksekutor?</p>
+      <div class="opts"><button>Menambah masa tahanan tanpa dasar putusan</button><button>Sita harta/pendapatan atas izin ketua PN, lelang lewat kantor lelang negara, atau ajukan pidana pengganti (Pasal 346 ayat 2)</button><button>Menghapus denda dari kartu perkara</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<footer id="sumber">
+  <h3>Sumber</h3>
+  <ul>
+    <li>UU 16/2004 jo. UU 11/2021 tentang Kejaksaan RI — Pasal 30</li>
+    <li>UU 20/2025 (KUHAP baru) — Pasal 59–62, 65–66, 69–72, 75–76, 78, 99–110, 158, 194–206, 231, 234–244, 250–251, 257–263, 285–300, 308, 314, 318, 342–347, 349, 361</li>
+    <li>UU 1/2023 (KUHP) — Pasal 362 (simulasi)</li>
+    <li>Peraturan Kejaksaan 3/2024 (organisasi &amp; tata kerja) — Pasal 851, 968, 970</li>
+    <li>KEP-132/JA/11/1994 jo. KEP-518/A/JA/11/2001 (administrasi perkara pidana)</li>
+    <li>Pedoman Kejaksaan No. 1/2026 (pola koordinasi penyidik–penuntut umum)</li>
+    <li>Checklist Analisis Berkas Pra-Penuntutan (goal Faris, 4 Nov 2026) — Pasal 58–62, 235–242, 361</li>
+    <li>Petunjuk teknis Raker Kejaksaan 1993 (BA-15/BA-18) — via literatur</li>
+  </ul>
+  <p>Catatan: ruang ini adalah bahan belajar pribadi. Untuk pemakaian resmi, selalu verifikasi ke teks peraturan versi terbaru — terutama penomoran formulir administrasi yang sedang ditata ulang. Semua nama, tempat, dan angka dalam simulasi adalah fiktif.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- PROGRESS ---------- */
+var opened={}, quizDone={};
+function refreshProgress(){
+  var total=10, done=0;
+  ["m1","m2","m3","m4","m5"].forEach(function(k){ if(opened[k]) done++; });
+  ["m1","m2","m3","m4","final"].forEach(function(k){ if(quizDone[k]) done++; });
+  var pct=Math.round(done/total*100);
+  document.getElementById("progBar").style.width=pct+"%";
+  document.getElementById("progText").textContent=pct+"% · "+done+" dari "+total+" aktivitas";
+  var map={m1:"m1",m2:"m2",m3:"m3",m4:"m4",m5:"m5"};
+  document.querySelectorAll(".pdot").forEach(function(d){
+    var k=d.getAttribute("data-p");
+    var quizKey = (k==="m5") ? "final" : k;
+    if(opened[k] && quizDone[quizKey]) d.classList.add("done");
+  });
+}
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ opened[e.target.getAttribute("data-module")]=true; refreshProgress(); } });
+},{threshold:0.15});
+document.querySelectorAll("section.module").forEach(function(s){ io.observe(s); });
+
+/* ---------- FLOW MODUL 1 ---------- */
+var flowData=[
+ {t:"1 · SPDP & Koordinasi", d:"<strong>Produk:</strong> perkara masuk &amp; JPU peneliti ditunjuk.<br><strong>Adm jangkar:</strong> SPDP → register (RP-9) → disposisi Kajari → P-16 (JPU peneliti) → koordinasi awal maks 3 hari (Pasal 60 ayat (2)) → berita acara koordinasi (Pasal 59 ayat (4)).<br><strong>Catatan:</strong> SPDP maks 7 hari sejak penyidikan dimulai (Pasal 60 ayat (1))."},
+ {t:"2 · Penelitian Berkas", d:"<strong>Produk:</strong> P-19 (belum lengkap) atau P-21 (lengkap).<br><strong>Adm jangkar:</strong> penelitian maks 7 hari (Pasal 61 ayat (1)) → P-18/P-19 (belum lengkap + petunjuk) atau P-21 (lengkap, ditandatangani Kajari — Pasal 59 ayat (7)).<br><strong>Catatan:</strong> koordinasi pasca-berkas hanya 1 kali (Pasal 59 ayat (5)) — petunjuk harus lengkap sekali jalan."},
+ {t:"3 · Tahap II", d:"<strong>Produk:</strong> tersangka &amp; barang bukti diterima Kejaksaan.<br><strong>Adm jangkar:</strong> P-22 penyerahan tersangka &amp; barang bukti → BA-15 (penelitian tersangka) + BA-18 (penelitian barang bukti) → penahanan lanjutan PU (Pasal 103: 20 + 30 hari).<br><strong>Catatan:</strong> cek error in persona dan segel barang bukti — di sinilah BA-15 bekerja."},
+ {t:"4 · Dakwaan & Pelimpahan", d:"<strong>Produk:</strong> surat dakwaan + pelimpahan ke PN.<br><strong>Adm jangkar:</strong> dakwaan maks 7 hari (Pasal 70) → P-29 → pelimpahan maks 14 hari (Pasal 75 ayat (1)) → P-31 → salinan ke penyidik, tersangka, dan advokat.<br><strong>Catatan:</strong> dakwaan batal demi hukum bila uraiannya tidak cermat, jelas, dan lengkap (Pasal 75 ayat (3))."},
+ {t:"5 · Sidang & Tuntutan", d:"<strong>Produk:</strong> tuntutan pidana + putusan.<br><strong>Adm jangkar:</strong> panggilan min 7 hari (Pasal 194) → perlawanan atas dakwaan (Pasal 206) → pembuktian (Pasal 235–242) → tuntutan (Pasal 231) → pledoi → putusan (Pasal 244).<br><strong>Catatan:</strong> acara singkat (Pasal 257) dan acara cepat (Pasal 258–263) untuk perkara sederhana."},
+ {t:"6 · Upaya Hukum & Eksekusi", d:"<strong>Produk:</strong> putusan inkracht &amp; dilaksanakan.<br><strong>Adm jangkar:</strong> banding 7 hari (Pasal 285), kasasi 14 hari (Pasal 300), PK hanya Terpidana/ahli waris (Pasal 318) → P-48 perintah pelaksanaan → P-44 BA pelaksanaan → sita/lelang bila denda tak dibayar (Pasal 346) → kartu perkara P-53 ditutup.<br><strong>Catatan:</strong> pelaksanaan putusan inkracht dilakukan oleh Penuntut Umum (Pasal 342)."}
+];
+var fd=document.getElementById("flowDetail");
+function setFlow(i){
+  fd.innerHTML="<h4>"+flowData[i].t+"</h4><p>"+flowData[i].d+"</p>";
+  document.querySelectorAll("#flow1 button").forEach(function(b,bi){ b.classList.toggle("active", bi===i); });
+}
+document.querySelectorAll("#flow1 button").forEach(function(b){
+  b.addEventListener("click", function(){ setFlow(parseInt(b.getAttribute("data-flow"),10)); });
+});
+setFlow(0);
+
+/* ---------- FLOW ADM MODUL 3 ---------- */
+var admData=[
+ "<strong>SPDP:</strong> SPDP → RP-9 → disposisi Kajari → P-16 (JPU peneliti) → koordinasi awal &amp; berita acara koordinasi.",
+ "<strong>Penelitian:</strong> berkas tahap pertama → RP-10 → penelitian JPU (P-17 bila perlu perkembangan) → P-18/P-19 (belum lengkap) atau P-21 (lengkap).",
+ "<strong>Tahap II:</strong> P-22 penyerahan tersangka &amp; barang bukti → BA-15 (tersangka) → BA-18 (barang bukti) → BA-10 bila ada penahanan lanjutan → P-16A (JPU penyelesaian perkara).",
+ "<strong>Penuntutan:</strong> dakwaan (P-29) → pelimpahan (P-31) → laporan pelimpahan (P-35) → sidang → rencana tuntutan (P-33) → putusan.",
+ "<strong>Eksekusi:</strong> P-48 perintah pelaksanaan putusan → P-44 BA pelaksanaan putusan → sita eksekusi bila denda tak dibayar (Pasal 346) → RP-12 → kartu perkara P-53 ditutup."
+];
+var ad=document.getElementById("admDetail");
+function setAdm(i){
+  ad.innerHTML="<p>"+admData[i]+"</p>";
+  document.querySelectorAll("#flowAdm button").forEach(function(b,bi){ b.classList.toggle("active", bi===i); });
+}
+document.querySelectorAll("#flowAdm button").forEach(function(b){
+  b.addEventListener("click", function(){ setAdm(parseInt(b.getAttribute("data-adm"),10)); });
+});
+setAdm(0);
+
+/* ---------- FLASHCARDS ---------- */
+function buildFlash(id, cards){
+  var el=document.getElementById(id); if(!el) return;
+  cards.forEach(function(c){
+    var b=document.createElement("button");
+    b.className="flash"; b.type="button";
+    b.setAttribute("aria-label","Flashcard: "+c[0]);
+    b.innerHTML='<span class="flash-inner"><span class="flash-face flash-front">'+c[0]+'<small>klik · balik</small></span><span class="flash-face flash-back">'+c[1]+'</span></span>';
+    b.addEventListener("click", function(){ b.classList.toggle("flipped"); });
+    el.appendChild(b);
+  });
+}
+buildFlash("flashTenggat",[
+ ["7 hari","SPDP sejak penyidikan dimulai — Pasal 60 ayat (1)"],
+ ["3 hari","Koordinasi JPU ditunjuk sejak SPDP diterima — Pasal 60 ayat (2)"],
+ ["7 hari","Penelitian berkas oleh Penuntut Umum — Pasal 61 ayat (1)"],
+ ["14 hari","Penyidik melengkapi setelah pengembalian — Pasal 61 ayat (3)"],
+ ["14 hari","Gelar perkara bila masih belum lengkap — Pasal 62"],
+ ["7 hari","Surat dakwaan sejak PU berpendapat dapat menuntut — Pasal 70"],
+ ["14 hari","Pelimpahan perkara ke pengadilan negeri — Pasal 75 ayat (1)"],
+ ["7 hari","Panggilan sidang diterima sebelum sidang — Pasal 194"],
+ ["7 hari","Permohonan banding setelah putusan — Pasal 285 ayat (2)"],
+ ["14 hari","Permohonan kasasi setelah putusan dibacakan — Pasal 300 ayat (1)"]
+]);
+buildFlash("flashForm",[
+ ["P-16","Penunjukan JPU mengikuti perkembangan penyidikan"],
+ ["P-18","Pemberitahuan hasil penyidikan belum lengkap"],
+ ["P-19","Pengembalian berkas + petunjuk (belum lengkap)"],
+ ["P-21","Pemberitahuan berkas lengkap"],
+ ["P-22","Penyerahan tersangka & barang bukti (Tahap II)"],
+ ["P-29","Surat dakwaan"],
+ ["P-31","Surat pelimpahan perkara ke pengadilan"],
+ ["P-33","Rencana tuntutan"],
+ ["P-48","Surat perintah pelaksanaan putusan"],
+ ["P-53","Kartu perkara — ditutup saat perkara selesai"],
+ ["BA-15","BA Penerimaan dan Penelitian Tersangka (Tahap II)"]
+]);
+buildFlash("flashDakwaan",[
+ ["Pasal 70","Dakwaan dibuat maks 7 hari"],
+ ["Pasal 75 ayat (2)","Isi dakwaan: identitas, uraian cermat/jelas/lengkap, pasal, tanda tangan"],
+ ["Pasal 75 ayat (3)","Dakwaan batal demi hukum bila uraian tak cermat"],
+ ["Pasal 76","Penyempurnaan dakwaan 1×, maks 7 hari sebelum sidang"],
+ ["Pasal 206","Perlawanan atas dakwaan (dulu: eksepsi)"],
+ ["Pasal 231 ayat (2)","Tuntutan pidana: hal memberatkan & meringankan"],
+ ["Pasal 244","Putusan: terbukti, bebas, atau lepas dari segala tuntutan hukum"],
+ ["Pasal 250","Isi putusan pemidanaan"],
+ ["Pasal 72","Penggabungan perkara dalam 1 dakwaan"],
+ ["Pasal 251","Pedoman pemidanaan wajib dipertimbangkan hakim"]
+]);
+
+/* ---------- QUIZZES ---------- */
+document.querySelectorAll(".quiz").forEach(function(quiz){
+  var key=quiz.getAttribute("data-quiz");
+  var qs=quiz.querySelectorAll(".q");
+  var answered=0, correct=0;
+  qs.forEach(function(q){
+    var ans=parseInt(q.getAttribute("data-answer"),10);
+    var explain=q.getAttribute("data-explain");
+    var fb=q.querySelector(".fb");
+    var btns=q.querySelectorAll(".opts button");
+    btns.forEach(function(btn, bi){
+      btn.addEventListener("click", function(){
+        btns.forEach(function(x){ x.disabled=true; });
+        btns[ans].classList.add("correct");
+        if(bi===ans){ correct++; fb.className="fb show ok"; fb.innerHTML="<strong>Benar.</strong> "+explain; }
+        else{ btn.classList.add("wrong"); fb.className="fb show no"; fb.innerHTML="<strong>Belum tepat.</strong> "+explain; }
+        answered++;
+        var score=quiz.querySelector(".quiz-score");
+        score.textContent="Skor sementara: "+correct+" dari "+answered+" terjawab (total "+qs.length+" soal)";
+        if(answered===qs.length){
+          quizDone[key]=true;
+          score.textContent="Selesai — skor akhir: "+correct+" dari "+qs.length+". "+(correct===qs.length?"Sempurna.":correct>=qs.length-1?"Nyaris sempurna, mantap.":"Tidak apa-apa — baca lagi penjelasan tiap soal, itu inti materinya.");
+          refreshProgress();
+        }
+      });
+    });
+  });
+});
+
+/* ---------- SIMULASI ---------- */
+var simSteps=[
+ {t:"Langkah 1 · SPDP masuk", body:"Laporan polisi: satu unit sepeda motor hilang di area parkir pasar, Kota Fiktif, 14 November 2026. Penyidik memulai penyidikan dan SPDP diterima Kejari tanggal 18 November.", q:"Keputusan: SPDP sudah di meja Kajari. Apa batas koordinasi awal dengan JPU yang ditunjuk?", opts:["Maks 3 hari sejak SPDP diterima (Pasal 60 ayat (2))","Maks 7 hari sejak SPDP diterima","Maks 14 hari sejak SPDP diterima"], ans:0, why:"<strong>Tepat:</strong> Pasal 60 ayat (2) — koordinasi dengan JPU yang ditunjuk paling lama 3 hari sejak SPDP diterima. SPDP-nya sendiri paling lama 7 hari sejak penyidikan dimulai (ayat (1))."},
+ {t:"Langkah 2 · Koordinasi awal", body:"JPU peneliti (P-16) dan penyidik berkoordinasi: petunjuk awal — periksa saksi juru parkir, amankan rekaman CCTV pasar, dan cocokkan STNK/BPKB motor.", q:"Keputusan: hasil koordinasi ini dituangkan di mana?", opts:["Berita acara (Pasal 59 ayat (4))","Catatan lisan, cukup diingat saja","P-19"], ans:0, why:"<strong>Benar:</strong> semua koordinasi dituangkan dalam berita acara (Pasal 59 ayat (4)). Tanpa BA, koordinasi itu tidak terdokumentasi — dan tidak bisa dipertanggungjawabkan bila ditanya pimpinan atau diuji di praperadilan."},
+ {t:"Langkah 3 · Penelitian berkas tahap pertama", body:"Berkas diterima JPU tanggal 2 Desember. Isinya: BAP saksi juru parkir, BAP tersangka, dan rekaman CCTV — tapi CCTV belum disertai autentikasi.", q:"Keputusan: satu alat bukti yang diajukan adalah rekaman CCTV tanpa autentikasi. Sikap yang benar?", opts:["Terima saja, CCTV selalu sah","Minta autentikasi & metadata forensik digital (Pasal 242)","Abaikan CCTV, cukup keterangan saksi"], ans:1, why:"<strong>Benar:</strong> bukti elektronik (Pasal 242) harus dapat ditunjukkan autentikasi, metadata, cara perolehan, dan hasil forensik digitalnya. CCTV tanpa autentikasi rawan digugurkan sebagai alat bukti."},
+ {t:"Langkah 4 · Berkas belum lengkap", body:"JPU menemukan dua kekurangan: alamat tersangka di BAP tidak cocok dengan KTP, dan BAP saksi kunci belum ditandatangani.", q:"Keputusan: tindakan yang benar?", opts:["Terbitkan P-21, kekurangan menyusul di sidang","Kembalikan dengan P-19 + petunjuk yang menjawab tiga hal","Langsung Tahap II saja"], ans:1, why:"<strong>Benar:</strong> berkas dikembalikan dengan P-19 disertai petunjuk (Pasal 61 ayat (2)). Petunjuk yang baik menjawab tiga hal: apa yang kurang, unsur/fakta apa yang akan dibuktikan dengannya, dan bagaimana cara memperolehnya."},
+ {t:"Langkah 5 · Penyidik melengkapi", body:"Penyidik memperbaiki identitas tersangka, melengkapi tanda tangan BAP saksi, dan mengirim ulang berkas.", q:"Keputusan: berapa lama batas waktu penyidik melengkapi sejak pengembalian diterima?", opts:["7 hari","14 hari (Pasal 61 ayat (3))","30 hari"], ans:1, why:"<strong>Benar:</strong> penyidikan tambahan paling lama 14 hari sejak pengembalian diterima (Pasal 61 ayat (3)). Bila masih belum lengkap, jalurnya gelar perkara Pasal 62."},
+ {t:"Langkah 6 · P-21 & Tahap II", body:"Berkas dinyatakan lengkap — P-21 ditandatangani Kajari. Tahap II: tersangka dan barang bukti (motor + kunci palsu) diserahkan ke Kejaksaan.", q:"Keputusan: dokumen yang dibuat JPU saat menerima tersangka?", opts:["BA-15 — Berita Acara Penerimaan dan Penelitian Tersangka","P-19","P-48"], ans:0, why:"<strong>Benar:</strong> BA-15 dibuat saat Tahap II untuk meneliti tersangka — tujuan utamanya mencegah error in persona — dan menjadi bahan pertimbangan penahanan. Barang bukti dicek lewat BA-18, lalu disegel dan disimpan di gudang."},
+ {t:"Langkah 7 · Penahanan lanjutan & dakwaan", body:"Tersangka ditahan di Rutan. PU melakukan penahanan lanjutan 20 hari (Pasal 103 ayat (1)). Dakwaan disusun: tunggal, Pasal 362 KUHP.", q:"Keputusan: batas membuat dakwaan sejak PU berpendapat dapat dilakukan penuntutan?", opts:["7 hari (Pasal 70)","14 hari","30 hari"], ans:0, why:"<strong>Benar:</strong> Pasal 70 — surat dakwaan dibuat paling lama 7 hari. Setelah itu pelimpahan ke pengadilan negeri paling lama 14 hari (Pasal 75 ayat (1))."},
+ {t:"Langkah 8 · Pelimpahan & sidang", body:"Perkara dilimpahkan ke PN. Panggilan sidang diterima terdakwa 7 hari sebelumnya (Pasal 194). Dakwaan dibacakan; terdakwa tidak mengajukan perlawanan.", q:"Keputusan: seandainya terdakwa mengajukan perlawanan bahwa dakwaan tidak dapat diterima, lalu hakim menolaknya — apa yang terjadi?", opts:["Sidang berhenti, perkara gugur","Sidang dilanjutkan (Pasal 206 ayat (3))","Berkas kembali ke penyidik"], ans:1, why:"<strong>Benar:</strong> Pasal 206 ayat (3) — bila perlawanan tidak diterima, atau hakim berpendapat hal itu baru dapat diputus setelah selesai pemeriksaan, sidang dilanjutkan."},
+ {t:"Langkah 9 · Pembuktian & tuntutan", body:"Di sidang: saksi juru parkir, ahli forensik digital, dan CCTV yang sudah terautentikasi menguatkan dakwaan. PU menuntut 2 tahun penjara — memberatkan: residivis; meringankan: mengakui dan mengembalikan motor.", q:"Keputusan: setelah pemeriksaan dinyatakan selesai, urutan yang benar?", opts:["Tuntutan PU → pledoi → jawaban PU → terdakwa giliran terakhir (Pasal 231)","Pledoi dulu, baru tuntutan","Putusan langsung tanpa tuntutan"], ans:0, why:"<strong>Benar:</strong> Pasal 231 ayat (2)–(3): PU mengajukan tuntutan pidana setelah menguraikan hal yang memberatkan dan meringankan, lalu pledoi, lalu jawaban PU — dan terdakwa atau advokatnya selalu mendapat giliran terakhir."},
+ {t:"Langkah 10 · Putusan, upaya hukum & eksekusi", body:"PN memutus terbukti Pasal 362 KUHP: pidana 1 tahun 6 bulan. Terdakwa banding dalam 7 hari (Pasal 285); PT menguatkan. Putusan inkracht. Jaksa eksekutor bergerak: P-48, P-44; motor dikembalikan ke pemilik dalam 1 hari (Pasal 267); kartu perkara P-53 ditutup.", q:"Keputusan terakhir: motor (barang bukti) dikembalikan ke pemilik paling lambat?", opts:["1 hari sejak putusan dijatuhkan (Pasal 267)","14 hari sejak putusan","Setelah eksekusi denda selesai"], ans:0, why:"<strong>Benar:</strong> Pasal 267 — pengembalian benda sitaan dilakukan tanpa syarat kepada yang paling berhak dalam waktu paling lama 1 hari sejak putusan dijatuhkan, jika Terpidana telah memenuhi isi amar putusan. Simulasi selesai — kerja bagus, Faris!"}
+];
+var simIdx=0, simAnswered={};
+var dotsEl=document.getElementById("simDots");
+simSteps.forEach(function(_,i){ var s=document.createElement("span"); s.textContent=(i+1); dotsEl.appendChild(s); });
+var panel=document.getElementById("simPanel");
+function renderSim(){
+  var st=simSteps[simIdx];
+  var html="<h4 style='margin-top:0'>"+st.t+"</h4><p>"+st.body+"</p><p class='qq' style='font-weight:700'>"+st.q+"</p><div class='opts'>";
+  st.opts.forEach(function(o,i){ html+="<button data-sim-opt='"+i+"'>"+o+"</button>"; });
+  html+="</div><div class='fb' id='simFb'></div>";
+  panel.innerHTML=html;
+  document.querySelectorAll("#simDots span").forEach(function(d,i){
+    d.className = simAnswered[i] ? "done" : (i===simIdx ? "cur" : "");
+  });
+  document.getElementById("simPrev").disabled = simIdx===0;
+  document.getElementById("simNext").disabled = simIdx===simSteps.length-1 && !simAnswered[simIdx];
+  document.getElementById("simNext").textContent = simIdx===simSteps.length-1 ? "Langkah terakhir" : "Langkah berikutnya →";
+  panel.querySelectorAll("[data-sim-opt]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var pick=parseInt(btn.getAttribute("data-sim-opt"),10);
+      var fb=document.getElementById("simFb");
+      panel.querySelectorAll("[data-sim-opt]").forEach(function(x){ x.disabled=true; });
+      panel.querySelectorAll("[data-sim-opt]")[st.ans].classList.add("correct");
+      if(pick===st.ans){ fb.className="fb show ok"; fb.innerHTML=st.why; }
+      else{ btn.classList.add("wrong"); fb.className="fb show no"; fb.innerHTML="<strong>Kurang tepat.</strong> "+st.why; }
+      simAnswered[simIdx]=true;
+      document.querySelectorAll("#simDots span")[simIdx].className="done";
+      if(simIdx<simSteps.length-1) document.getElementById("simNext").disabled=false;
+      var allDone=Object.keys(simAnswered).length===simSteps.length;
+      if(allDone){ opened["m5"]=true; refreshProgress(); }
+    });
+  });
+  if(simAnswered[simIdx]){
+    panel.querySelectorAll("[data-sim-opt]").forEach(function(x){ x.disabled=true; });
+    panel.querySelectorAll("[data-sim-opt]")[st.ans].classList.add("correct");
+    var fb2=document.getElementById("simFb"); fb2.className="fb show ok"; fb2.innerHTML=st.why;
+  }
+}
+document.getElementById("simPrev").addEventListener("click", function(){ if(simIdx>0){ simIdx--; renderSim(); } });
+document.getElementById("simNext").addEventListener("click", function(){ if(simIdx<simSteps.length-1){ simIdx++; renderSim(); } });
+renderSim();
+refreshProgress();
+})();
+</script>
+
+<script>
+(function(){
+var HASH='4e533dd40116d43b0b2926d0b4f49958849c4f6c8ec3c1f685e8e8e872b344da';
+var gate=document.getElementById('lape-gate');
+function unlock(){try{sessionStorage.setItem('lape-unlocked','1');}catch(e){}if(gate)gate.remove();}
+try{if(sessionStorage.getItem('lape-unlocked')==='1'){unlock();return;}}catch(e){}
+if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){
+gate.style.background='#1d1416';
+var h=gate.querySelector('h1');if(h)h.style.color='#f3e4de';
+var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#c4a49c';}
+var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#2b1d20';inp.style.color='#f3e4de';inp.style.borderColor='#4a3236';}
+var btn=gate.querySelector('button');if(btn){btn.style.background='#4fa3b8';btn.style.color='#17181c';}
+}
+var form=document.getElementById('lape-gate-form');
+var input=document.getElementById('lape-pin');
+var err=document.getElementById('lape-gate-err');
+if(input)input.focus();
+form.addEventListener('submit',function(ev){
+ev.preventDefault();
+var v=(input.value||'').trim();
+if(!v)return;
+function fail(){err.textContent='PIN salah, coba lagi.';input.value='';input.focus();}
+if(window.crypto&&crypto.subtle&&crypto.subtle.digest){
+crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(buf){
+var hex=Array.prototype.map.call(new Uint8Array(buf),function(b){return('00'+b.toString(16)).slice(-2);}).join('');
+if(hex===HASH){unlock();}else{fail();}
+}).catch(fail);
+}else{fail();}
+});
+})();
+</script>
+</body>
+</html>
