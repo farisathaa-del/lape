@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet"/>
+<link rel="icon" href="data:,"/>
+<title>Ruang Belajar Investasi</title>
+<style>
+:root{
+  --bg:#fdf6f0; --surface:#fffdfb; --surface2:#f7ecdc; --ink:#3d2b2b; --muted:#7d665c; --line:#e9dac6;
+  --teal:#0f4c5c; --gold:#c98a2d; --gold-soft:#f6e3ba;
+  --m1:#0f4c5c; --m2:#8a4a1d; --m3:#47632f; --m4:#7c2d3e; --m5:#2c4a63;
+  --ok:#1e7a3c; --okbg:#e3f2e1; --bad:#b3261e; --badbg:#fbe8e2;
+  --radius:22px;
+  --shadow:0 2px 6px rgba(61,43,43,.05),0 16px 36px -20px rgba(61,43,43,.25);
+  --shadow-lift:0 4px 10px rgba(61,43,43,.06),0 24px 46px -20px rgba(61,43,43,.32);
+  --serif:"Lora",Georgia,"Times New Roman",serif;
+  --sans:"Nunito Sans",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#1d1410; --surface:#2b1e16; --surface2:#3a2a1e; --ink:#f5ead9; --muted:#c6ad9a; --line:#4e3a2b;
+  --teal:#8ec9d8; --gold:#e2ab4f; --gold-soft:#4d3a15;
+  --m1:#8ec9d8; --m2:#e2a468; --m3:#aacb8d; --m4:#e79cae; --m5:#a3c2de;
+  --ok:#82d198; --okbg:#1d3a22; --bad:#f0988d; --badbg:#43221b;
+  --shadow:0 2px 6px rgba(0,0,0,.35),0 16px 36px -20px rgba(0,0,0,.65);
+  --shadow-lift:0 4px 10px rgba(0,0,0,.4),0 24px 46px -20px rgba(0,0,0,.75); }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--sans);line-height:1.62;
+  background:
+    radial-gradient(1100px 540px at 10% -6%, rgba(201,138,45,.15), transparent 60%),
+    radial-gradient(920px 500px at 106% 2%, rgba(15,76,92,.13), transparent 55%),
+    radial-gradient(820px 620px at 50% 116%, rgba(201,138,45,.09), transparent 60%),
+    var(--bg);
+  background-attachment:fixed}
+@media (prefers-color-scheme: dark){
+  body{background:
+    radial-gradient(1100px 540px at 10% -6%, rgba(226,171,79,.10), transparent 60%),
+    radial-gradient(920px 500px at 106% 2%, rgba(142,201,216,.08), transparent 55%),
+    radial-gradient(820px 620px at 50% 116%, rgba(226,171,79,.06), transparent 60%),
+    var(--bg);
+  background-attachment:fixed}
+}
+::selection{background:var(--gold-soft)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+button,[role="button"],select,summary{min-height:2.25rem}
+.sans{font-family:var(--sans)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 16px 64px}
+/* HERO */
+.hero{padding:40px 0 8px}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,5.4vw,3.2rem);line-height:1.08;margin:0 0 12px;letter-spacing:-.01em}
+.hero h1 mark{background:var(--gold-soft);color:inherit;padding:0 .18em;border-radius:6px}
+.hero p.lead{font-size:1.1rem;color:var(--muted);max-width:46rem;margin:0 0 18px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--sans);font-size:.82rem;font-weight:600}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 13px;box-shadow:0 1px 3px rgba(61,43,43,.05)}
+/* PROGRESS */
+.progress-box{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:var(--radius);padding:16px 18px;margin:20px 0 6px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.progress-box:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.progress-box .row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--sans);font-size:.86rem;gap:10px;flex-wrap:wrap}
+.pbar{height:10px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:10px}
+.pbar>div{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:99px;transition:width .5s ease}
+.pdots{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;font-family:var(--sans);font-size:.78rem}
+.pdot{border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--surface2);color:var(--muted)}
+.pdot.done{background:var(--okbg);color:var(--ok);border-color:var(--ok);font-weight:700}
+/* NAV */
+nav.modules{position:sticky;top:0;z-index:20;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+nav.modules .links{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;font-family:var(--sans)}
+nav.modules a{flex:0 0 auto;text-decoration:none;color:var(--ink);border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-size:.88rem;font-weight:700;display:inline-flex;align-items:center;min-height:2.25rem;box-shadow:0 1px 3px rgba(61,43,43,.05);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+nav.modules a .dot{width:9px;height:9px;border-radius:50%;margin-right:8px;display:inline-block}
+nav.modules a:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:var(--shadow)}
+/* SECTIONS */
+section.module{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--mc,var(--gold));border-radius:var(--radius);padding:26px 24px;margin:24px 0;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+section.module:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+section.module h2{font-family:var(--serif);font-weight:600;margin:0 0 6px;font-size:1.65rem;line-height:1.2}
+.kicker{font-family:var(--sans);font-size:.74rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--mc,var(--gold))}
+.sub{color:var(--muted);margin:0 0 16px;font-size:1.02rem}
+h3{font-family:var(--serif);font-weight:600;font-size:1.22rem;margin:24px 0 8px}
+h4{font-family:var(--serif);font-weight:600;font-size:1.04rem;margin:16px 0 6px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:4px 0}
+.callout{border-radius:16px;padding:13px 16px;margin:14px 0;font-size:.97rem}
+.callout.warn{background:var(--badbg);border:1px solid var(--bad)}
+.callout.note{background:var(--surface2);border:1px solid var(--line)}
+.callout.good{background:var(--okbg);border:1px solid var(--ok)}
+.callout b.t{display:block;font-family:var(--sans);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.94rem;background:var(--surface)}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--surface2);font-family:var(--sans);font-size:.82rem;font-weight:800}
+code,.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;background:var(--surface2);padding:1px 5px;border-radius:5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}section.module{padding:22px 16px}}
+.mini-card{border:1px solid var(--line);border-top:4px solid var(--mc,var(--gold));border-radius:16px;padding:14px 16px;background:var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.mini-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.mini-card h4{margin-top:0}
+/* FLOW */
+.flow{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px;font-family:var(--sans)}
+.flow button{flex:1 1 140px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:16px;padding:11px 8px;cursor:pointer;font-size:.86rem;font-weight:700;text-align:center;font-family:var(--sans);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.flow button:hover{transform:translateY(-1px);border-color:var(--gold)}
+.flow button .ic{display:block;font-size:1.3rem;margin-bottom:4px}
+.flow button.active{border-color:var(--gold);background:var(--gold-soft)}
+.flow-detail{border:1.5px dashed var(--gold);border-radius:16px;padding:15px 17px;margin-top:10px;background:var(--surface)}
+.flow-detail h4{margin:0 0 6px}
+/* FLASHCARDS */
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:12px 0}
+.flash{display:block;width:100%;perspective:700px;cursor:pointer;min-height:118px;background:none;border:none;padding:0;font-family:inherit;text-align:center;transition:transform .25s ease}
+.flash:hover{transform:translateY(-2px)}
+.flash-inner{display:block;position:relative;width:100%;height:100%;min-height:118px;transition:transform .45s;transform-style:preserve-3d}
+.flash.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;border:1.5px solid var(--line);box-shadow:var(--shadow)}
+.flash-front{background:var(--surface2);font-weight:800;font-size:1.02rem}
+.flash-front small{font-weight:600;color:var(--muted);font-size:.72rem;font-family:var(--sans);margin-top:6px;letter-spacing:.06em;text-transform:uppercase}
+.flash-back{background:var(--gold-soft);transform:rotateY(180deg);font-size:.92rem;line-height:1.45}
+/* QUIZ */
+.quiz{border:1px solid var(--line);border-top:5px solid var(--mc,var(--gold));border-radius:var(--radius);padding:20px;margin:18px 0;background:var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.quiz:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.quiz h4{margin:0 0 4px;font-family:var(--sans);font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.q{margin:14px 0;padding-top:12px;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:none;padding-top:4px}
+.q p.qq{font-weight:700;margin:0 0 8px}
+.opts{display:grid;gap:8px}
+.opts button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 13px;text-align:left;cursor:pointer;font-size:.95rem;font-family:inherit;min-height:2.5rem;transition:border-color .2s ease,background .2s ease,transform .2s ease}
+.opts button:hover{border-color:var(--gold);transform:translateY(-1px)}
+.opts button.correct{border-color:var(--ok);background:var(--okbg);font-weight:700}
+.opts button.wrong{border-color:var(--bad);background:var(--badbg)}
+.opts button:disabled{cursor:default;opacity:.92}
+.opts button:disabled:hover{transform:none}
+.fb{display:none;margin-top:8px;border-radius:12px;padding:10px 13px;font-size:.92rem}
+.fb.show{display:block}
+.fb.ok{background:var(--okbg);border:1px solid var(--ok)}
+.fb.no{background:var(--badbg);border:1px solid var(--bad)}
+.quiz-score{font-family:var(--sans);font-size:.88rem;font-weight:800;margin-top:10px}
+/* SIM */
+.sim-steps{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0;font-family:var(--sans)}
+.sim-steps span{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;background:var(--surface2);color:var(--muted)}
+.sim-steps span.cur{border-color:var(--gold);background:var(--gold-soft);color:var(--ink)}
+.sim-steps span.done{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.sim-panel{border:1px solid var(--line);border-top:5px solid var(--mc,var(--gold));border-radius:var(--radius);padding:20px;background:var(--surface);box-shadow:var(--shadow)}
+.sim-nav{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--gold);background:var(--gold);color:#2b1c10;border-radius:999px;padding:9px 20px;font-weight:800;cursor:pointer;font-family:var(--sans);font-size:.9rem;min-height:2.5rem;transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled:hover{transform:none;box-shadow:none}
+footer{color:var(--muted);font-size:.9rem;margin-top:34px}
+footer h3{color:var(--ink)}
+footer li{margin:3px 0}
+.tag{font-family:var(--sans);font-size:.72rem;font-weight:700;border-radius:99px;padding:3px 9px;background:var(--surface2);border:1px solid var(--line);white-space:nowrap;display:inline-block;margin:2px 0}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fdf6f0;padding:24px;box-sizing:border-box">
+<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:'Nunito Sans',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<h1 style="font-family:'Lora',Georgia,'Times New Roman',serif;font-size:1.6rem;font-weight:700;margin:0 0 8px;color:#3d2b2b">Ruang Belajar</h1>
+<p style="color:#7a5f5c;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
+<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #eed9cf;border-radius:12px;box-sizing:border-box;background:#fffdfb;color:#3d2b2b" />
+<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:800;border:0;border-radius:12px;background:#0f4c5c;color:#fff;cursor:pointer">Masuk</button>
+<p id="lape-gate-err" style="color:#b23a48;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
+</form>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <h1>Ruang Belajar <mark>Investasi</mark></h1>
+  <p class="lead">Halo Faris — belajar investasi dari nol, pelan-pelan tapi sempurna. Bukan soal cepat kaya: soal paham dulu, fondasi dulu, lalu mulai kecil dan konsisten. Semua angka di ruang ini adalah ilustrasi dengan asumsi yang ditulis jelas — bukan janji return, dan bukan rekomendasi beli apa pun.</p>
+  <div class="hero-meta">
+    <span class="chip">5 modul lengkap</span>
+    <span class="chip">Dari nol, tanpa istilah yang dilompat</span>
+    <span class="chip">Angka simulasi = ilustrasi, bukan janji</span>
+  </div>
+  <div class="progress-box" role="status" aria-live="polite">
+    <div class="row"><span><strong>Progres belajarmu</strong> <span style="color:var(--muted)">(tersimpan selama halaman ini terbuka)</span></span><span id="progText">0%</span></div>
+    <div class="pbar"><div id="progBar"></div></div>
+    <div class="pdots" id="progDots">
+      <span class="pdot" data-p="m1">Modul 1 · Apa Itu Investasi</span>
+      <span class="pdot" data-p="m2">Modul 2 · Fondasi</span>
+      <span class="pdot" data-p="m3">Modul 3 · Instrumen</span>
+      <span class="pdot" data-p="m4">Modul 4 · Cara Mulai</span>
+      <span class="pdot" data-p="m5">Modul 5 · Simulasi</span>
+    </div>
+  </div>
+</header>
+
+<nav class="modules" aria-label="Navigasi modul">
+  <div class="links">
+    <a href="#modul1"><span class="dot" style="background:var(--m1)"></span>1 · Apa Itu Investasi</a>
+    <a href="#modul2"><span class="dot" style="background:var(--m2)"></span>2 · Fondasi Dulu</a>
+    <a href="#modul3"><span class="dot" style="background:var(--m3)"></span>3 · Instrumen Pemula</a>
+    <a href="#modul4"><span class="dot" style="background:var(--m4)"></span>4 · Cara Mulai</a>
+    <a href="#modul5"><span class="dot" style="background:var(--m5)"></span>5 · Simulasi</a>
+    <a href="#sumber">Sumber</a>
+  </div>
+</nav>
+
+<section class="module" id="modul1" style="--mc:var(--m1)" data-module="m1">
+  <p class="kicker">Modul 1</p>
+  <h2>Apa Itu Investasi</h2>
+  <p class="sub">Definisi paling dasar — dan tiga hal yang paling sering tertukar: menabung, berinvestasi, dan trading.</p>
+
+  <h3>Definisi satu kalimat</h3>
+  <p><strong>Investasi</strong> adalah menaruh uang ke aset dengan harapan nilainya tumbuh atau menghasilkan pemasukan, dalam jangka waktu panjang. Analoginya menanam pohon: tidak dipanen besok — dirawat, lalu berbuah tahunan. Uangmu bekerja, dan waktu yang mengerjakannya.</p>
+
+  <h3>Tiga cara memperlakukan uang — jangan tertukar</h3>
+  <table>
+    <tr><th style="width:16%"></th><th>Menabung</th><th>Investasi</th><th>Trading</th></tr>
+    <tr><td><strong>Tujuan</strong></td><td>Uang aman dan mudah diambil kapan saja</td><td>Nilai uang tumbuh dalam jangka panjang</td><td>Untung dari naik-turun harga jangka pendek</td></tr>
+    <tr><td><strong>Cara dapat untung</strong></td><td>Bunga kecil dari bank</td><td>Kenaikan nilai aset + dividen / kupon / bagi hasil</td><td>Selisih harga beli-jual</td></tr>
+    <tr><td><strong>Horizon</strong></td><td>Kapan saja</td><td>Bertahun-tahun</td><td>Harian sampai mingguan</td></tr>
+    <tr><td><strong>Risiko</strong></td><td>Sangat rendah (dijamin LPS s.d. Rp2 miliar)</td><td>Ada — sesuai instrumennya</td><td>Tinggi; butuh waktu, disiplin, dan skill</td></tr>
+    <tr><td><strong>Contoh</strong></td><td>Tabungan, deposito</td><td>Reksa dana, saham, SBN, emas</td><td>Forex, saham harian</td></tr>
+  </table>
+  <p>Ada satu lagi yang sering menyamar jadi investasi: <strong>spekulasi</strong> — bertaruh pada naik-turun harga tanpa analisis. Itu bukan strategi; itu judi berkedok investasi.</p>
+
+  <div class="callout warn"><b class="t">Jujur dulu: forex demo-mu itu trading, bukan investasi</b>Di demo kamu belajar membaca grafik dan eksekusi di MT5 — itu skill trading, dan sah-sah saja dipelajari. Tapi aturannya beda dengan investasi: uang trading adalah uang yang siap hilang, dan hasilnya diukur harian. Uang investasi dibiarkan tumbuh bertahun-tahun dan hampir tidak dicek harian. Keduanya boleh dipelajari — tapi jangan tertukar aturannya, dan jangan pakai uang kebutuhan hidup untuk trading.</div>
+
+  <h3>Kenapa uang diam itu menyusut: inflasi</h3>
+  <p><strong>Inflasi</strong> adalah kenaikan harga barang dari waktu ke waktu. Akibatnya, daya beli uang yang diam ikut turun. Ilustrasi (asumsi inflasi 3% per tahun): Rp10 juta hari ini daya belinya tinggal sekitar <strong>Rp7,4 juta setelah 10 tahun</strong>, dan sekitar <strong>Rp5,5 juta setelah 20 tahun</strong>. Jadi “tidak berinvestasi” pun sebuah keputusan — dan ada harganya.</p>
+
+  <h3>Sebelum membeli apa pun: tiga pertanyaan</h3>
+  <ol>
+    <li><strong>Uang ini untuk apa?</strong> Dana darurat, DP rumah, dana nikah atau umroh, pensiun — tiap tujuan beda perlakuannya.</li>
+    <li><strong>Kapan dibutuhkan?</strong> Inilah yang disebut horizon waktu — dan horizonlah yang menentukan instrumennya (Modul 3).</li>
+    <li><strong>Berapa yang sanggup disisihkan tiap bulan?</strong> Nominalnya boleh kecil; yang tidak boleh: tidak rutin.</li>
+  </ol>
+
+  <h3>Diagram alur 5 langkah — klik tiap langkah</h3>
+  <div class="flow" id="flow1" role="tablist" aria-label="Perjalanan uangmu">
+    <button data-flow="0" class="active"><span class="ic">🎯</span>Tujuan dulu</button>
+    <button data-flow="1"><span class="ic">📉</span>Kenali inflasi</button>
+    <button data-flow="2"><span class="ic">🔀</span>Bedakan tiga cara</button>
+    <button data-flow="3"><span class="ic">🗓️</span>Tentukan horizon</button>
+    <button data-flow="4"><span class="ic">🌱</span>Mulai kecil &amp; konsisten</button>
+  </div>
+  <div class="flow-detail" id="flowDetail"></div>
+
+  <div class="quiz" data-quiz="m1">
+    <h4>Kuis Modul 1 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. Uang disetor rutin tiap bulan untuk tujuan 10 tahun lagi, tanpa dicek harian — itu investasi. Menabung itu menyimpan di bank; trading itu beli-jual jangka pendek.">
+      <p class="qq">1. Faris menyetor Rp200 ribu per bulan ke reksa dana untuk tujuan 10 tahun lagi, tanpa mengecek harganya tiap hari. Ini…</p>
+      <div class="opts"><button>Menabung</button><button>Investasi</button><button>Trading</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Inflasi menaikkan harga barang, jadi uang yang sama bisa membeli lebih sedikit dari waktu ke waktu. Uang diam bukan hilang — daya belinya yang menyusut.">
+      <p class="qq">2. Kenapa uang yang diam di tabungan bisa “menyusut” nilainya?</p>
+      <div class="opts"><button>Karena bank memotongnya terus-menerus</button><button>Karena inflasi: harga naik, daya beli turun</button><button>Karena tidak diinvestasikan ke forex</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. Membiarkan aset tumbuh bertahun-tahun tanpa dicek harian adalah ciri investasi. Trading justru hidup dari pergerakan harga jangka pendek.">
+      <p class="qq">3. Mana yang BUKAN ciri trading?</p>
+      <div class="opts"><button>Beli-jual dalam hitungan hari</button><button>Untung dari selisih harga</button><button>Membiarkan aset tumbuh bertahun-tahun tanpa dicek harian</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Tujuan, kapan dibutuhkan (horizon), dan berapa sanggup disisihkan — tiga jawaban ini menentukan instrumen yang cocok. Harga yang sedang naik bukan alasan membeli.">
+      <p class="qq">4. Sebelum membeli instrumen apa pun, tiga pertanyaan pertama adalah…</p>
+      <div class="opts"><button>Tujuan, kapan dibutuhkan, dan berapa sanggup disisihkan tiap bulan</button><button>Saham apa yang sedang naik hari ini</button><button>Berapa return tertinggi bulan lalu</button></div>
+      <div class="fb"></div>
+    </div>
+  </div>
+</section>
+
+<section class="module" id="modul2" style="--mc:var(--m2)" data-module="m2">
+  <p class="kicker">Modul 2</p>
+  <h2>Fondasi Sebelum Mulai</h2>
+  <p class="sub">Investasi yang sehat dibangun di atas fondasi yang beres. Lima fondasi, urut — jangan dilompat.</p>
+
+  <h3>1 · Dana darurat dulu</h3>
+  <p>Targetnya <strong>3–6x pengeluaran bulanan</strong>, disimpan di tempat aman dan mudah dicairkan (tabungan atau reksa dana pasar uang) — bukan di instrumen yang naik-turun. Dengan gaji Rp4 juta, targetmu sekitar <strong>Rp12–24 juta</strong>. Dana darurat bukan investasi: tugasnya menyelamatkanmu saat ada musibah, supaya kamu tidak terpaksa menjual investasi di saat yang salah.</p>
+  <div class="callout note"><b class="t">Jujur soal situasimu sekarang</b>Pengeluaran bulan ini sudah melewati rencana anggaran. Artinya langkah 0 adalah membereskan anggaran dulu — investasi menunggu fondasi beres. Tabungan Bersama Rp100 ribu/minggu dengan Saiba itu tabungan untuk jalan-jalan, bukan dana darurat dan bukan investasi. Ketiganya beda tujuan, dan ketiganya boleh jalan bersamaan — asal tidak dicampur.</div>
+
+  <h3>2 · Hanya uang dingin yang boleh diinvestasikan</h3>
+  <p>Aturan praktisnya: kalau uang itu hilang besok dan kamu tetap bisa makan, bayar kos, dan berangkat kerja — itu <strong>uang dingin</strong>. Kalau tidak, jangan diinvestasikan. Uang kos, uang makan, dan cicilan bukan uang dingin.</p>
+
+  <h3>3 · Segitiga return–risiko–waktu</h3>
+  <p>Tiga sisi yang tidak bisa dipisah: <strong>return</strong> (imbal hasil), <strong>risiko</strong> (kemungkinan rugi), dan <strong>waktu</strong> (horizon). Return tinggi selalu datang dengan risiko tinggi. Waktu yang panjang membantu menjinakkan risiko — fluktuasi jangka pendek mereda kalau horizonmu 10–20 tahun. Kalimat yang wajib dihafal: <em>“Tidak ada return tinggi tanpa risiko. Yang menjanjikan itu, sedang berbohong atau tidak paham.”</em></p>
+
+  <h3>4 · Kenali profil risikomu</h3>
+  <ul>
+    <li><strong>Konservatif</strong> — tidak tahan melihat nilai portofolio turun. Cocok: deposito, reksa dana pasar uang, SBN.</li>
+    <li><strong>Moderat</strong> — tahan turun sedikit demi return sedang. Cocok: reksa dana pendapatan tetap/campuran, SBN tenor menengah.</li>
+    <li><strong>Agresif</strong> — tahan turun besar demi return jangka panjang. Cocok: reksa dana saham, saham, ETF.</li>
+  </ul>
+  <p>Profilmu yang menentukan instrumen — bukan sebaliknya. Dan profil bisa berubah seiring umur, penghasilan, dan tujuan.</p>
+
+  <h3>5 · Biaya, pajak, dan pencatatan</h3>
+  <p>Biaya yang sering tidak terlihat: fee beli/jual sekuritas, biaya pengelolaan reksa dana (sudah tercermin di NAB, jadi tidak terasa dipotong), dan spread jual-beli emas. Pajaknya — per November 2026:</p>
+  <ul>
+    <li><strong>Bunga deposito:</strong> PPh final 20% dari bunga bruto. Bebas bila total deposito + tabungan tidak melebihi Rp7,5 juta dan bukan hasil pemecahan.</li>
+    <li><strong>Jual saham:</strong> PPh final 0,1% dari nilai bruto transaksi penjualan — dipotong otomatis.</li>
+    <li><strong>Dividen saham:</strong> PPh final 10%; bisa dikecualikan bila diinvestasikan kembali di Indonesia minimal 3 tahun.</li>
+    <li><strong>Kupon SBN/obligasi:</strong> PPh final 10% (PP 91/2021).</li>
+    <li><strong>Keuntungan reksa dana:</strong> bukan objek pajak di tangan investor orang pribadi (UU PPh Pasal 4 ayat (3) huruf i) — pajaknya sudah dibayar di tingkat dana dan tercermin di NAB. Tapi nilainya tetap wajib dilaporkan di SPT Tahunan sebagai harta.</li>
+  </ul>
+  <p>Catat semua: nominal, tanggal, instrumen. Evaluasi tiap 6 bulan — bukan tiap hari.</p>
+
+  <h3>Flashcard — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashFondasi"></div>
+
+  <div class="quiz" data-quiz="m2">
+    <h4>Kuis Modul 2 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. Dana darurat = 3–6x pengeluaran bulanan. Dengan pengeluaran sekitar Rp4 juta, targetnya Rp12–24 juta — disimpan di tempat aman dan cair, bukan di saham.">
+      <p class="qq">1. Gaji Rp4 juta, pengeluaran sekitar Rp4 juta per bulan. Dana darurat yang ditargetkan?</p>
+      <div class="opts"><button>Rp1 juta</button><button>Rp12–24 juta (3–6x pengeluaran)</button><button>Rp100 juta</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Uang kos bulan depan adalah uang kebutuhan — tempatnya di tabungan atau reksa dana pasar uang, bukan di instrumen yang bisa turun. Uang dingin saja yang boleh diinvestasikan.">
+      <p class="qq">2. Uang untuk bayar kos bulan depan sebaiknya…</p>
+      <div class="opts"><button>Diinvestasikan ke saham</button><button>Disimpan di tabungan atau reksa dana pasar uang</button><button>Dipakai trading forex</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Return pasti dan tinggi tanpa risiko adalah ciri penipuan — Satgas PASTI berulang kali menghentikan entitas dengan janji seperti ini. Tolak, dan laporkan bila perlu.">
+      <p class="qq">3. Seseorang menjanjikan return 30% per bulan, pasti, tanpa risiko. Sikap yang benar?</p>
+      <div class="opts"><button>Segera masuk sebelum kehabisan slot</button><button>Tolak — itu ciri penipuan</button><button>Masuk sedikit dulu untuk coba-coba</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. Tidak tahan melihat portofolio turun 10% dalam sebulan = cenderung konservatif. Itu bukan kelemahan — itu informasi untuk memilih instrumen yang cocok.">
+      <p class="qq">4. Faris tidak tahan melihat portofolionya turun 10% dalam sebulan. Profilnya cenderung…</p>
+      <div class="opts"><button>Agresif</button><button>Moderat</button><button>Konservatif</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Bunga deposito kena PPh final 20% dari bunga bruto — kecuali total deposito + tabungan tidak melebihi Rp7,5 juta dan bukan hasil pemecahan (PMK 212/2018).">
+      <p class="qq">5. Bunga deposito dikenai pajak sebesar…</p>
+      <div class="opts"><button>20% final (kecuali total simpanan ≤ Rp7,5 juta)</button><button>10% final</button><button>Tidak kena pajak sama sekali</button></div>
+      <div class="fb"></div>
+    </div>
+  </div>
+</section>
+
+<section class="module" id="modul3" style="--mc:var(--m3)" data-module="m3">
+  <p class="kicker">Modul 3</p>
+  <h2>Instrumen Pemula di Indonesia</h2>
+  <p class="sub">Kenali isi keranjangnya sebelum memilih. Satu instrumen, satu cara kerja — dan satu risiko.</p>
+
+  <h3>Tabel perbandingan</h3>
+  <table>
+    <tr><th>Instrumen</th><th>Cara kerja</th><th>Risiko</th><th>Cocok untuk</th><th>Mulai dari</th></tr>
+    <tr><td><strong>Deposito</strong></td><td>Uang dititipkan ke bank untuk jangka waktu tertentu (1/3/6/12 bulan), bunga tetap</td><td>Sangat rendah; dijamin LPS s.d. Rp2 miliar per nasabah per bank</td><td>Dana yang tidak boleh berkurang, jangka pendek</td><td>Mulai Rp1 juta (tergantung bank)</td></tr>
+    <tr><td><strong>Reksa dana pasar uang</strong></td><td>Dana banyak investor dikelola Manajer Investasi ke deposito &amp; instrumen pasar uang &lt;1 tahun</td><td>Sangat rendah — tapi TIDAK dijamin LPS</td><td>Dana darurat, parkir dana jangka pendek</td><td>Rp10 ribu</td></tr>
+    <tr><td><strong>Reksa dana pendapatan tetap</strong></td><td>Minimal 80% portofolio di obligasi</td><td>Rendah–sedang</td><td>Jangka menengah 1–3 tahun</td><td>Rp10 ribu</td></tr>
+    <tr><td><strong>Reksa dana campuran</strong></td><td>Campuran saham, obligasi, dan pasar uang</td><td>Sedang</td><td>Jangka menengah</td><td>Rp10 ribu</td></tr>
+    <tr><td><strong>Reksa dana saham</strong></td><td>Minimal 80% portofolio di saham BEI</td><td>Tinggi</td><td>Jangka panjang 5+ tahun</td><td>Rp10 ribu</td></tr>
+    <tr><td><strong>Saham</strong></td><td>Beli sebagian kecil perusahaan di BEI; untung dari kenaikan harga + dividen</td><td>Tinggi; harga naik-turun harian</td><td>Jangka panjang, mau belajar analisis</td><td>1 lot = 100 lembar</td></tr>
+    <tr><td><strong>ETF</strong></td><td>Keranjang saham yang diperdagangkan di bursa seperti saham</td><td>Sedang–tinggi (mengikuti indeksnya)</td><td>Diversifikasi instan dengan biaya rendah</td><td>1 lot</td></tr>
+    <tr><td><strong>Emas</strong></td><td>Beli logam mulia fisik/digital; untung hanya dari kenaikan harga — tanpa kupon/dividen</td><td>Sedang; harga berfluktuasi, ada spread jual-beli</td><td>Pelengkap jangka panjang</td><td>Digital mulai 0,01 gram; fisik mulai 0,5 gram</td></tr>
+    <tr><td><strong>SBN ritel</strong></td><td>Surat utang negara untuk individu; kupon dibayar bulanan; pokok + kupon dijamin negara</td><td>Sangat rendah (risiko negara)</td><td>Pemula yang mau imbal hasil rutin</td><td>Rp1 juta; hanya saat masa penawaran</td></tr>
+  </table>
+
+  <h3>SBN ritel: empat seri, jangan tertukar</h3>
+  <table>
+    <tr><th>Seri</th><th>Jenis</th><th>Kupon</th><th>Bisa dijual sebelum jatuh tempo?</th><th>Tenor umum</th></tr>
+    <tr><td><strong>ORI</strong></td><td>Konvensional</td><td>Tetap (fixed)</td><td>Ya (tradeable)</td><td>3 &amp; 6 tahun</td></tr>
+    <tr><td><strong>SR</strong></td><td>Syariah (akad ijarah)</td><td>Tetap (fixed)</td><td>Ya (tradeable)</td><td>3 &amp; 5 tahun</td></tr>
+    <tr><td><strong>SBR</strong></td><td>Konvensional</td><td>Mengambang dengan batas bawah (floating with floor)</td><td>Tidak — tapi ada early redemption maks. 50%</td><td>2 &amp; 4 tahun</td></tr>
+    <tr><td><strong>ST</strong></td><td>Syariah</td><td>Mengambang dengan batas bawah (floating with floor)</td><td>Tidak — tapi ada early redemption maks. 50%</td><td>2 &amp; 4 tahun</td></tr>
+  </table>
+  <p>Kupon SBN dikenai PPh final 10%. SBN hanya bisa dibeli saat masa penawaran dibuka pemerintah, lewat mitra distribusi yang ditunjuk.</p>
+
+  <div class="callout warn"><b class="t">Reksa dana ≠ deposito — ini jebakan paling umum</b>Reksa dana TIDAK dijamin LPS dan nilainya bisa turun. Yang melindungimu adalah pengelolaannya: Manajer Investasi berizin dan diawasi OJK, dana investor dipisah dari aset Manajer Investasi, dan disimpan di bank kustodian. Kalau ada yang bilang “reksa dana dijamin LPS”, itu salah.</div>
+
+  <h3>Pilih instrumen dari horizon — klik tiap horizon</h3>
+  <div class="flow" id="flowAdm" role="tablist" aria-label="Pilih instrumen dari horizon">
+    <button data-adm="0" class="active"><span class="ic">⏱️</span>&lt; 1 tahun</button>
+    <button data-adm="1"><span class="ic">📅</span>1–3 tahun</button>
+    <button data-adm="2"><span class="ic">🗓️</span>3–5 tahun</button>
+    <button data-adm="3"><span class="ic">🌳</span>5+ tahun</button>
+    <button data-adm="4"><span class="ic">⚖️</span>Selalu: diversifikasi</button>
+  </div>
+  <div class="flow-detail" id="admDetail"></div>
+
+  <h3>Flashcard — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashInstrumen"></div>
+
+  <div class="quiz" data-quiz="m3">
+    <h4>Kuis Modul 3 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. Dana darurat harus aman dan cair kapan saja: deposito atau reksa dana pasar uang. Saham bisa turun tepat saat uangnya dibutuhkan.">
+      <p class="qq">1. Dana darurat Rp5 juta yang harus siap dicairkan kapan saja paling cocok di…</p>
+      <div class="opts"><button>Saham</button><button>Deposito atau reksa dana pasar uang</button><button>Reksa dana saham</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Deposito dijamin LPS sampai Rp2 miliar per nasabah per bank; reksa dana tidak dijamin LPS — nilainya bisa turun mengikuti pasar.">
+      <p class="qq">2. Apa beda reksa dana dengan deposito soal jaminan?</p>
+      <div class="opts"><button>Sama-sama dijamin LPS</button><button>Deposito dijamin LPS s.d. Rp2 miliar; reksa dana tidak dijamin LPS</button><button>Reksa dana dijamin LPS, deposito tidak</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Saham dibeli per lot, 1 lot = 100 lembar. Saham Rp1.000 per lembar berarti Rp100.000 per lot, belum termasuk fee sekuritas.">
+      <p class="qq">3. Faris mau beli saham seharga Rp1.000 per lembar. Modal minimalnya?</p>
+      <div class="opts"><button>Rp1.000</button><button>Rp100.000 (1 lot = 100 lembar)</button><button>Rp1.000.000</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. ORI bersifat tradeable — bisa dijual di pasar sekunder setelah minimum holding period. SBR non-tradeable; jalan keluarnya hanya early redemption (maks. 50%) pada periode yang ditentukan.">
+      <p class="qq">4. ORI vs SBR: yang bisa dijual di pasar sekunder sebelum jatuh tempo adalah…</p>
+      <div class="opts"><button>SBR</button><button>ORI</button><button>Keduanya tidak bisa</button></div>
+      <div class="fb"></div>
+    </div>
+  </div>
+</section>
+
+<section class="module" id="modul4" style="--mc:var(--m4)" data-module="m4">
+  <p class="kicker">Modul 4</p>
+  <h2>Cara Mulai yang Benar</h2>
+  <p class="sub">Urutan langkahnya — dan cara membedakan yang legal dari yang bodong.</p>
+
+  <h3>Tujuh langkah mulai investasi</h3>
+  <ol>
+    <li><strong>Tentukan tujuan, horizon, dan nominal bulanan</strong> (Modul 1–2). Tulis, jangan hanya di kepala.</li>
+    <li><strong>Cek legalitas dulu.</strong> Sekuritas, Manajer Investasi, dan agen penjual reksa dana (APERD) harus berizin dan diawasi OJK. Cek di situs OJK atau hubungi Kontak OJK 157. Menemukan penawaran mencurigakan? Laporkan ke Satgas PASTI di sipasti.ojk.go.id.</li>
+    <li><strong>Buka rekening.</strong> Saham → perusahaan sekuritas (rekening efek + Rekening Dana Nasabah/RDN, lalu dapat nomor SID dari KSEI). Reksa dana → APERD atau bank. SBN → mitra distribusi saat masa penawaran. Emas → toko resmi atau platform berizin. Dokumen yang disiapkan: KTP, selfie, dan rekening bank atas nama sendiri.</li>
+    <li><strong>Mulai kecil dan berkala (DCA).</strong> Nominal tetap tiap gajian, apa pun harga pasarnya. Rp50–100 ribu per bulan lewat reksa dana sudah cukup untuk mulai — yang penting rutin.</li>
+    <li><strong>Diversifikasi.</strong> Jangan taruh semua di satu instrumen. Contoh sederhana: dana darurat di reksa dana pasar uang, jangka menengah di reksa dana pendapatan tetap/SBN, jangka panjang di reksa dana saham/ETF.</li>
+    <li><strong>Evaluasi berkala — tiap 6 bulan, bukan tiap hari.</strong> Cek apakah portofolio masih sesuai tujuan; sesuaikan (rebalancing) bila porsinya melenceng jauh.</li>
+    <li><strong>Catat dan laporkan.</strong> Semua aset investasi dilaporkan di SPT Tahunan sebagai harta. Simpan bukti transaksinya.</li>
+  </ol>
+
+  <div class="callout note"><b class="t">Kamu ASN — ini batasnya (PP 94/2021)</b>PP 94/2021 <strong>tidak melarang</strong> PNS berinvestasi — tidak ada pasal yang berbunyi “dilarang berusaha”. Yang dilarang adalah menyalahgunakan wewenang (Pasal 5 huruf a) dan menjadi perantara untuk keuntungan pribadi dengan konflik kepentingan (Pasal 5 huruf b). Investasi pasif seperti reksa dana, SBN, dan saham tidak memakai jabatan — jadi tidak bentrok. Yang tetap wajib: kepentingan negara di atas kepentingan pribadi dan masuk kerja menaati jam kerja (Pasal 4 huruf c dan f), serta melaporkan harta kekayaan — LHKASN/SPT (Pasal 4 huruf e). Dan satu prinsip yang kamu pegang sendiri: jangan berjualan memakai jabatan.</div>
+
+  <h3>Flashcard — kenali tanda bahaya, klik untuk membalik</h3>
+  <div class="flash-grid" id="flashBodong"></div>
+
+  <div class="quiz" data-quiz="m4">
+    <h4>Kuis Modul 4 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. Legalitas dicek lewat kanal resmi OJK (situs OJK / Kontak 157) — bukan dari testimoni grup atau brosur penawarnya. Testimoni bisa dipalsukan; izin tidak.">
+      <p class="qq">1. Sebelum transfer ke platform investasi, hal pertama yang dicek?</p>
+      <div class="opts"><button>Testimoni di grup</button><button>Legalitas di OJK (situs resmi / Kontak 157)</button><button>Berapa bonus referralnya</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Return pasti + harian + wajib rekrut member = ciri money game/skema Ponzi. Keuntungan dibayar dari uang anggota baru, bukan dari usaha nyata. Laporkan ke Satgas PASTI.">
+      <p class="qq">2. Platform menjanjikan return 5% per hari, pasti, dan minta rekrut 3 member. Ini…</p>
+      <div class="opts"><button>Peluang bagus, segera masuk</button><button>Ciri money game / investasi bodong — laporkan ke Satgas PASTI</button><button>Normal untuk investasi kripto</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Saham dibeli lewat perusahaan sekuritas berizin OJK: buka rekening efek + RDN, dapat SID dari KSEI, lalu setor dana dan beli lewat aplikasi sekuritas. Tidak bisa beli langsung ke BEI.">
+      <p class="qq">3. Untuk beli saham, Faris perlu…</p>
+      <div class="opts"><button>Rekening efek + RDN di sekuritas berizin OJK</button><button>Rekening di bank mana saja</button><button>Membeli langsung ke BEI</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. PP 94/2021 tidak melarang PNS berinvestasi; yang dilarang adalah menyalahgunakan wewenang dan konflik kepentingan (Pasal 5). Tugas kantor tetap nomor satu, dan harta wajib dilaporkan.">
+      <p class="qq">4. Soal PP 94/2021, yang benar adalah…</p>
+      <div class="opts"><button>PNS dilarang berinvestasi</button><button>PNS boleh berinvestasi; yang dilarang menyalahgunakan wewenang dan konflik kepentingan</button><button>PNS wajib lapor ke atasan setiap kali transaksi</button></div>
+      <div class="fb"></div>
+    </div>
+  </div>
+</section>
+
+<section class="module" id="modul5" style="--mc:var(--m5)" data-module="m5">
+  <p class="kicker">Modul 5</p>
+  <h2>Simulasi: Uangmu 5, 10, 20 Tahun Lagi</h2>
+  <p class="sub">Semua angka di bawah ini adalah ilustrasi dengan asumsi yang ditulis jelas — bukan janji return. Return nyata bisa lebih kecil, bahkan negatif.</p>
+
+  <h3>Tabel ilustrasi: setor Rp200 ribu per bulan (DCA)</h3>
+  <p>Asumsi: setoran tiap awal bulan, return tahunan tetap (dihitung bulanan), belum dipotong pajak dan biaya.</p>
+  <table>
+    <tr><th>Horizon</th><th>Total yang disetor</th><th>Ilustrasi @ 6%/tahun</th><th>Ilustrasi @ 10%/tahun</th></tr>
+    <tr><td><strong>5 tahun</strong></td><td>Rp12,0 juta</td><td>Rp14,0 juta</td><td>Rp15,6 juta</td></tr>
+    <tr><td><strong>10 tahun</strong></td><td>Rp24,0 juta</td><td>Rp32,9 juta</td><td>Rp41,3 juta</td></tr>
+    <tr><td><strong>20 tahun</strong></td><td>Rp48,0 juta</td><td>Rp92,9 juta</td><td>Rp153,1 juta</td></tr>
+    <tr><td>Tanpa return (ditabung saja)</td><td>Rp48,0 juta</td><td colspan="2">Tetap Rp48,0 juta — dan daya belinya tergerus inflasi</td></tr>
+  </table>
+  <div class="callout note"><b class="t">Yang paling bekerja di tabel ini bukan angkanya — tapi waktunya</b>20 tahun mengubah Rp48 juta setoran menjadi Rp92,9–153,1 juta dalam ilustrasi. Bukan karena return-nya ajaib, tapi karena bunga majemuk: keuntungan ikut menghasilkan keuntungan, tahun demi tahun. Itulah kenapa mulai lebih awal — walau kecil — lebih berharga daripada menunggu “nanti kalau gaji naik”.</div>
+
+  <h3>Simulasi langkah demi langkah — klik dan jawab tiap keputusan</h3>
+  <div class="sim-steps" id="simDots" aria-hidden="true"></div>
+  <div class="sim-panel" id="simPanel"></div>
+  <div class="sim-nav">
+    <button class="btn ghost" id="simPrev">← Langkah sebelumnya</button>
+    <button class="btn" id="simNext">Langkah berikutnya →</button>
+  </div>
+
+  <div class="quiz" data-quiz="final">
+    <h4>Self-Check Akhir · 5 Soal</h4>
+    <div class="q" data-answer="1" data-explain="Betul. Ilustrasi DCA Rp200 ribu/bulan selama 10 tahun dengan asumsi return tetap 6% per tahun menghasilkan sekitar Rp32,9 juta — dari total setoran Rp24 juta. Asumsi, bukan janji.">
+      <p class="qq">1. DCA Rp200 ribu/bulan selama 10 tahun, ilustrasi return 6% per tahun, hasilnya sekitar…</p>
+      <div class="opts"><button>Rp24 juta (sama dengan yang disetor)</button><button>Rp32,9 juta</button><button>Rp100 juta</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Uangnya baru dibutuhkan 15 tahun lagi — fluktuasi jangka pendek bukan alasan menjual. Yang dijual saat panik justru mengunci kerugian. Tetap pada rencana, evaluasi berkala.">
+      <p class="qq">2. Portofolio turun 30% dan uangnya baru dibutuhkan 15 tahun lagi. Sikap yang paling masuk akal?</p>
+      <div class="opts"><button>Jual semua, potong kerugian</button><button>Tetap pada rencana dan evaluasi berkala</button><button>Pinjam uang untuk beli lebih banyak</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Gaji masuk bulanan, jadi DCA — setoran tetap tiap gajian — paling cocok: disiplin terjaga dan risiko salah timing berkurang. Lump sum hanya masuk akal bila uangnya sudah ada sekaligus.">
+      <p class="qq">3. Lump sum vs DCA untuk karyawan bergaji bulanan:</p>
+      <div class="opts"><button>Lump sum selalu lebih baik</button><button>DCA lebih cocok: uang masuk bulanan dan mengurangi risiko timing</button><button>Tidak ada bedanya</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Rp10 juta dengan inflasi 3% per tahun tinggal sekitar Rp7,4 juta daya belinya setelah 10 tahun. Inilah alasan uang diam tetap butuh “bekerja”.">
+      <p class="qq">4. Rp10 juta dengan inflasi 3% per tahun — daya belinya 10 tahun lagi sekitar…</p>
+      <div class="opts"><button>Tetap Rp10 juta</button><button>Rp7,4 juta</button><button>Rp13,4 juta</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Dana darurat 3–6x pengeluaran (≈Rp12–24 juta untukmu) adalah fondasi. Sampai fondasi itu beres, porsi investasi tetap kecil dan di instrumen paling tenang.">
+      <p class="qq">5. Sebelum menambah porsi investasi, yang harus beres dulu?</p>
+      <div class="opts"><button>Dana darurat 3–6x pengeluaran</button><button>Membeli saham yang sedang viral</button><button>Menunggu pasar di titik terendah</button></div>
+      <div class="fb"></div>
+    </div>
+  </div>
+</section>
+
+<footer id="sumber">
+  <h3>Sumber</h3>
+  <ul>
+    <li>OJK — ojk.go.id; Satgas PASTI (sipasti.ojk.go.id); Kontak OJK 157</li>
+    <li>LPS — lps.go.id (penjaminan simpanan s.d. Rp2 miliar per nasabah per bank, PP 66/2008)</li>
+    <li>DJP — pajak.go.id (PPh final: bunga deposito 20% — PMK 212/2018; jual saham 0,1%; dividen 10%; kupon SBN 10% — PP 91/2021; UU PPh Pasal 4 ayat (3) huruf i — reksa dana)</li>
+    <li>Kemenkeu DJPPR — SBN Ritel: ORI, SR, SBR, ST (minimum Rp1 juta; tenor dan kupon per seri)</li>
+    <li>PP 94/2021 tentang Disiplin PNS (Pasal 4 dan 5)</li>
+    <li>BEI / KSEI — 1 lot = 100 lembar; SID; Rekening Dana Nasabah (RDN); penyelesaian T+2</li>
+    <li>OJK — klasifikasi reksa dana: pasar uang, pendapatan tetap, campuran, saham (minimum pembelian umum Rp10 ribu)</li>
+  </ul>
+  <p>Catatan: ruang ini adalah materi edukasi, bukan rekomendasi investasi personal dan bukan ajakan membeli produk tertentu. Semua angka return adalah ilustrasi dengan asumsi yang ditulis jelas (per November 2026) — angka dan aturan dapat berubah; cek angka terbaru di sumber resmi sebelum mengambil keputusan.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- PROGRESS ---------- */
+var opened={}, quizDone={};
+function refreshProgress(){
+  var total=10, done=0;
+  ["m1","m2","m3","m4","m5"].forEach(function(k){ if(opened[k]) done++; });
+  ["m1","m2","m3","m4","final"].forEach(function(k){ if(quizDone[k]) done++; });
+  var pct=Math.round(done/total*100);
+  document.getElementById("progBar").style.width=pct+"%";
+  document.getElementById("progText").textContent=pct+"% · "+done+" dari "+total+" aktivitas";
+  var map={m1:"m1",m2:"m2",m3:"m3",m4:"m4",m5:"m5"};
+  document.querySelectorAll(".pdot").forEach(function(d){
+    var k=d.getAttribute("data-p");
+    var quizKey = (k==="m5") ? "final" : k;
+    if(opened[k] && quizDone[quizKey]) d.classList.add("done");
+  });
+}
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ opened[e.target.getAttribute("data-module")]=true; refreshProgress(); } });
+},{threshold:0.15});
+document.querySelectorAll("section.module").forEach(function(s){ io.observe(s); });
+
+/* ---------- FLOW MODUL 1 ---------- */
+var flowData=[
+ {t:"1 · Tujuan dulu", d:"<strong>Produk:</strong> satu kalimat tujuan yang tertulis.<br><strong>Isi:</strong> untuk apa uang ini, berapa nominalnya, dan tahun berapa dibutuhkan. Contoh: “Dana darurat Rp12 juta, selesai 2027” atau “DP rumah, 2030”. Tujuan yang tidak ditulis cenderung tidak tercapai."},
+ {t:"2 · Kenali inflasi", d:"<strong>Produk:</strong> kesadaran bahwa uang diam menyusut.<br><strong>Isi:</strong> inflasi 3% per tahun membuat Rp10 juta tinggal sekitar Rp7,4 juta daya belinya dalam 10 tahun. Menabung saja tidak cukup untuk tujuan jangka panjang — uang perlu “bekerja”."},
+ {t:"3 · Bedakan tiga cara", d:"<strong>Produk:</strong> tidak tertukar lagi.<br><strong>Isi:</strong> menabung = menyimpan agar aman; investasi = menumbuhkan nilai jangka panjang; trading = cari untung dari naik-turun harga jangka pendek. Forex demo-mu itu trading — sah dipelajari, tapi aturannya beda."},
+ {t:"4 · Tentukan horizon", d:"<strong>Produk:</strong> jangka waktu tiap tujuan.<br><strong>Isi:</strong> butuh &lt;1 tahun → deposito/reksa dana pasar uang. 1–3 tahun → pendapatan tetap/SBN. 3–5 tahun → campuran. 5+ tahun → saham/ETF. Horizon yang salah = instrumen yang salah."},
+ {t:"5 · Mulai kecil & konsisten", d:"<strong>Produk:</strong> setoran pertama yang rutin.<br><strong>Isi:</strong> Rp50–100 ribu per bulan lewat reksa dana sudah cukup untuk mulai. Nominal kecil yang rutin mengalahkan nominal besar yang sekali-sekali. Disiplin adalah strateginya."}
+];
+var fd=document.getElementById("flowDetail");
+function setFlow(i){
+  fd.innerHTML="<h4>"+flowData[i].t+"</h4><p>"+flowData[i].d+"</p>";
+  document.querySelectorAll("#flow1 button").forEach(function(b,bi){ b.classList.toggle("active", bi===i); });
+}
+document.querySelectorAll("#flow1 button").forEach(function(b){
+  b.addEventListener("click", function(){ setFlow(parseInt(b.getAttribute("data-flow"),10)); });
+});
+setFlow(0);
+
+/* ---------- FLOW ADM MODUL 3 ---------- */
+var admData=[
+ "<strong>&lt; 1 tahun:</strong> deposito atau reksa dana pasar uang. Uang harus utuh dan cair kapan saja — return bukan prioritas di sini.",
+ "<strong>1–3 tahun:</strong> reksa dana pendapatan tetap atau SBN tenor pendek (SBR/ST 2 tahun). Return sedikit di atas deposito, risiko tetap rendah.",
+ "<strong>3–5 tahun:</strong> reksa dana campuran atau SBN tenor menengah (ORI/SR 3 tahun). Fluktuasi mulai bisa diterima karena ada waktu pulih.",
+ "<strong>5+ tahun:</strong> reksa dana saham, saham, atau ETF. Horizon panjang menjinakkan fluktuasi — di sinilah bunga majemuk bekerja paling kuat.",
+ "<strong>Selalu — diversifikasi:</strong> jangan taruh semua di satu instrumen. Contoh sederhana: dana darurat di pasar uang, jangka menengah di pendapatan tetap/SBN, jangka panjang di saham/ETF. Satu instrumen jatuh, yang lain menahan."
+];
+var ad=document.getElementById("admDetail");
+function setAdm(i){
+  ad.innerHTML="<p>"+admData[i]+"</p>";
+  document.querySelectorAll("#flowAdm button").forEach(function(b,bi){ b.classList.toggle("active", bi===i); });
+}
+document.querySelectorAll("#flowAdm button").forEach(function(b){
+  b.addEventListener("click", function(){ setAdm(parseInt(b.getAttribute("data-adm"),10)); });
+});
+setAdm(0);
+
+/* ---------- FLASHCARDS ---------- */
+function buildFlash(id, cards){
+  var el=document.getElementById(id); if(!el) return;
+  cards.forEach(function(c){
+    var b=document.createElement("button");
+    b.className="flash"; b.type="button";
+    b.setAttribute("aria-label","Flashcard: "+c[0]);
+    b.innerHTML='<span class="flash-inner"><span class="flash-face flash-front">'+c[0]+'<small>klik · balik</small></span><span class="flash-face flash-back">'+c[1]+'</span></span>';
+    b.addEventListener("click", function(){ b.classList.toggle("flipped"); });
+    el.appendChild(b);
+  });
+}
+buildFlash("flashFondasi",[
+ ["Dana darurat","3–6x pengeluaran bulanan. Targetmu: Rp12–24 juta (dari gaji Rp4 juta). Simpan di tempat aman dan cair — bukan di saham."],
+ ["Uang dingin","Uang yang kalau hilang besok, kamu tetap bisa makan dan bayar kos. Hanya uang inilah yang boleh diinvestasikan."],
+ ["Segitiga return–risiko–waktu","Return tinggi selalu datang dengan risiko tinggi. Waktu panjang membantu menjinakkan risiko."],
+ ["Profil risiko","Konservatif, moderat, atau agresif — profilmu yang menentukan instrumen, bukan sebaliknya."],
+ ["Inflasi","Kenaikan harga barang dari waktu ke waktu. Uang diam = daya belinya menyusut."],
+ ["Bunga majemuk","Keuntungan ikut menghasilkan keuntungan. Makin lama dibiarkan, makin besar efeknya — itulah kenapa mulai lebih awal itu penting."],
+ ["NAB","Nilai Aktiva Bersih — harga satu unit reksa dana. Naik-turun mengikuti isi portofolionya."],
+ ["Dividen","Pembagian laba perusahaan ke pemegang saham. Pajaknya 10% final (bisa bebas bila diinvestasikan kembali ≥3 tahun)."],
+ ["Kupon","Imbalan berkala dari obligasi/SBN, dibayar bulanan. Pajak kupon SBN: PPh final 10%."],
+ ["DCA","Dollar Cost Averaging — beli berkala dengan nominal tetap, apa pun harga pasarnya. Disiplin mengalahkan tebak-tebakan waktu."]
+]);
+buildFlash("flashInstrumen",[
+ ["Deposito","Uang dititipkan ke bank, bunga tetap. Dijamin LPS s.d. Rp2 miliar per nasabah per bank. Mulai Rp1 juta."],
+ ["Reksa dana pasar uang","Dikelola Manajer Investasi ke instrumen &lt;1 tahun. Risiko sangat rendah — tapi TIDAK dijamin LPS. Mulai Rp10 ribu."],
+ ["Reksa dana pendapatan tetap","Minimal 80% portofolio di obligasi. Risiko rendah–sedang, jangka menengah 1–3 tahun."],
+ ["Reksa dana campuran","Campuran saham, obligasi, dan pasar uang dalam satu produk. Risiko sedang."],
+ ["Reksa dana saham","Minimal 80% portofolio di saham BEI. Risiko tinggi, jangka panjang 5+ tahun."],
+ ["Saham","Bukti kepemilikan sebagian kecil perusahaan. Untung dari kenaikan harga + dividen. Beli per lot = 100 lembar."],
+ ["ETF","Keranjang saham yang diperdagangkan di bursa seperti saham. Diversifikasi instan, biaya umumnya rendah."],
+ ["Emas","Logam mulia fisik/digital. Untung hanya dari kenaikan harga — tanpa kupon atau dividen. Ada spread jual-beli."],
+ ["ORI","Obligasi Negara Ritel. Kupon tetap, bisa dijual di pasar sekunder, tenor 3 dan 6 tahun. Min. Rp1 juta."],
+ ["SR","Sukuk Negara Ritel (syariah). Kupon tetap, bisa dijual di pasar sekunder, tenor 3 dan 5 tahun."],
+ ["SBR","Savings Bond Ritel. Kupon mengambang dengan batas bawah, tidak bisa dijual — early redemption maks. 50%. Tenor 2 dan 4 tahun."],
+ ["ST","Sukuk Tabungan (syariah). Seperti SBR: kupon mengambang dengan batas bawah, early redemption maks. 50%."]
+]);
+buildFlash("flashBodong",[
+ ["Return pasti 20%/bulan","Tidak ada investasi legal yang menjamin return pasti. Janji “pasti untung” = ciri penipuan."],
+ ["Harus rekrut member","Keuntungan dari member baru, bukan dari usaha nyata — itu money game / skema Ponzi."],
+ ["Tidak ada izin OJK","Cek dulu di ojk.go.id atau Kontak 157. Tidak terdaftar = jangan masuk."],
+ ["Mencatut logo OJK","Logo bisa dipalsukan. Verifikasi lewat kanal resmi, bukan dari brosur penawarnya."],
+ ["Transfer ke rekening pribadi","Investasi legal dibayar ke rekening perusahaan atau rekening resmi — bukan ke nama orang."],
+ ["Modus tugas dan deposit","Disuruh setor deposit lalu kerjakan tugas demi “penghasilan” — modus penipuan yang dihentikan Satgas PASTI."],
+ ["Testimoni dan bukti transfer","Bukti transfer bisa dipalsukan dan dibayar dari uang korban baru. Bukan bukti legalitas."],
+ ["Takut ketinggalan (FOMO)","“Slot terbatas, besok harga naik” — tekanan waktu adalah taktik penjualan, bukan alasan investasi."],
+ ["Tidak ada prospektus","Produk legal punya prospektus atau memorandum yang bisa dibaca. Tidak ada dokumen = jangan beli."],
+ ["“Dijamin LPS” untuk reksa dana/saham","LPS hanya menjamin simpanan bank (tabungan/deposito), bukan reksa dana atau saham."]
+]);
+
+/* ---------- QUIZZES ---------- */
+document.querySelectorAll(".quiz").forEach(function(quiz){
+  var key=quiz.getAttribute("data-quiz");
+  var qs=quiz.querySelectorAll(".q");
+  var answered=0, correct=0;
+  qs.forEach(function(q){
+    var ans=parseInt(q.getAttribute("data-answer"),10);
+    var explain=q.getAttribute("data-explain");
+    var fb=q.querySelector(".fb");
+    var btns=q.querySelectorAll(".opts button");
+    btns.forEach(function(btn, bi){
+      btn.addEventListener("click", function(){
+        btns.forEach(function(x){ x.disabled=true; });
+        btns[ans].classList.add("correct");
+        if(bi===ans){ correct++; fb.className="fb show ok"; fb.innerHTML="<strong>Benar.</strong> "+explain; }
+        else{ btn.classList.add("wrong"); fb.className="fb show no"; fb.innerHTML="<strong>Belum tepat.</strong> "+explain; }
+        answered++;
+        var score=quiz.querySelector(".quiz-score");
+        score.textContent="Skor sementara: "+correct+" dari "+answered+" terjawab (total "+qs.length+" soal)";
+        if(answered===qs.length){
+          quizDone[key]=true;
+          score.textContent="Selesai — skor akhir: "+correct+" dari "+qs.length+". "+(correct===qs.length?"Sempurna.":correct>=qs.length-1?"Nyaris sempurna, mantap.":"Tidak apa-apa — baca lagi penjelasan tiap soal, itu inti materinya.");
+          refreshProgress();
+        }
+      });
+    });
+  });
+});
+
+/* ---------- SIMULASI ---------- */
+var simSteps=[
+ {t:"Langkah 1 · Titik awal", body:"Gaji Rp4 juta. Tabungan Bersama Rp100 ribu/minggu (sekitar Rp433 ribu/bulan) sudah jalan untuk jalan-jalan dengan Saiba — itu tabungan, bukan investasi. Simulasi ini memakai Rp200 ribu/bulan dari sisa anggaran. Kalau belum sanggup, mulai Rp50–100 ribu lewat reksa dana — nominal boleh kecil; yang tidak boleh: tidak mulai.", q:"Keputusan: berapa yang disisihkan tiap bulan?", opts:["Rp200 ribu/bulan (ilustrasi) — mulai dari yang sanggup, rutin","Rp0 — tunggu gaji naik dulu","Semua sisa gaji, biar cepat kaya"], ans:0, why:"<strong>Tepat:</strong> mulai dari nominal yang sanggup dan rutin. Menunggu “nanti kalau gaji naik” adalah cara paling umum untuk tidak pernah mulai."},
+ {t:"Langkah 2 · Tahun ke-5", body:"Setoran total Rp12 juta. Ilustrasi dengan asumsi return tetap: 6% per tahun → sekitar Rp14,0 juta; 10% per tahun → sekitar Rp15,6 juta. Selisihnya masih kecil — bunga majemuk belum “panas”.", q:"Keputusan: setelah 5 tahun, hasilnya baru sedikit di atas setoran. Apa artinya?", opts:["Investasi gagal — berhenti saja","Normal: bunga majemuk butuh waktu; 5 tahun masih awal","Harus pindah ke instrumen yang return-nya 30%/bulan"], ans:1, why:"<strong>Benar:</strong> di tahun-tahun awal, sebagian besar nilai portofolio masih berasal dari setoranmu sendiri. Efek bunga majemuk membesar di tahun-tahun belakangan."},
+ {t:"Langkah 3 · Tahun ke-10", body:"Setoran total Rp24 juta. Ilustrasi: 6% per tahun → sekitar Rp32,9 juta; 10% per tahun → sekitar Rp41,3 juta. Di titik ini keuntungan sudah mulai terlihat — sekitar Rp9–17 juta di atas yang disetor.", q:"Keputusan: apa yang paling menentukan hasil di tahun ke-10?", opts:["Menebak saham yang naik bulan ini","Konsistensi setor + waktu","Memilih platform dengan bonus terbesar"], ans:1, why:"<strong>Benar:</strong> bukan tebakan, bukan bonus — konsistensi dan waktu. Dua hal itu yang membuat tabel ini bekerja."},
+ {t:"Langkah 4 · Tahun ke-20", body:"Setoran total Rp48 juta. Ilustrasi: 6% per tahun → sekitar Rp92,9 juta; 10% per tahun → sekitar Rp153,1 juta. Hampir dua sampai tiga kali lipat dari yang disetor — dari uang Rp200 ribu per bulan.", q:"Keputusan: kenapa hasil 20 tahun jauh lebih besar dari 2x hasil 10 tahun?", opts:["Karena return-nya naik sendiri","Karena bunga majemuk: keuntungan ikut menghasilkan keuntungan","Karena inflasi"], ans:1, why:"<strong>Benar:</strong> bunga majemuk bekerja eksponensial, bukan linear. Tahun ke-11 sampai ke-20 “menghasilkan” lebih banyak daripada 10 tahun pertama — itulah hadiahnya bertahan lama."},
+ {t:"Langkah 5 · Lump sum vs DCA", body:"Bandingkan: Rp12 juta sekaligus (lump sum) dengan asumsi 8% per tahun selama 5 tahun → sekitar Rp17,6 juta. DCA Rp200 ribu/bulan dengan asumsi yang sama → sekitar Rp14,8 juta. Lump sum menang — bila uangnya sudah ada dan timing-nya bersahabat.", q:"Keputusan: untuk karyawan bergaji bulanan seperti Faris, mana yang lebih masuk akal?", opts:["Lump sum — tunggu sampai terkumpul Rp12 juta","DCA — setor tiap gajian, tanpa perlu menebak waktu pasar","Tidak dua-duanya, simpan di bawah bantal"], ans:1, why:"<strong>Benar:</strong> gaji masuk bulanan, jadi DCA adalah jalannya: disiplin terjaga, risiko salah timing berkurang. Lump sum hanya masuk akal bila uangnya memang sudah ada sekaligus."},
+ {t:"Langkah 6 · Pasar jatuh 30%", body:"Setelah 5 tahun DCA dengan asumsi 8% per tahun, nilai portofolio sekitar Rp14,8 juta. Lalu pasar jatuh 30% → sekitar Rp10,4 juta — di bawah total setoran Rp12 juta. Itu kerugian di atas kertas (paper loss), bukan kerugian nyata — sampai kamu menjual.", q:"Keputusan: portofolio turun di bawah total setoran. Apa yang terjadi bila kamu menjual sekarang?", opts:["Kerugian di atas kertas berubah jadi kerugian nyata","Tidak terjadi apa-apa, uang kembali utuh","Portofolio otomatis pulih besok"], ans:0, why:"<strong>Benar:</strong> selama tidak dijual, itu baru angka di layar. Menjual saat panik adalah cara paling pasti mengubah penurunan sementara menjadi kerugian permanen."},
+ {t:"Langkah 7 · Tetap jalan 2 tahun lagi", body:"Lanjut DCA 2 tahun setelah jatuh, asumsi return kembali 8% per tahun → nilai sekitar Rp17,4 juta, dari total setoran Rp16,8 juta. Yang menjual saat panik mengunci kerugian; yang bertahan memberi waktu pasar pulih. (Ilustrasi — bukan jaminan pasar akan pulih dalam 2 tahun.)", q:"Keputusan: apa pelajaran dari langkah ini?", opts:["Pasar selalu pulih dalam 2 tahun","Bertahan memberi waktu pulih; panik mengunci rugi","Jatuh 30% berarti instrumennya bodong"], ans:1, why:"<strong>Benar:</strong> tidak ada yang menjamin pasar pulih dalam 2 tahun — tapi menjual saat panik menjamin kerugian. Rencana dan horizon panjang adalah yang membuatmu bisa bertahan."},
+ {t:"Langkah 8 · Inflasi diam-diam", body:"Rp10 juta hari ini, dengan inflasi 3% per tahun, daya belinya tinggal sekitar Rp7,4 juta dalam 10 tahun. Uang yang hanya ditabung tanpa return pelan-pelan menyusut — itulah “harga” dari tidak berinvestasi.", q:"Keputusan: apa arti angka ini buat dana jangka panjang?", opts:["Tidak ada artinya, nominalnya tetap Rp10 juta","Dana jangka panjang perlu return di atas inflasi agar daya belinya terjaga","Berarti harus trading forex tiap hari"], ans:1, why:"<strong>Benar:</strong> nominal boleh tetap, tapi yang dibeli makin sedikit. Tujuan investasi jangka panjang bukan sekadar “uang bertambah”, tapi “daya beli terjaga”."},
+ {t:"Langkah 9 · Dana darurat dulu", body:"Sebelum menambah porsi investasi: target dana darurat 3–6x pengeluaran, sekitar Rp12–24 juta untukmu. Sampai fondasi itu beres, porsi investasi tetap kecil dan di instrumen paling tenang — deposito atau reksa dana pasar uang.", q:"Keputusan: dana darurat belum penuh, tapi ada “saham bagus” yang sedang viral. Apa yang dilakukan?", opts:["Pakai dana darurat untuk beli saham itu","Tetap bangun dana darurat dulu; saham viral bisa ditunggu","Pinjam uang untuk beli sahamnya"], ans:1, why:"<strong>Benar:</strong> saham viral akan selalu ada; dana darurat yang kosong tidak bisa menunggu musibah. Fondasi dulu, baru agresif."},
+ {t:"Langkah 10 · Langkah pertamamu minggu ini", body:"Checklist: (1) rapikan anggaran bulan ini; (2) tentukan nominal bulanan yang sanggup — mulai Rp50–100 ribu pun cukup; (3) pilih 1 instrumen pertama — saran belajar: reksa dana pasar uang atau pendapatan tetap; (4) buka rekening dan mulai. Selesai — kamu sudah investor. Pelan-pelan, yang penting jalan terus.", q:"Keputusan terakhir: apa langkah pertamamu?", opts:["Rapikan anggaran, tentukan nominal, buka rekening, mulai","Menunggu sampai paham semua instrumen","Menunggu ada yang menjanjikan return pasti"], ans:0, why:"<strong>Selesai — kerja bagus, Faris!</strong> Investasi dimulai bukan saat kamu tahu segalanya, tapi saat fondasi beres dan setoran pertama jalan. Ruang ini tetap di sini kalau kamu mau mengulang modul mana pun."}
+];
+var simIdx=0, simAnswered={};
+var dotsEl=document.getElementById("simDots");
+simSteps.forEach(function(_,i){ var s=document.createElement("span"); s.textContent=(i+1); dotsEl.appendChild(s); });
+var panel=document.getElementById("simPanel");
+function renderSim(){
+  var st=simSteps[simIdx];
+  var html="<h4 style='margin-top:0'>"+st.t+"</h4><p>"+st.body+"</p><p class='qq' style='font-weight:700'>"+st.q+"</p><div class='opts'>";
+  st.opts.forEach(function(o,i){ html+="<button data-sim-opt='"+i+"'>"+o+"</button>"; });
+  html+="</div><div class='fb' id='simFb'></div>";
+  panel.innerHTML=html;
+  document.querySelectorAll("#simDots span").forEach(function(d,i){
+    d.className = simAnswered[i] ? "done" : (i===simIdx ? "cur" : "");
+  });
+  document.getElementById("simPrev").disabled = simIdx===0;
+  document.getElementById("simNext").disabled = simIdx===simSteps.length-1 && !simAnswered[simIdx];
+  document.getElementById("simNext").textContent = simIdx===simSteps.length-1 ? "Langkah terakhir" : "Langkah berikutnya →";
+  panel.querySelectorAll("[data-sim-opt]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var pick=parseInt(btn.getAttribute("data-sim-opt"),10);
+      var fb=document.getElementById("simFb");
+      panel.querySelectorAll("[data-sim-opt]").forEach(function(x){ x.disabled=true; });
+      panel.querySelectorAll("[data-sim-opt]")[st.ans].classList.add("correct");
+      if(pick===st.ans){ fb.className="fb show ok"; fb.innerHTML=st.why; }
+      else{ btn.classList.add("wrong"); fb.className="fb show no"; fb.innerHTML="<strong>Kurang tepat.</strong> "+st.why; }
+      simAnswered[simIdx]=true;
+      document.querySelectorAll("#simDots span")[simIdx].className="done";
+      if(simIdx<simSteps.length-1) document.getElementById("simNext").disabled=false;
+      var allDone=Object.keys(simAnswered).length===simSteps.length;
+      if(allDone){ opened["m5"]=true; refreshProgress(); }
+    });
+  });
+  if(simAnswered[simIdx]){
+    panel.querySelectorAll("[data-sim-opt]").forEach(function(x){ x.disabled=true; });
+    panel.querySelectorAll("[data-sim-opt]")[st.ans].classList.add("correct");
+    var fb2=document.getElementById("simFb"); fb2.className="fb show ok"; fb2.innerHTML=st.why;
+  }
+}
+document.getElementById("simPrev").addEventListener("click", function(){ if(simIdx>0){ simIdx--; renderSim(); } });
+document.getElementById("simNext").addEventListener("click", function(){ if(simIdx<simSteps.length-1){ simIdx++; renderSim(); } });
+renderSim();
+refreshProgress();
+})();
+</script>
+
+<script>
+(function(){
+var HASH='4e533dd40116d43b0b2926d0b4f49958849c4f6c8ec3c1f685e8e8e872b344da';
+var gate=document.getElementById('lape-gate');
+function unlock(){try{sessionStorage.setItem('lape-unlocked','1');}catch(e){}if(gate)gate.remove();}
+try{if(sessionStorage.getItem('lape-unlocked')==='1'){unlock();return;}}catch(e){}
+if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){
+gate.style.background='#1d1416';
+var h=gate.querySelector('h1');if(h)h.style.color='#f3e4de';
+var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#c4a49c';}
+var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#2b1d20';inp.style.color='#f3e4de';inp.style.borderColor='#4a3236';}
+var btn=gate.querySelector('button');if(btn){btn.style.background='#4fa3b8';btn.style.color='#17181c';}
+}
+var form=document.getElementById('lape-gate-form');
+var input=document.getElementById('lape-pin');
+var err=document.getElementById('lape-gate-err');
+if(input)input.focus();
+form.addEventListener('submit',function(ev){
+ev.preventDefault();
+var v=(input.value||'').trim();
+if(!v)return;
+function fail(){err.textContent='PIN salah, coba lagi.';input.value='';input.focus();}
+if(window.crypto&&crypto.subtle&&crypto.subtle.digest){
+crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(buf){
+var hex=Array.prototype.map.call(new Uint8Array(buf),function(b){return('00'+b.toString(16)).slice(-2);}).join('');
+if(hex===HASH){unlock();}else{fail();}
+}).catch(fail);
+}else{fail();}
+});
+})();
+</script>
+</body>
+</html>
