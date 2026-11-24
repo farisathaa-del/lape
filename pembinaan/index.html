@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet"/>
+<link rel="icon" href="data:,"/>
+<title>Ruang Belajar Pembinaan</title>
+<style>
+:root{
+  --bg:#fdf6f0; --surface:#fffdfb; --surface2:#f7ecdc; --ink:#3d2b2b; --muted:#7d665c; --line:#e9dac6;
+  --teal:#0f4c5c; --gold:#c98a2d; --gold-soft:#f6e3ba;
+  --m1:#0f4c5c; --m2:#8a4a1d; --m3:#47632f; --m4:#7c2d3e; --m5:#2c4a63;
+  --ok:#1e7a3c; --okbg:#e3f2e1; --bad:#b3261e; --badbg:#fbe8e2;
+  --radius:22px;
+  --shadow:0 2px 6px rgba(61,43,43,.05),0 16px 36px -20px rgba(61,43,43,.25);
+  --shadow-lift:0 4px 10px rgba(61,43,43,.06),0 24px 46px -20px rgba(61,43,43,.32);
+  --serif:"Lora",Georgia,"Times New Roman",serif;
+  --sans:"Nunito Sans",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#1d1410; --surface:#2b1e16; --surface2:#3a2a1e; --ink:#f5ead9; --muted:#c6ad9a; --line:#4e3a2b;
+  --teal:#8ec9d8; --gold:#e2ab4f; --gold-soft:#4d3a15;
+  --m1:#8ec9d8; --m2:#e2a468; --m3:#aacb8d; --m4:#e79cae; --m5:#a3c2de;
+  --ok:#82d198; --okbg:#1d3a22; --bad:#f0988d; --badbg:#43221b;
+  --shadow:0 2px 6px rgba(0,0,0,.35),0 16px 36px -20px rgba(0,0,0,.65);
+  --shadow-lift:0 4px 10px rgba(0,0,0,.4),0 24px 46px -20px rgba(0,0,0,.75); }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--sans);line-height:1.62;
+  background:
+    radial-gradient(1100px 540px at 10% -6%, rgba(201,138,45,.15), transparent 60%),
+    radial-gradient(920px 500px at 106% 2%, rgba(15,76,92,.13), transparent 55%),
+    radial-gradient(820px 620px at 50% 116%, rgba(201,138,45,.09), transparent 60%),
+    var(--bg);
+  background-attachment:fixed}
+@media (prefers-color-scheme: dark){
+  body{background:
+    radial-gradient(1100px 540px at 10% -6%, rgba(226,171,79,.10), transparent 60%),
+    radial-gradient(920px 500px at 106% 2%, rgba(142,201,216,.08), transparent 55%),
+    radial-gradient(820px 620px at 50% 116%, rgba(226,171,79,.06), transparent 60%),
+    var(--bg);
+  background-attachment:fixed}
+}
+::selection{background:var(--gold-soft)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+button,[role="button"],select,summary{min-height:2.25rem}
+.sans{font-family:var(--sans)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 16px 64px}
+/* HERO */
+.hero{padding:40px 0 8px}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,5.4vw,3.2rem);line-height:1.08;margin:0 0 12px;letter-spacing:-.01em}
+.hero h1 mark{background:var(--gold-soft);color:inherit;padding:0 .18em;border-radius:6px}
+.hero p.lead{font-size:1.1rem;color:var(--muted);max-width:46rem;margin:0 0 18px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--sans);font-size:.82rem;font-weight:600}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 13px;box-shadow:0 1px 3px rgba(61,43,43,.05)}
+/* PROGRESS */
+.progress-box{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:var(--radius);padding:16px 18px;margin:20px 0 6px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.progress-box:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.progress-box .row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--sans);font-size:.86rem;gap:10px;flex-wrap:wrap}
+.pbar{height:10px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:10px}
+.pbar>div{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:99px;transition:width .5s ease}
+.pdots{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;font-family:var(--sans);font-size:.78rem}
+.pdot{border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--surface2);color:var(--muted)}
+.pdot.done{background:var(--okbg);color:var(--ok);border-color:var(--ok);font-weight:700}
+/* NAV */
+nav.modules{position:sticky;top:0;z-index:20;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+nav.modules .links{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;font-family:var(--sans)}
+nav.modules a{flex:0 0 auto;text-decoration:none;color:var(--ink);border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-size:.88rem;font-weight:700;display:inline-flex;align-items:center;min-height:2.25rem;box-shadow:0 1px 3px rgba(61,43,43,.05);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+nav.modules a .dot{width:9px;height:9px;border-radius:50%;margin-right:8px;display:inline-block}
+nav.modules a:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:var(--shadow)}
+/* SECTIONS */
+section.module{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--mc,var(--gold));border-radius:var(--radius);padding:26px 24px;margin:24px 0;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+section.module:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+section.module h2{font-family:var(--serif);font-weight:600;margin:0 0 6px;font-size:1.65rem;line-height:1.2}
+.kicker{font-family:var(--sans);font-size:.74rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--mc,var(--gold))}
+.sub{color:var(--muted);margin:0 0 16px;font-size:1.02rem}
+h3{font-family:var(--serif);font-weight:600;font-size:1.22rem;margin:24px 0 8px}
+h4{font-family:var(--serif);font-weight:600;font-size:1.04rem;margin:16px 0 6px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:4px 0}
+.callout{border-radius:16px;padding:13px 16px;margin:14px 0;font-size:.97rem}
+.callout.warn{background:var(--badbg);border:1px solid var(--bad)}
+.callout.note{background:var(--surface2);border:1px solid var(--line)}
+.callout.good{background:var(--okbg);border:1px solid var(--ok)}
+.callout b.t{display:block;font-family:var(--sans);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.94rem;background:var(--surface)}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--surface2);font-family:var(--sans);font-size:.82rem;font-weight:800}
+code,.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;background:var(--surface2);padding:1px 5px;border-radius:5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}section.module{padding:22px 16px}}
+.mini-card{border:1px solid var(--line);border-top:4px solid var(--mc,var(--gold));border-radius:16px;padding:14px 16px;background:var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.mini-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.mini-card h4{margin-top:0}
+/* FLOW */
+.flow{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px;font-family:var(--sans)}
+.flow button{flex:1 1 140px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:16px;padding:11px 8px;cursor:pointer;font-size:.86rem;font-weight:700;text-align:center;font-family:var(--sans);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.flow button:hover{transform:translateY(-1px);border-color:var(--gold)}
+.flow button .ic{display:block;font-size:1.3rem;margin-bottom:4px}
+.flow button.active{border-color:var(--gold);background:var(--gold-soft)}
+.flow-detail{border:1.5px dashed var(--gold);border-radius:16px;padding:15px 17px;margin-top:10px;background:var(--surface)}
+.flow-detail h4{margin:0 0 6px}
+/* FLASHCARDS */
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:12px 0}
+.flash{display:block;width:100%;perspective:700px;cursor:pointer;min-height:118px;background:none;border:none;padding:0;font-family:inherit;text-align:center;transition:transform .25s ease}
+.flash:hover{transform:translateY(-2px)}
+.flash-inner{display:block;position:relative;width:100%;height:100%;min-height:118px;transition:transform .45s;transform-style:preserve-3d}
+.flash.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;border:1.5px solid var(--line);box-shadow:var(--shadow)}
+.flash-front{background:var(--surface2);font-weight:800;font-size:1.02rem}
+.flash-front small{font-weight:600;color:var(--muted);font-size:.72rem;font-family:var(--sans);margin-top:6px;letter-spacing:.06em;text-transform:uppercase}
+.flash-back{background:var(--gold-soft);transform:rotateY(180deg);font-size:.92rem;line-height:1.45}
+/* QUIZ */
+.quiz{border:1px solid var(--line);border-top:5px solid var(--mc,var(--gold));border-radius:var(--radius);padding:20px;margin:18px 0;background:var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.quiz:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.quiz h4{margin:0 0 4px;font-family:var(--sans);font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.q{margin:14px 0;padding-top:12px;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:none;padding-top:4px}
+.q p.qq{font-weight:700;margin:0 0 8px}
+.opts{display:grid;gap:8px}
+.opts button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 13px;text-align:left;cursor:pointer;font-size:.95rem;font-family:inherit;min-height:2.5rem;transition:border-color .2s ease,background .2s ease,transform .2s ease}
+.opts button:hover{border-color:var(--gold);transform:translateY(-1px)}
+.opts button.correct{border-color:var(--ok);background:var(--okbg);font-weight:700}
+.opts button.wrong{border-color:var(--bad);background:var(--badbg)}
+.opts button:disabled{cursor:default;opacity:.92}
+.opts button:disabled:hover{transform:none}
+.fb{display:none;margin-top:8px;border-radius:12px;padding:10px 13px;font-size:.92rem}
+.fb.show{display:block}
+.fb.ok{background:var(--okbg);border:1px solid var(--ok)}
+.fb.no{background:var(--badbg);border:1px solid var(--bad)}
+.quiz-score{font-family:var(--sans);font-size:.88rem;font-weight:800;margin-top:10px}
+/* SIM */
+.sim-steps{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0;font-family:var(--sans)}
+.sim-steps span{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;background:var(--surface2);color:var(--muted)}
+.sim-steps span.cur{border-color:var(--gold);background:var(--gold-soft);color:var(--ink)}
+.sim-steps span.done{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.sim-panel{border:1px solid var(--line);border-top:5px solid var(--mc,var(--gold));border-radius:var(--radius);padding:20px;background:var(--surface);box-shadow:var(--shadow)}
+.sim-nav{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--gold);background:var(--gold);color:#2b1c10;border-radius:999px;padding:9px 20px;font-weight:800;cursor:pointer;font-family:var(--sans);font-size:.9rem;min-height:2.5rem;transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled:hover{transform:none;box-shadow:none}
+footer{color:var(--muted);font-size:.9rem;margin-top:34px}
+footer h3{color:var(--ink)}
+footer li{margin:3px 0}
+.tag{font-family:var(--sans);font-size:.72rem;font-weight:700;border-radius:99px;padding:3px 9px;background:var(--surface2);border:1px solid var(--line);white-space:nowrap;display:inline-block;margin:2px 0}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fdf6f0;padding:24px;box-sizing:border-box">
+<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:'Nunito Sans',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<h1 style="font-family:'Lora',Georgia,'Times New Roman',serif;font-size:1.6rem;font-weight:700;margin:0 0 8px;color:#3d2b2b">Ruang Belajar</h1>
+<p style="color:#7a5f5c;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
+<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #eed9cf;border-radius:12px;box-sizing:border-box;background:#fffdfb;color:#3d2b2b" />
+<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:800;border:0;border-radius:12px;background:#0f4c5c;color:#fff;cursor:pointer">Masuk</button>
+<p id="lape-gate-err" style="color:#b23a48;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
+</form>
+</div>
+
+
+<div class="wrap">
+
+<header class="hero">
+  <h1>Ruang Belajar <mark>Pembinaan</mark></h1>
+  <p class="lead">Halo Faris — ini bidang yang membuat Kejaksaan bisa bekerja: Pembinaan. Bukan menuntut orang dan bukan menyidik — melainkan mengurus manusianya, uangnya, dan barangnya. Dari usul kenaikan pangkatmu sampai DIPA satker, dari absensi pagi sampai laptop yang rusak — semua lewat jalur Pembinaan. Dasarnya satu pasal yang memuat seluruh lingkupnya: Pasal 8 Perban 3/2024 — perencanaan, kepegawaian, keuangan, organisasi, dan pengelolaan kekayaan milik negara.</p>
+  <div class="hero-meta">
+    <span class="chip">5 modul lengkap</span>
+    <span class="chip">Bidang Pembinaan — Pasal 8 Perban 3/2024</span>
+    <span class="chip">Kasus latihan: fiktif, aman untuk belajar</span>
+  </div>
+  <div class="progress-box" role="status" aria-live="polite">
+    <div class="row"><span><strong>Progres belajarmu</strong> <span style="color:var(--muted)">(tersimpan selama halaman ini terbuka)</span></span><span id="progText">0%</span></div>
+    <div class="pbar"><div id="progBar"></div></div>
+    <div class="pdots" id="progDots">
+      <span class="pdot" data-p="m1">Modul 1 · Tupoksi</span>
+      <span class="pdot" data-p="m2">Modul 2 · Kepegawaian &amp; SDM</span>
+      <span class="pdot" data-p="m3">Modul 3 · Anggaran</span>
+      <span class="pdot" data-p="m4">Modul 4 · BMN &amp; Organisasi</span>
+      <span class="pdot" data-p="m5">Modul 5 · Simulasi</span>
+    </div>
+  </div>
+</header>
+
+<nav class="modules" aria-label="Navigasi modul">
+  <div class="links">
+    <a href="#modul1"><span class="dot" style="background:var(--m1)"></span>1 · Tupoksi &amp; Alur</a>
+    <a href="#modul2"><span class="dot" style="background:var(--m2)"></span>2 · Kepegawaian &amp; SDM</a>
+    <a href="#modul3"><span class="dot" style="background:var(--m3)"></span>3 · Perencanaan, Keuangan &amp; Anggaran</a>
+    <a href="#modul4"><span class="dot" style="background:var(--m4)"></span>4 · Perlengkapan, BMN &amp; Organisasi</a>
+    <a href="#modul5"><span class="dot" style="background:var(--m5)"></span>5 · Simulasi Kasus</a>
+    <a href="#sumber">Sumber</a>
+  </div>
+</nav>
+
+<section class="module" id="modul1" style="--mc:var(--m1)" data-module="m1">
+  <p class="kicker">Modul 1</p>
+  <h2>Tupoksi &amp; Alur Pembinaan</h2>
+  <p class="sub">Peta besarnya dulu: apa itu Pembinaan, siapa yang mengerjakan apa dari Kejagung sampai Kejari, dan bagaimana satu kebutuhan — pegawai baru, laptop baru, atau anggaran sidang — bergerak dari usulan menjadi barang dan uang yang bisa dipakai.</p>
+
+  <h3>Satu pasal yang memuat seluruh lingkup — Pasal 8 Perban 3/2024</h3>
+  <div class="callout note"><b class="t">Bunyi Pasal 8 Perban 3/2024 (terverifikasi via Pasal.id)</b>“Jaksa Agung Muda Bidang Pembinaan mempunyai [tugas dan wewenang melaksanakan tugas dan wewenang Kejaksaan di bidang pembinaan].” Lingkup bidang pembinaan menurut ayat (2) meliputi: <strong>perencanaan, pelaksanaan pembangunan prasarana dan sarana, organisasi dan ketatalaksanaan, kepegawaian, keuangan, pengelolaan kekayaan milik negara, pertimbangan hukum, penyusunan peraturan perundang-undangan, kerja sama, dan pelayanan</strong>. Lima yang pertama itulah isi modul-modul ruang ini: kepegawaian (Modul 2), perencanaan &amp; keuangan (Modul 3), perlengkapan &amp; organisasi (Modul 4).</div>
+  <p>Perhatikan: Pembinaan bukan bidang teknis penegakan hukum. Ia tidak menuntut, tidak menyidik, tidak memberi pendapat hukum untuk perkara. Ia adalah <strong>bidang pendukung</strong> — dan tanpa dukungan itu, bidang teknis tidak bisa bergerak: jaksa tanpa SK pengangkatan tidak bisa bersidang, sidang tanpa DIPA tidak bisa dibiayai, dan berkas tanpa arsip yang tertib tidak bisa ditemukan kembali.</p>
+
+  <h3>Struktur Pembinaan — dari Kejagung sampai Kejari</h3>
+  <table>
+    <tr><th style="width:22%">Tingkat</th><th>Struktur Pembinaan</th></tr>
+    <tr><td><strong>Kejagung</strong></td><td><strong>Jambin</strong> — Jaksa Agung Muda Bidang Pembinaan (Perpres 15/2024 Pasal 12: mempunyai tugas dan wewenang melaksanakan tugas dan wewenang Kejaksaan di bidang pembinaan; Perpres 29/2016 Pasal 35: Jambin terdiri atas Sekretariat Jaksa Agung Muda dan paling banyak 6 Biro). Di sinilah kebijakan kepegawaian, perencanaan, dan keuangan Kejaksaan diputuskan.</td></tr>
+    <tr><td><strong>Kejati</strong></td><td><strong>Asbin</strong> — Asisten Bidang Pembinaan, tercantum dalam struktur Kejaksaan Tinggi (Perban 3/2024 Pasal 791). Penerima usulan berjenjang dari Kejari dan pemberi arahan: usul kenaikan pangkat, usul mutasi, dan penyusunan anggaran satker daerah.</td></tr>
+    <tr><td><strong>Kejari</strong></td><td><strong>Subbag Pembinaan</strong> — Subbagian Pembinaan tercantum dalam struktur Kejaksaan Negeri Tipe B (Perban 3/2024 Pasal 986). Inilah Pembinaan yang paling dekat dengan pekerjaanmu sehari-hari: absensi, SKP, usul kenaikan pangkat, penyusunan DIPA satker, pengadaan sarana, dan penatausahaan BMN.</td></tr>
+  </table>
+  <div class="callout warn"><b class="t">Catatan kejujuran soal Perban 3/2024</b>Nomor Pasal 8 (Jambin), Pasal 791 (Asbin), dan Pasal 986 (Subbag Pembinaan) terkonfirmasi lewat Pasal.id — tetapi rincian tugas dan fungsi Subbagian Pembinaan di Kejari <strong>belum terverifikasi nomor pasalnya</strong> dan karena itu tidak dikutip di sini. Fungsinya dijelaskan dari lingkup Pasal 8 ayat (2). Sebelum mengutip rincian fungsi kata-per-kata untuk keperluan resmi, <strong>verifikasi ke teks Perja konsolidasi / peraturan.go.id</strong>.</div>
+
+  <h3>Pembeda paling mendasar: Pembinaan vs bidang teknis</h3>
+  <div class="grid2">
+    <div class="mini-card"><h4>Pembinaan (supporting)</h4><p>Mengurus <strong>manusia, uang, dan barang</strong> agar Kejaksaan bisa bekerja: kepegawaian, perencanaan, keuangan, perlengkapan, organisasi, dan teknologi informasi. Ukurannya: tertib administrasi, tepat waktu, dan bisa dipertanggungjawabkan.</p></div>
+    <div class="mini-card"><h4>Bidang teknis (Pidum · Pidsus · Datun · Intel)</h4><p>Mengerjakan <strong>substansi penegakan hukum</strong>: menuntut, menyidik, membela negara, dan mendeteksi dini. Ukurannya: perkara selesai, putusan berkekuatan hukum tetap, dan aset negara terselamatkan.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="mini-card"><h4>Yang menghubungkan keduanya</h4><p>Setiap langkah bidang teknis <strong>bergantung pada Pembinaan</strong>: jaksa yang ditunjuk menuntut harus sudah diangkat dan ditempatkan lewat jalur kepegawaian; sidang dan penyidikan dibiayai dari DIPA yang disusun Pembinaan; barang bukti dan aset dikelola lewat penatausahaan BMN. Pembinaan yang macet membuat perkara macet — tanpa pernah menyentuh berkasnya.</p></div>
+    <div class="mini-card"><h4>Yang tidak boleh tertukar</h4><p>Subbag Pembinaan <strong>bukan</strong> atasan teknis jaksa dan <strong>bukan</strong> penentu substansi perkara. Ia tidak boleh memerintahkan jaksa menuntut atau tidak menuntut — wewenangnya administrasi: memastikan orang, uang, dan barangnya tersedia dan tertib.</p></div>
+  </div>
+
+  <h3>Alur kerja Pembinaan 5 tahap — klik tiap tahap</h3>
+  <div class="flow" id="flow1" role="tablist" aria-label="Alur kerja pembinaan">
+    <button data-flow="0" class="active"><span class="ic">📋</span>Perencanaan</button>
+    <button data-flow="1"><span class="ic">💰</span>Penganggaran</button>
+    <button data-flow="2"><span class="ic">⚙️</span>Pelaksanaan Dukungan</button>
+    <button data-flow="3"><span class="ic">🗄️</span>Penatausahaan</button>
+    <button data-flow="4"><span class="ic">📊</span>Pengawasan &amp; Evaluasi</button>
+  </div>
+  <div class="flow-detail" id="flowDetail"></div>
+  <p style="font-size:.9rem;color:var(--muted)">Catatan: lima tahap ini adalah alur kerja baku Pembinaan di satker sebagaimana dipraktikkan — dari Renja sampai laporan berjenjang. Nomor pasal yang mengaturnya tersebar di beberapa peraturan (Perban 3/2024, UU 17/2003, PP 27/2014) dan dirinci di modul-modul berikutnya.</p>
+
+  <div class="callout note"><b class="t">Posisimu di alur ini</b>Sebagai Penelaah di Kejari, kamu berada di dua sisi sekaligus: kamu <strong>pengguna</strong> layanan Pembinaan (absensimu dicatat, SKP-mu dinilai, pangkatmu diusulkan) dan kamu <strong>bagian dari</strong> alur itu (usul kebutuhan seksi, laporan kegiatan, dan pertanggungjawaban belanja seksi melewati Subbag Pembinaan). Memahami alur ini membuatmu tahu ke mana harus menanyakan sesuatu — dan kapan sesuatu memang belum bisa dijawab karena masih menunggu jenjang di atas.</div>
+
+  <div class="quiz" data-quiz="m1">
+    <h4>Kuis Modul 1 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. Perban 3/2024 Pasal 8 ayat (2): lingkup pembinaan meliputi perencanaan, pembangunan prasarana dan sarana, organisasi dan ketatalaksanaan, kepegawaian, keuangan, pengelolaan kekayaan milik negara, pertimbangan hukum, penyusunan peraturan, kerja sama, dan pelayanan.">
+      <p class="qq">1. Peraturan dan pasal apa yang memuat lingkup bidang Pembinaan Kejaksaan?</p>
+      <div class="opts"><button>UU 16/2004 Pasal 30 ayat (1)</button><button>Perban 3/2024 Pasal 8 ayat (2)</button><button>UU 20/2023 Pasal 27</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Perban 3/2024 Pasal 986: Kejari Tipe B terdiri atas Kajari, Subbagian Pembinaan, Seksi Intelijen, dan seksi-seksi lainnya. Di Kejari tidak ada 'Kabag Pembinaan' — itu struktur Kejagung (Biro di bawah Jambin).">
+      <p class="qq">2. Apa nama unit Pembinaan di tingkat Kejaksaan Negeri?</p>
+      <div class="opts"><button>Subbagian Pembinaan (Perban 3/2024 Pasal 986)</button><button>Bagian Pembinaan</button><button>Biro Pembinaan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. Pembinaan adalah bidang pendukung: manusia, uang, dan barang. Ia tidak memerintahkan jaksa menuntut atau tidak menuntut — itu wewenang teknis penuntutan. Subbag Pembinaan memastikan orang, uang, dan barangnya tersedia dan tertib.">
+      <p class="qq">3. Mana yang BUKAN wewenang Subbag Pembinaan di Kejari?</p>
+      <div class="opts"><button>Mencatat absensi dan menyusun usul kenaikan pangkat</button><button>Menyusun DIPA satker dan menatausahakan BMN</button><button>Memerintahkan jaksa untuk menuntut atau tidak menuntut suatu perkara</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Asbin (Asisten Bidang Pembinaan) adalah Pembinaan di tingkat Kejati — penerima usulan berjenjang dari Kejari (usul kenaikan pangkat, mutasi, anggaran) dan pemberi arahan ke bawah.">
+      <p class="qq">4. Usul kenaikan pangkat jaksa di Kejari diteruskan ke mana dulu?</p>
+      <div class="opts"><button>Langsung ke Jaksa Agung</button><button>Berjenjang ke Kejati (Asisten Bidang Pembinaan), lalu ke Kejagung (Jambin)</button><button>Ke Seksi Intelijen Kejari</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul2" style="--mc:var(--m2)" data-module="m2">
+  <p class="kicker">Modul 2</p>
+  <h2>Kepegawaian &amp; SDM</h2>
+  <p class="sub">Ini modul yang paling dekat dengan dirimu sendiri: kamu PNS, jaksa, dan pegawai Kejaksaan sekaligus. Tiga payung hukum menaungimu — UU 20/2023 tentang ASN, PP 11/2017 jo. PP 17/2020 tentang Manajemen PNS, dan PP 94/2021 tentang Disiplin PNS — ditambah aturan karier khusus jaksa.</p>
+
+  <h3>Payung pertama: UU 20/2023 tentang ASN — siapa kamu di mata hukum</h3>
+  <p><strong>Pasal 1</strong> (terverifikasi) memberi definisi yang wajib dihafal: <strong>ASN</strong> adalah profesi bagi PNS dan PPPK yang bekerja pada instansi pemerintah; <strong>PNS</strong> adalah WNI yang diangkat sebagai Pegawai ASN secara tetap oleh Pejabat Pembina Kepegawaian; <strong>PPPK</strong> diangkat berdasarkan perjanjian kerja untuk jangka waktu tertentu; <strong>Manajemen ASN</strong> adalah serangkaian proses pengelolaan ASN untuk mewujudkan ASN yang profesional, bebas dari intervensi politik, dan bersih dari KKN. <strong>Pasal 2</strong> menetapkan asasnya — antara lain kepastian hukum, profesionalitas, netralitas, dan akuntabilitas.</p>
+  <ul>
+    <li><strong>Hakmu — Pasal 21:</strong> penghargaan dan pengakuan berupa materiel dan/atau nonmateriel, yang komponennya meliputi penghasilan (gaji), penghargaan motivasi, tunjangan dan fasilitas, jaminan sosial (kesehatan, kecelakaan kerja, kematian, pensiun, hari tua), lingkungan kerja, pengembangan diri (talenta &amp; karier, kompetensi), dan bantuan hukum.</li>
+    <li><strong>Kewajibanmu — Pasal 24:</strong> setia dan taat pada Pancasila, UUD 1945, NKRI, dan pemerintahan yang sah; menaati peraturan perundang-undangan; melaksanakan nilai dasar ASN dan kode etik &amp; kode perilaku ASN; menjaga netralitas; dan <strong>bersedia ditempatkan di seluruh wilayah NKRI</strong> dan perwakilan RI di luar negeri. Ayat (2): yang tidak menaati kewajiban dikenakan pelanggaran disiplin dan dijatuhi hukuman disiplin.</li>
+    <li><strong>Jabatan ASN — BAB V (Pasal 13–20):</strong> jabatan manajerial dan nonmanajerial. Jaksa adalah jabatan fungsional — jabatan nonmanajerial yang mengutamakan kompetensi teknis sesuai bidangnya.</li>
+    <li><strong>Manajemen ASN — BAB VIII (Pasal 27–56):</strong> seluruh siklus pengelolaan ASN, dari perencanaan kebutuhan sampai pemberhentian.</li>
+    <li><strong>Kode etik &amp; kode perilaku — BAB II (Pasal 2–4):</strong> nilai dasar ASN dan kode etik/kode perilaku diatur di bab ini; rinciannya di peraturan pelaksana.</li>
+  </ul>
+  <div class="callout note"><b class="t">Temuan vs akibat hukum — contoh konkret</b>Temuan: “Jaksa A tidak masuk kerja 5 hari tanpa keterangan.” Akibat hukumnya: temuan itu <strong>belum</strong> berarti hukuman disiplin tertentu — ia melanggar kewajiban masuk kerja dan menaati jam kerja (PP 94/2021 Pasal 4 huruf f), dan jenis hukumannya ditentukan oleh PP 94/2021 Pasal 8–11 berdasarkan tingkat pelanggarannya. Menulis “Jaksa A melanggar disiplin berat” sebelum pemeriksaan adalah kesimpulan yang mendahului proses.</div>
+
+  <h3>Payung kedua: PP 11/2017 jo. PP 17/2020 — Manajemen PNS, siklus hidup pegawai</h3>
+  <table>
+    <tr><th style="width:26%">Tahapan</th><th>Isi (berdasar struktur PP 11/2017, terverifikasi)</th></tr>
+    <tr><td><strong>Pengadaan (Pasal 15–45)</strong></td><td>Penyusunan dan penetapan kebutuhan, pengadaan CPNS, pengangkatan menjadi PNS. Di Kejaksaan, pengadaan jaksa melalui seleksi CPNS formasi jaksa — lalu pendidikan dan pelatihan pembentukan jaksa.</td></tr>
+    <tr><td><strong>Pangkat &amp; jabatan (Pasal 46–161)</strong></td><td>Kenaikan pangkat, pengangkatan dalam jabatan, dan pemindahan. Usul kenaikan pangkatmu disusun Subbag Pembinaan, diteruskan berjenjang ke Kejati dan Kejagung.</td></tr>
+    <tr><td><strong>Pengembangan karier &amp; kompetensi (Pasal 162–227)</strong></td><td>Pengembangan karier, pengembangan kompetensi (diklat), dan sistem informasi manajemen karier. Diklat jaksa — termasuk yang kamu jalani — berada di jalur ini.</td></tr>
+    <tr><td><strong>Penilaian kinerja &amp; disiplin (Pasal 228–230)</strong></td><td>Penilaian kinerja dan disiplin PNS. Penilaian kinerja diatur lebih lanjut dalam <strong>PP 30/2019 tentang Penilaian Kinerja PNS</strong> — itulah dasar SKP yang kamu susun setiap tahun.</td></tr>
+  </table>
+  <p><strong>PP 17/2020</strong> adalah perubahan atas PP 11/2017 — jadi bila mengutip, tulis “PP 11/2017 jo. PP 17/2020”.</p>
+
+  <h3>SKP — Sasaran Kinerja Pegawai, dokumen tahunan yang menentukan banyak hal</h3>
+  <p>SKP adalah dokumen perencanaan dan penilaian kinerja PNS (PP 30/2019). Praktiknya di Kejari: di awal tahun kamu menyusun SKP bersama atasan langsung — target kinerja yang terukur (mis. jumlah telaahan, berkas yang diteliti, kegiatan seksi). Sepanjang tahun, realisasinya dicatat; di akhir tahun, atasan menilai. Nilai SKP itu dipakai untuk banyak hal: <strong>kenaikan pangkat, pengembangan karier, dan pemberian tunjangan kinerja</strong>. SKP yang asal-asalan di awal tahun akan menyulitkanmu di akhir tahun — dan SKP yang tidak dinilai tepat waktu bisa menahan usul kenaikan pangkatmu.</p>
+
+  <h3>Payung ketiga: PP 94/2021 — Disiplin PNS, tiga tingkat hukuman</h3>
+  <p><strong>Pasal 3</strong> memuat kewajiban PNS (setia dan taat, menjaga persatuan, melaksanakan kebijakan, menaati peraturan, melaksanakan tugas dengan pengabdian/kejujuran/kesadaran/tanggung jawab, integritas dan keteladanan, menyimpan rahasia jabatan); <strong>Pasal 4 huruf f</strong> menambahkan kewajiban <strong>masuk kerja dan menaati ketentuan jam kerja</strong>; <strong>Pasal 5</strong> memuat larangan (antara lain menyalahgunakan wewenang dan menjadi perantara untuk keuntungan pribadi). <strong>Pasal 7</strong>: PNS yang tidak menaati Pasal 3–5 dijatuhi Hukuman Disiplin.</p>
+  <table>
+    <tr><th style="width:20%">Tingkat (Pasal 8 ayat (1))</th><th>Jenis hukuman (Pasal 8 ayat (2)–(4))</th></tr>
+    <tr><td><strong>Ringan</strong></td><td>Teguran lisan; teguran tertulis; atau pernyataan tidak puas secara tertulis.</td></tr>
+    <tr><td><strong>Sedang</strong></td><td>Pemotongan tunjangan kinerja sebesar 25% selama 6 bulan; 25% selama 9 bulan; atau 25% selama 12 bulan.</td></tr>
+    <tr><td><strong>Berat</strong></td><td>Penurunan jabatan setingkat lebih rendah selama 12 bulan; pembebasan dari jabatannya menjadi jabatan pelaksana selama 12 bulan; atau pemberhentian dengan hormat tidak atas permintaan sendiri sebagai PNS.</td></tr>
+  </table>
+  <p><strong>Pasal 9 ayat (1)</strong>: hukuman disiplin ringan dijatuhkan bagi pelanggaran terhadap kewajiban Pasal 3 (mis. melaksanakan kebijakan, menaati peraturan, melaksanakan tugas, integritas) apabila pelanggaran berdampak negatif pada <strong>Unit Kerja</strong>. <strong>Pasal 11</strong>: hukuman disiplin berat untuk pelanggaran yang berdampak negatif pada <strong>negara</strong>. Prinsipnya: makin luas dampaknya, makin berat hukumannya — dan penjatuhannya harus melalui pemeriksaan, bukan sekadar perintah lisan atasan.</p>
+  <div class="callout warn"><b class="t">Yang sering salah kaprah</b>“Tidak masuk kerja” bukan otomatis hukuman berat, dan “teguran lisan” bukan berarti tidak tercatat. Hukuman ringan pun dicatat dalam berkas kepegawaian dan dapat memengaruhi penilaian kinerja. Sebaliknya, pemotongan tunjangan kinerja 25% selama 12 bulan adalah hukuman <strong>sedang</strong> — bukan ringan — dan hanya bisa dijatuhkan oleh pejabat yang berwenang dengan prosedur pemeriksaan yang benar.</div>
+
+  <h3>Kode etik &amp; kode perilaku jaksa — lapisan di atas disiplin PNS</h3>
+  <p>Sebagai jaksa, kamu tunduk pada dua lapisan sekaligus: disiplin PNS (PP 94/2021) <strong>dan</strong> Kode Perilaku Jaksa — <strong>Peraturan Jaksa Agung Nomor PER-014/A/JA/11/2012 tentang Kode Perilaku Jaksa</strong> (terverifikasi berlaku). Pelanggaran kode perilaku diperiksa oleh <strong>Majelis Kode Perilaku</strong> (Pasal 16 Perja tersebut) — dengan pejabat pembentuk majelis yang berbeda menurut jabatan jaksa yang diperiksa. Artinya: perbuatan yang sama bisa dinilai dua kali — sebagai pelanggaran disiplin PNS dan sebagai pelanggaran kode perilaku jaksa — dengan mekanisme yang berbeda.</p>
+
+  <h3>Jenjang karier jaksa — dari Ajun Jaksa sampai Jaksa Utama</h3>
+  <p>Jenjang Jabatan Fungsional Jaksa diatur dalam <strong>PERBAN 11/2019 tentang Manajemen Karier Pegawai Kejaksaan, Pasal 17</strong> (terverifikasi). Urutannya dari bawah:</p>
+  <table>
+    <tr><th style="width:28%">Jenjang JF Jaksa</th><th>Pangkat / golongan</th></tr>
+    <tr><td><strong>Jaksa Ahli Pertama</strong></td><td>Ajun Jaksa Madya (III/a); Ajun Jaksa (III/b)</td></tr>
+    <tr><td><strong>Jaksa Ahli Muda</strong></td><td>Jaksa Pratama (III/c); Jaksa Muda (III/d)</td></tr>
+    <tr><td><strong>Jaksa Ahli Madya</strong></td><td>Jaksa Madya (IV/a); Jaksa Utama Pratama (IV/b); Jaksa Utama Muda (IV/c)</td></tr>
+    <tr><td><strong>Jaksa Ahli Utama</strong></td><td>Jaksa Utama Madya (IV/d); Jaksa Utama (IV/e)</td></tr>
+  </table>
+  <p>Catatan: penyebutan “jaksa pratama → jaksa madya” yang beredar di percakapan sehari-hari adalah <strong>pangkat</strong>, bukan jenjang — Jaksa Pratama (III/c) dan Jaksa Madya (IV/a) adalah dua pangkat dalam dua jenjang yang berbeda (Ahli Muda dan Ahli Madya). Kenaikan pangkat mengikuti ketentuan Manajemen PNS dan angka kredit jabatan fungsional — dan usulnya bergerak lewat jalur Pembinaan.</p>
+
+  <h3>Yang kamu temui sehari-hari — dan jalurnya</h3>
+  <table>
+    <tr><th style="width:26%">Kebutuhan sehari-hari</th><th>Jalur Pembinaan</th></tr>
+    <tr><td><strong>Absensi (masuk/pulang)</strong></td><td>Dicatat Subbag Pembinaan (rekap kehadiran). Ketidakhadiran tanpa keterangan melanggar PP 94/2021 Pasal 4 huruf f — dan rekap inilah bukti awal bila ada pemeriksaan disiplin.</td></tr>
+    <tr><td><strong>SKP &amp; penilaian kinerja</strong></td><td>Disusun bersama atasan langsung (PP 30/2019); dinilai akhir tahun; dipakai untuk kenaikan pangkat dan tunjangan kinerja.</td></tr>
+    <tr><td><strong>Usul kenaikan pangkat</strong></td><td>Subbag Pembinaan menyusun berkas usul (SKP, angka kredit, syarat administrasi) → Kejati (Asbin) → Kejagung (Jambin).</td></tr>
+    <tr><td><strong>Mutasi / pindah tugas</strong></td><td>Usulan berjenjang; keputusan di tangan Pejabat Pembina Kepegawaian — Kajari tidak memindahkan jaksa sendiri. Ingat kewajiban Pasal 24 UU 20/2023: bersedia ditempatkan di seluruh wilayah NKRI.</td></tr>
+    <tr><td><strong>Cuti</strong></td><td>Diajukan lewat atasan langsung dan dicatat Pembinaan; hak cuti diatur dalam PP 11/2017 (BAB XII, Pasal 309–341).</td></tr>
+  </table>
+
+  <h3>Flashcard kepegawaian — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashSDM"></div>
+
+  <div class="quiz" data-quiz="m2">
+    <h4>Kuis Modul 2 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. UU 20/2023 Pasal 21: hak ASN meliputi penghasilan, penghargaan motivasi, tunjangan dan fasilitas, jaminan sosial, lingkungan kerja, pengembangan diri, dan bantuan hukum. Bersedia ditempatkan di seluruh wilayah NKRI adalah kewajiban (Pasal 24), bukan hak.">
+      <p class="qq">1. Menurut UU 20/2023 Pasal 21, mana yang termasuk komponen hak Pegawai ASN?</p>
+      <div class="opts"><button>Bersedia ditempatkan di seluruh wilayah NKRI</button><button>Penghasilan, tunjangan dan fasilitas, jaminan sosial, pengembangan diri, dan bantuan hukum</button><button>Menetapkan sendiri tempat penugasan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. UU 20/2023 Pasal 24 ayat (1): Pegawai ASN wajib setia dan taat pada Pancasila, UUD 1945, NKRI, dan pemerintahan yang sah; menaati peraturan; melaksanakan nilai dasar dan kode etik; menjaga netralitas; dan bersedia ditempatkan di seluruh wilayah NKRI.">
+      <p class="qq">2. Apa isi kewajiban Pegawai ASN menurut UU 20/2023 Pasal 24?</p>
+      <div class="opts"><button>Setia dan taat pada Pancasila dan UUD 1945, menaati peraturan, menjaga netralitas, bersedia ditempatkan di seluruh wilayah NKRI</button><button>Menolak penugasan di luar daerah asal</button><button>Menentukan sendiri tunjangan kinerja</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. PP 94/2021 Pasal 8: hukuman sedang adalah pemotongan tunjangan kinerja 25% selama 6, 9, atau 12 bulan. Teguran tertulis adalah hukuman ringan; penurunan jabatan 12 bulan adalah hukuman berat.">
+      <p class="qq">3. Pemotongan tunjangan kinerja 25% selama 9 bulan termasuk hukuman disiplin tingkat apa (PP 94/2021 Pasal 8)?</p>
+      <div class="opts"><button>Ringan</button><button>Berat</button><button>Sedang</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. PERBAN 11/2019 Pasal 17: Jaksa Ahli Muda terdiri atas Jaksa Pratama (III/c) dan Jaksa Muda (III/d); Jaksa Ahli Madya terdiri atas Jaksa Madya (IV/a), Jaksa Utama Pratama (IV/b), dan Jaksa Utama Muda (IV/c). Jadi Jaksa Pratama dan Jaksa Madya adalah pangkat dalam jenjang yang berbeda.">
+      <p class="qq">4. Menurut PERBAN 11/2019 Pasal 17, Jaksa Pratama (III/c) berada di jenjang apa?</p>
+      <div class="opts"><button>Jaksa Ahli Pertama</button><button>Jaksa Ahli Muda</button><button>Jaksa Ahli Madya</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Pelanggaran kode perilaku jaksa diperiksa Majelis Kode Perilaku (Perja PER-014/A/JA/11/2012 Pasal 16). Disiplin PNS (PP 94/2021) dan kode perilaku jaksa adalah dua mekanisme yang berbeda — perbuatan yang sama bisa dinilai dua kali.">
+      <p class="qq">5. Seorang jaksa diduga melanggar Kode Perilaku Jaksa. Siapa yang memeriksanya?</p>
+      <div class="opts"><button>Majelis Kode Perilaku (Perja PER-014/A/JA/11/2012 Pasal 16)</button><button>Atasan langsungnya saja, tanpa majelis</button><button>Pengadilan Negeri setempat</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul3" style="--mc:var(--m3)" data-module="m3">
+  <p class="kicker">Modul 3</p>
+  <h2>Perencanaan, Keuangan &amp; Anggaran</h2>
+  <p class="sub">Uang negara tidak bergerak sendiri: ia direncanakan, dianggarkan, dicairkan, lalu dipertanggungjawabkan — dan setiap langkahnya ada pasal yang mengaturnya. Di Kejari, seluruh siklus itu disusun dan dikawal Subbag Pembinaan, dan kamu merasakannya lewat DIPA satker.</p>
+
+  <h3>Dasar hukumnya — UU 17/2003 tentang Keuangan Negara</h3>
+  <ul>
+    <li><strong>Pasal 6</strong> (terverifikasi): Presiden selaku Kepala Pemerintahan memegang kekuasaan pengelolaan keuangan negara; kekuasaan itu dikuasakan kepada Menteri Keuangan selaku pengelola fiskal, dan kepada <strong>menteri/pimpinan lembaga selaku Pengguna Anggaran/Pengguna Barang</strong> kementerian/lembaga yang dipimpinnya. Jaksa Agung adalah Pengguna Anggaran Kejaksaan — dan di bawahnya, Kajari adalah Kuasa Pengguna Anggaran di satkernya.</li>
+    <li><strong>BAB III (Pasal 11–15)</strong> — penyusunan dan penetapan APBN.</li>
+    <li><strong>BAB VII (Pasal 26–29)</strong> — pelaksanaan APBN dan APBD.</li>
+    <li><strong>BAB VIII (Pasal 30–33)</strong> — pertanggungjawaban pelaksanaan APBN dan APBD. <strong>Pasal 30</strong>: Presiden menyampaikan rancangan undang-undang tentang pertanggungjawaban pelaksanaan APBN kepada DPR berupa laporan keuangan yang telah diperiksa BPK, selambat-lambatnya 6 bulan setelah tahun anggaran berakhir.</li>
+  </ul>
+
+  <h3>Siklus anggaran satker — dari Renja sampai pertanggungjawaban</h3>
+  <table>
+    <tr><th style="width:22%">Tahap</th><th>Apa yang terjadi di Kejari</th></tr>
+    <tr><td><strong>1. Perencanaan (Renja)</strong></td><td>Subbag Pembinaan menghimpun kebutuhan semua seksi: berapa perkara yang diperkirakan, berapa sidang, sarana apa yang kurang, pegawai apa yang dibutuhkan. Hasilnya: Rencana Kerja (Renja) satker — dasar penyusunan anggaran.</td></tr>
+    <tr><td><strong>2. Penganggaran (RKA-K/L)</strong></td><td>Kebutuhan diterjemahkan ke dalam angka: Rencana Kerja dan Anggaran Kementerian/Lembaga (RKA-K/L) — rincian belanja per program, kegiatan, dan output. Di sinilah usulan laptop baru atau rehab ruangan berubah menjadi angka rupiah yang bisa diperdebatkan.</td></tr>
+    <tr><td><strong>3. Penetapan (DIPA)</strong></td><td>Setelah APBN disahkan, satker menerima <strong>DIPA</strong> — Daftar Isian Pelaksanaan Anggaran: dokumen yang menjadi dasar pelaksanaan belanja. DIPA adalah “dompet” satker untuk satu tahun anggaran: belanja di luar DIPA tidak bisa dibayar.</td></tr>
+    <tr><td><strong>4. Pelaksanaan</strong></td><td>Belanja dilaksanakan sesuai DIPA: pengajuan SPM (Surat Perintah Membayar) ke KPPN, pencairan dana (SP2D), dan pembayaran kepada pihak ketiga. Setiap rupiah harus punya dasar: DIPA, kontrak/SPK, dan bukti penerimaan barang/jasa.</td></tr>
+    <tr><td><strong>5. Pertanggungjawaban</strong></td><td>Satker menyusun laporan keuangan (laporan realisasi anggaran, neraca, catatan atas laporan keuangan) yang dikonsolidasikan berjenjang sampai ke laporan keuangan Kejaksaan — yang pada akhirnya menjadi bagian dari pertanggungjawaban APBN menurut UU 17/2003 Pasal 30.</td></tr>
+  </table>
+  <div class="callout note"><b class="t">Temuan vs akibat hukum — contoh konkret</b>Temuan: “Belanja ATK satker sudah habis di bulan September, padahal tahun anggaran baru berakhir Desember.” Akibat hukumnya: temuan itu <strong>belum</strong> berarti ada pelanggaran — ia berarti perencanaan atau pengendalian belanja yang lemah. Pelanggaran baru terjadi bila belanja dilakukan <strong>di luar DIPA</strong> atau <strong>tanpa dasar</strong> — dan itu yang bisa berujung pada temuan audit dan tuntutan ganti rugi.</div>
+
+  <h3>Pengadaan barang/jasa — Perpres 16/2018 jo. Perpres 12/2021</h3>
+  <p>Pengadaan barang/jasa pemerintah diatur dalam <strong>Perpres 16/2018 tentang Pengadaan Barang/Jasa Pemerintah</strong>, yang diubah dengan <strong>Perpres 12/2021</strong> (terverifikasi sebagai peraturan perubahannya). Prinsipnya: pengadaan harus efisien, efektif, transparan, terbuka, bersaing, adil, dan akuntabel — dan dilaksanakan melalui mekanisme yang sesuai nilai dan jenis pengadaannya (antara lain pengadaan langsung untuk nilai kecil dan tender/seleksi untuk nilai yang lebih besar, serta pembelian melalui katalog elektronik). Di Kejari, pengadaan laptop, kendaraan dinas, atau rehab gedung tidak bisa dilakukan dengan “beli dulu, urus belakangan” — ia harus masuk perencanaan (RKA-K/L), tersedia anggarannya (DIPA), lalu dilaksanakan lewat mekanisme pengadaan yang berlaku. Nomor pasal metode pengadaan tidak dikutip di sini karena belum terverifikasi — cek teks Perpres 16/2018 jo. Perpres 12/2021 sebelum mengutip nomor pasal untuk keperluan resmi.</p>
+  <div class="callout warn"><b class="t">Tiga kesalahan yang paling sering terjadi di satker</b>(1) Belanja tanpa DIPA — tidak bisa dibayar, dan bila dipaksakan menjadi temuan audit. (2) Menggeser anggaran antar jenis belanja tanpa persetujuan yang berwenang — DIPA mengikat per jenis belanja, bukan sekadar total. (3) Pengadaan tanpa mekanisme — membeli langsung barang yang seharusnya lewat tender atau katalog elektronik. Ketiganya berawal dari ketidaktahuan, bukan niat jahat — dan ketiganya dicegah oleh Pembinaan yang tertib.</div>
+
+  <h3>Peran Pembinaan dalam penyusunan anggaran Kejari</h3>
+  <ul>
+    <li><strong>Menghimpun kebutuhan seksi:</strong> seksi-seksi teknis butuh biaya sidang dan eksekusi, biaya penyidikan, biaya perkara perdata, dan biaya kegiatan — semuanya masuk ke Subbag Pembinaan untuk disusun menjadi Renja dan RKA-K/L satker.</li>
+    <li><strong>Menjadi bendahara dan pengelola keuangan satker:</strong> Subbag Pembinaan mengelola kas, mengajukan SPM, mencatat realisasi, dan menyusun laporan keuangan satker.</li>
+    <li><strong>Menjadi penghubung dengan KPPN dan Kejati:</strong> pencairan dana, revisi DIPA, dan pelaporan berjalan lewat Pembinaan — bukan lewat seksi teknis langsung ke KPPN.</li>
+    <li><strong>Menjaga agar belanja seksi tidak melampaui pagu:</strong> monev realisasi anggaran berkala — bila realisasi sudah 90% di bulan September, Pembinaan yang pertama kali tahu dan yang harus mengingatkan.</li>
+  </ul>
+
+  <h3>Alur anggaran 5 tahap — klik tahapnya</h3>
+  <div class="flow" id="flowAdm">
+    <button data-adm="0" class="active">Renja &amp; RKA-K/L</button>
+    <button data-adm="1">Penetapan DIPA</button>
+    <button data-adm="2">Pelaksanaan Belanja</button>
+    <button data-adm="3">Pengadaan Barang/Jasa</button>
+    <button data-adm="4">Pertanggungjawaban</button>
+  </div>
+  <div class="flow-detail" id="admDetail"></div>
+
+  <h3>Flashcard anggaran — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashAnggaran"></div>
+
+  <div class="quiz" data-quiz="m3">
+    <h4>Kuis Modul 3 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. UU 17/2003 Pasal 6 ayat (2) huruf b: kekuasaan pengelolaan keuangan negara dikuasakan kepada menteri/pimpinan lembaga selaku Pengguna Anggaran/Pengguna Barang kementerian/lembaga yang dipimpinnya. Di Kejaksaan, Jaksa Agung adalah Pengguna Anggaran; Kajari adalah Kuasa Pengguna Anggaran di satkernya.">
+      <p class="qq">1. Siapa Pengguna Anggaran di lingkungan Kejaksaan menurut UU 17/2003 Pasal 6?</p>
+      <div class="opts"><button>Menteri Keuangan</button><button>Pimpinan lembaga (Jaksa Agung) selaku Pengguna Anggaran; Kajari sebagai Kuasa Pengguna Anggaran di satkernya</button><button>Kepala KPPN setempat</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Urutannya: Renja (perencanaan) → RKA-K/L (penganggaran) → DIPA (penetapan) → pelaksanaan → pertanggungjawaban. DIPA adalah dasar pelaksanaan belanja — belanja di luar DIPA tidak bisa dibayar.">
+      <p class="qq">2. Urutan siklus anggaran satker yang benar adalah…</p>
+      <div class="opts"><button>Renja → RKA-K/L → DIPA → pelaksanaan → pertanggungjawaban</button><button>DIPA → Renja → RKA-K/L → pertanggungjawaban</button><button>Pelaksanaan → DIPA → Renja → RKA-K/L</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. UU 17/2003 Pasal 30: Presiden menyampaikan rancangan undang-undang tentang pertanggungjawaban pelaksanaan APBN kepada DPR berupa laporan keuangan yang telah diperiksa BPK, selambat-lambatnya 6 bulan setelah tahun anggaran berakhir.">
+      <p class="qq">3. Menurut UU 17/2003 Pasal 30, pertanggungjawaban pelaksanaan APBN disampaikan kepada DPR berupa apa?</p>
+      <div class="opts"><button>Laporan realisasi belanja satker saja</button><button>Rekap absensi pegawai</button><button>Laporan keuangan yang telah diperiksa BPK, selambat-lambatnya 6 bulan setelah tahun anggaran berakhir</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Perpres 16/2018 tentang Pengadaan Barang/Jasa Pemerintah diubah dengan Perpres 12/2021. Pengadaan harus efisien, efektif, transparan, terbuka, bersaing, adil, dan akuntabel — dan dilaksanakan lewat mekanisme yang sesuai nilai dan jenis pengadaannya.">
+      <p class="qq">4. Peraturan apa yang mengatur pengadaan barang/jasa pemerintah?</p>
+      <div class="opts"><button>PP 27/2014 tentang BMN</button><button>Perpres 16/2018 jo. Perpres 12/2021 tentang Pengadaan Barang/Jasa Pemerintah</button><button>UU 20/2023 tentang ASN</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul4" style="--mc:var(--m4)" data-module="m4">
+  <p class="kicker">Modul 4</p>
+  <h2>Perlengkapan, BMN &amp; Organisasi</h2>
+  <p class="sub">Gedung, kendaraan, laptop, meja, dan arsip — semuanya Barang Milik Negara. BMN bukan “barang kantor yang bisa dipakai seenaknya”: ia punya siklus hidup yang diatur undang-undang, dari perencanaan kebutuhan sampai penghapusan, dan setiap tahapnya dicatat.</p>
+
+  <h3>Dasar hukumnya — PP 27/2014 jo. PP 28/2020 tentang Pengelolaan BMN/Daerah</h3>
+  <p><strong>PP 28/2020</strong> adalah perubahan atas PP 27/2014 — jadi kutipannya “PP 27/2014 jo. PP 28/2020”. Struktur pengaturannya (terverifikasi dari outline):</p>
+  <table>
+    <tr><th style="width:30%">Tahapan</th><th>Isi</th></tr>
+    <tr><td><strong>Perencanaan kebutuhan &amp; penganggaran (Pasal 9–11)</strong></td><td>Kebutuhan barang direncanakan dan dianggarkan — disinilah usulan laptop baru atau kendaraan dinas bermula. Tanpa perencanaan, pengadaan tidak punya dasar.</td></tr>
+    <tr><td><strong>Pengadaan (Pasal 12–13)</strong></td><td>Barang diperoleh melalui pengadaan sesuai peraturan pengadaan barang/jasa (Perpres 16/2018 jo. Perpres 12/2021).</td></tr>
+    <tr><td><strong>Penggunaan (Pasal 14–25)</strong></td><td>Barang digunakan sesuai peruntukannya — termasuk penetapan status penggunaan barang oleh Pengguna Barang.</td></tr>
+    <tr><td><strong>Pengamanan &amp; pemeliharaan (Pasal 42–47)</strong></td><td>Barang diamankan (fisik, administratif, dan hukum) dan dipelihara agar tetap berfungsi. Laptop yang tidak pernah dirawat dan hilang tanpa berita acara adalah dua pelanggaran di tahap yang sama.</td></tr>
+    <tr><td><strong>Penatausahaan (Pasal 84–89)</strong></td><td>Pencatatan dan pelaporan BMN: inventarisasi, pembukuan, dan pelaporan. Inilah “buku” BMN satker — dan inilah yang diperiksa auditor.</td></tr>
+    <tr><td><strong>Ganti rugi &amp; sanksi (Pasal 99)</strong></td><td>Kerugian negara atas BMN yang hilang atau rusak karena kelalaian dapat dituntut ganti rugi — dan ada sanksinya. Ini pasal yang membuat “laptop dinas hilang” bukan urusan sepele.</td></tr>
+  </table>
+  <div class="callout note"><b class="t">Temuan vs akibat hukum — contoh konkret</b>Temuan: “Satu unit laptop dinas tidak ditemukan saat inventarisasi.” Akibat hukumnya: temuan itu <strong>belum</strong> berarti ada kerugian negara — ia berarti ada selisih penatausahaan. Kerugian negara baru terjadi bila setelah pemeriksaan terbukti laptop itu hilang karena kelalaian atau kesengajaan — dan ganti rugi dituntut menurut PP 27/2014 Pasal 99. Yang pertama dilakukan bukan menuduh, melainkan memeriksa: cek berita acara peminjaman, cek pemegang terakhir, dan cek pengamanannya.</div>
+
+  <h3>Siklus hidup BMN di Kejari — satu barang, satu riwayat</h3>
+  <ol>
+    <li><strong>Direncanakan</strong> — masuk perencanaan kebutuhan dan RKA-K/L (Modul 3).</li>
+    <li><strong>Diadakan</strong> — lewat mekanisme pengadaan barang/jasa.</li>
+    <li><strong>Diterima &amp; dicatat</strong> — berita acara serah terima, lalu dicatat dalam penatausahaan BMN satker (inventarisasi).</li>
+    <li><strong>Digunakan</strong> — diserahkan kepada pemegang/pengguna, dengan status penggunaan yang jelas.</li>
+    <li><strong>Dipelihara &amp; diamankan</strong> — perawatan berkala, pengamanan fisik dan administratif.</li>
+    <li><strong>Dihapus</strong> — bila rusak berat atau tidak lagi digunakan: pemusnahan (Pasal 77–80) atau penghapusan (Pasal 81–83) dengan persetujuan yang berwenang — <strong>bukan</strong> dibuang diam-diam.</li>
+  </ol>
+  <div class="callout warn"><b class="t">Yang paling sering bermasalah di satker</b>Barang diterima tapi tidak dicatat; barang dicatat tapi tidak tahu siapa pemegangnya; barang rusak tapi tidak pernah dihapus — sehingga inventarisasi selalu selisih. Ketiga masalah ini bukan masalah “barang”, melainkan masalah penatausahaan — dan penatausahaan adalah tugas Pembinaan.</div>
+
+  <h3>Organisasi &amp; tata laksana — struktur, SOP, dan reformasi birokrasi</h3>
+  <ul>
+    <li><strong>Struktur:</strong> organisasi Kejaksaan diatur Perban 3/2024 — di Kejari Tipe B: Kajari, Subbagian Pembinaan, Seksi Intelijen, Seksi Pidum, Seksi Pidsus, dan Seksi Datun (Pasal 986). Struktur adalah peta wewenang: siapa membawahi siapa, dan siapa bertanggung jawab atas apa.</li>
+    <li><strong>SOP (Standar Operasional Prosedur):</strong> setiap layanan dan proses di satker — dari penerimaan SPDP sampai pengadaan ATK — seharusnya punya SOP tertulis: siapa melakukan apa, dalam berapa lama, dengan output apa. SOP yang tidak ditulis sama dengan proses yang bergantung pada ingatan orang.</li>
+    <li><strong>Reformasi birokrasi:</strong> program berkelanjutan untuk membuat birokrasi lebih bersih, akuntabel, dan melayani — termasuk di Kejaksaan: penataan organisasi, penataan SDM, penguatan akuntabilitas, dan peningkatan kualitas pelayanan publik. Nomor peraturan grand design-nya tidak dikutip di sini karena belum terverifikasi — yang penting dipahami adalah arahnya: birokrasi yang bisa diukur dan dipertanggungjawabkan.</li>
+  </ul>
+
+  <h3>Teknologi informasi &amp; data — sistem internal Kejaksaan</h3>
+  <p>Pembinaan juga mengurus sisi teknologi informasi satker: perangkat, jaringan, dan sistem informasi yang dipakai sehari-hari. Dua hal yang perlu dipahami tanpa perlu menghafal nama atau kode sistemnya:</p>
+  <ul>
+    <li><strong>Sistem perkara elektronik (case management system):</strong> sistem yang mencatat perjalanan perkara — dari SPDP sampai eksekusi — agar pimpinan bisa memantau dan data bisa dipertanggungjawabkan. Data yang dimasukkan harus akurat: sistem hanya sebaik data yang dimasukkan ke dalamnya.</li>
+    <li><strong>Sistem informasi kepegawaian internal:</strong> sistem yang mencatat data pegawai, pangkat, jabatan, dan riwayat karier — yang dipakai Pembinaan untuk menyusun usul kenaikan pangkat dan mutasi. Bila datamu di sistem ini tidak diperbarui, usulmu bisa tertahan karena datanya tidak cocok.</li>
+    <li><strong>Keamanan data &amp; arsip elektronik:</strong> dokumen dan data satker adalah aset — dijaga kerahasiaannya, dicadangkan (backup), dan diarsipkan sesuai ketentuan kearsipan. Mengirim dokumen resmi lewat saluran pribadi yang tidak aman adalah pelanggaran pengamanan informasi, bukan sekadar kebiasaan buruk.</li>
+  </ul>
+  <p style="font-size:.9rem;color:var(--muted)">Catatan: nama dan kode sistem internal Kejaksaan tidak ditulis di sini dengan sengaja — sistem dan penamaannya dapat berubah, dan ruang ini tidak mengarang nama atau kode. Yang diajarkan adalah fungsinya: perkara tercatat, pegawai tercatat, dan data aman.</p>
+
+  <h3>Flashcard BMN &amp; organisasi — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashBMN"></div>
+
+  <div class="quiz" data-quiz="m4">
+    <h4>Kuis Modul 4 · Cek Pemahaman</h4>
+    <div class="q" data-answer="0" data-explain="Betul. PP 27/2014 Pasal 9–11 mengatur perencanaan kebutuhan dan penganggaran BMN — disinilah usulan barang baru bermula. Tanpa perencanaan, pengadaan tidak punya dasar.">
+      <p class="qq">1. Menurut PP 27/2014, tahap apa yang mendahului pengadaan BMN?</p>
+      <div class="opts"><button>Perencanaan kebutuhan dan penganggaran (Pasal 9–11)</button><button>Penghapusan (Pasal 81–83)</button><button>Pemusnahan (Pasal 77–80)</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. PP 27/2014 Pasal 84–89 mengatur penatausahaan BMN: pencatatan, pembukuan, dan pelaporan. Barang diterima tapi tidak dicatat adalah masalah penatausahaan — dan inilah yang diperiksa auditor.">
+      <p class="qq">2. Laptop dinas baru diterima satker tetapi belum dicatat dalam inventaris. Tahap apa yang dilanggar?</p>
+      <div class="opts"><button>Penggunaan (Pasal 14–25)</button><button>Penatausahaan (Pasal 84–89)</button><button>Pengamanan dan pemeliharaan (Pasal 42–47)</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. PP 27/2014 Pasal 99 mengatur ganti rugi dan sanksi atas kerugian negara terhadap BMN. Selisih inventarisasi belum berarti kerugian negara — kerugian baru terjadi bila pemeriksaan membuktikan barang hilang karena kelalaian atau kesengajaan.">
+      <p class="qq">3. Pasal berapa PP 27/2014 yang mengatur ganti rugi dan sanksi atas kerugian negara terhadap BMN?</p>
+      <div class="opts"><button>Pasal 9</button><button>Pasal 42</button><button>Pasal 99</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Barang yang rusak berat atau tidak lagi digunakan dihapus melalui pemusnahan (Pasal 77–80) atau penghapusan (Pasal 81–83) dengan persetujuan yang berwenang — bukan dibuang diam-diam.">
+      <p class="qq">4. Bagaimana cara yang benar menghapus BMN yang rusak berat?</p>
+      <div class="opts"><button>Melalui pemusnahan (Pasal 77–80) atau penghapusan (Pasal 81–83) dengan persetujuan yang berwenang</button><button>Dibuang diam-diam agar inventarisasi bersih</button><button>Diberikan kepada pegawai yang membutuhkan</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul5" style="--mc:var(--m5)" data-module="m5">
+  <p class="kicker">Modul 5</p>
+  <h2>Simulasi End-to-End: Satu Tahun Anggaran di Kejari Fiktif</h2>
+  <p class="sub">Kasus hipotetis — semua nama, tempat, dan angka fiktif. Awal tahun anggaran di Kejari Fiktif: Subbag Pembinaan harus menyusun perencanaan kebutuhan pegawai dan anggaran tahunan, di tengah tiga hal yang datang bersamaan — usulan mutasi seorang jaksa, dugaan pelanggaran disiplin ringan, dan pengadaan sarana. Jalani 10 langkahnya sebagai Kasubbag Pembinaan — memilah jalur kepegawaian, disiplin, dan anggaran yang benar.</p>
+
+  <div class="sim-steps" id="simDots" aria-hidden="true"></div>
+  <div class="sim-panel" id="simPanel"></div>
+  <div class="sim-nav">
+    <button class="btn ghost" id="simPrev">← Langkah sebelumnya</button>
+    <button class="btn" id="simNext">Langkah berikutnya →</button>
+  </div>
+
+  <div class="quiz" data-quiz="final">
+    <h4>Self-Check Akhir · 5 Soal</h4>
+    <div class="q" data-answer="1" data-explain="Kunci: Perban 3/2024 Pasal 8 ayat (2) — lingkup pembinaan meliputi perencanaan, pembangunan prasarana dan sarana, organisasi dan ketatalaksanaan, kepegawaian, keuangan, pengelolaan kekayaan milik negara, pertimbangan hukum, penyusunan peraturan, kerja sama, dan pelayanan.">
+      <p class="qq">1. Peraturan dan pasal apa yang memuat lingkup bidang Pembinaan Kejaksaan?</p>
+      <div class="opts"><button>UU 16/2004 Pasal 30 ayat (1)</button><button>Perban 3/2024 Pasal 8 ayat (2)</button><button>UU 17/2003 Pasal 6</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Kunci: PP 94/2021 Pasal 8 — hukuman ringan: teguran lisan, teguran tertulis, pernyataan tidak puas tertulis. Pemotongan tunjangan kinerja 25% adalah hukuman sedang; penurunan jabatan adalah hukuman berat.">
+      <p class="qq">2. Mana yang termasuk jenis hukuman disiplin ringan menurut PP 94/2021 Pasal 8 ayat (2)?</p>
+      <div class="opts"><button>Teguran lisan, teguran tertulis, pernyataan tidak puas tertulis</button><button>Pemotongan tunjangan kinerja 25% selama 6 bulan</button><button>Penurunan jabatan setingkat lebih rendah selama 12 bulan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Kunci: PERBAN 11/2019 Pasal 17 — Jaksa Ahli Muda: Jaksa Pratama (III/c) dan Jaksa Muda (III/d); Jaksa Ahli Madya: Jaksa Madya (IV/a), Jaksa Utama Pratama (IV/b), Jaksa Utama Muda (IV/c); Jaksa Ahli Utama: Jaksa Utama Madya (IV/d) dan Jaksa Utama (IV/e).">
+      <p class="qq">3. Urutan jenjang Jabatan Fungsional Jaksa yang benar (PERBAN 11/2019 Pasal 17) adalah…</p>
+      <div class="opts"><button>Jaksa Madya → Jaksa Pratama → Jaksa Utama</button><button>Ajun Jaksa → Jaksa Utama → Jaksa Madya</button><button>Jaksa Ahli Pertama → Jaksa Ahli Muda → Jaksa Ahli Madya → Jaksa Ahli Utama</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Kunci: siklus anggaran satker — Renja → RKA-K/L → DIPA → pelaksanaan → pertanggungjawaban. DIPA adalah dasar pelaksanaan belanja; belanja di luar DIPA tidak bisa dibayar.">
+      <p class="qq">4. Dokumen apa yang menjadi dasar pelaksanaan belanja satker?</p>
+      <div class="opts"><button>Renja</button><button>DIPA (Daftar Isian Pelaksanaan Anggaran)</button><button>SKP</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Kunci: PP 27/2014 Pasal 84–89 mengatur penatausahaan BMN — pencatatan, pembukuan, dan pelaporan. Barang diterima tapi tidak dicatat adalah masalah penatausahaan; ganti rugi (Pasal 99) hanya bila pemeriksaan membuktikan kelalaian atau kesengajaan.">
+      <p class="qq">5. BMN baru diterima tetapi belum dicatat dalam inventaris satker. Tahap apa yang dilanggar?</p>
+      <div class="opts"><button>Penatausahaan (PP 27/2014 Pasal 84–89)</button><button>Penggunaan (Pasal 14–25)</button><button>Perencanaan kebutuhan (Pasal 9–11)</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<footer id="sumber">
+  <h3>Sumber</h3>
+  <ul>
+    <li>Peraturan Kejaksaan 3/2024 (Perban 3/2024, perubahan keempat atas Perja PER-006/A/JA/07/2017 tentang Organisasi dan Tata Kerja Kejaksaan) — Pasal 8 (Jaksa Agung Muda Bidang Pembinaan dan lingkup pembinaan), Pasal 791 (Asisten Bidang Pembinaan di Kejati), Pasal 986 (Subbagian Pembinaan dalam struktur Kejari Tipe B)</li>
+    <li>Perpres 15/2021 Pasal 5 (Jambin dalam struktur Kejaksaan), Perpres 15/2024 Pasal 12 (tugas dan wewenang Jambin), Perpres 29/2016 Pasal 35 (Jambin: Sekretariat dan paling banyak 6 Biro)</li>
+    <li>UU 20/2023 tentang Aparatur Sipil Negara — Pasal 1 (definisi ASN, PNS, PPPK, Manajemen ASN), Pasal 2 (asas), BAB II Pasal 2–4 (nilai dasar, kode etik &amp; kode perilaku), BAB V Pasal 13–20 (Jabatan ASN), Pasal 21 (hak Pegawai ASN), Pasal 24 (kewajiban Pegawai ASN), BAB VIII Pasal 27–56 (Manajemen ASN)</li>
+    <li>PP 11/2017 jo. PP 17/2020 tentang Manajemen PNS — pengadaan Pasal 15–45, pangkat &amp; jabatan Pasal 46–161, pengembangan karier &amp; kompetensi Pasal 162–227, penilaian kinerja &amp; disiplin Pasal 228–230, cuti Pasal 309–341</li>
+    <li>PP 30/2019 tentang Penilaian Kinerja PNS (dasar SKP)</li>
+    <li>PP 94/2021 tentang Disiplin PNS — Pasal 3 (kewajiban), Pasal 4 huruf f (masuk kerja &amp; jam kerja), Pasal 5 (larangan), Pasal 7, Pasal 8 (tingkat &amp; jenis hukuman disiplin), Pasal 9 (hukuman ringan), Pasal 11 (hukuman berat)</li>
+    <li>Peraturan Jaksa Agung Nomor PER-014/A/JA/11/2012 tentang Kode Perilaku Jaksa — Pasal 16 (Majelis Kode Perilaku)</li>
+    <li>PERBAN 11/2019 tentang Manajemen Karier Pegawai Kejaksaan RI — Pasal 17 (jenjang Jabatan Fungsional Jaksa)</li>
+    <li>UU 17/2003 tentang Keuangan Negara — Pasal 6 (kekuasaan pengelolaan keuangan negara; Pengguna Anggaran), BAB III Pasal 11–15 (penyusunan APBN), BAB VII Pasal 26–29 (pelaksanaan APBN), BAB VIII Pasal 30–33 dan Pasal 30 (pertanggungjawaban APBN)</li>
+    <li>Perpres 16/2018 jo. Perpres 12/2021 tentang Pengadaan Barang/Jasa Pemerintah</li>
+    <li>PP 27/2014 jo. PP 28/2020 tentang Pengelolaan Barang Milik Negara/Daerah — perencanaan kebutuhan &amp; penganggaran Pasal 9–11, pengadaan Pasal 12–13, penggunaan Pasal 14–25, pengamanan &amp; pemeliharaan Pasal 42–47, pemusnahan Pasal 77–80, penghapusan Pasal 81–83, penatausahaan Pasal 84–89, ganti rugi &amp; sanksi Pasal 99</li>
+  </ul>
+  <p>Catatan: ruang ini adalah bahan belajar pribadi. Untuk pemakaian resmi, selalu verifikasi ke teks peraturan versi terbaru — terutama rincian tugas dan fungsi Subbagian Pembinaan di Kejari (nomor pasalnya belum terverifikasi), rincian pasal SKP dalam PP 30/2019, nomor pasal metode pengadaan dalam Perpres 16/2018 jo. Perpres 12/2021, dan nomor peraturan reformasi birokrasi. Semua nama, tempat, dan angka dalam simulasi adalah fiktif.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- PROGRESS ---------- */
+var opened={}, quizDone={};
+function refreshProgress(){
+  var total=10, done=0;
+  ["m1","m2","m3","m4","m5"].forEach(function(k){ if(opened[k]) done++; });
+  ["m1","m2","m3","m4","final"].forEach(function(k){ if(quizDone[k]) done++; });
+  var pct=Math.round(done/total*100);
+  document.getElementById("progBar").style.width=pct+"%";
+  document.getElementById("progText").textContent=pct+"% · "+done+" dari "+total+" aktivitas";
+  var map={m1:"m1",m2:"m2",m3:"m3",m4:"m4",m5:"m5"};
+  document.querySelectorAll(".pdot").forEach(function(d){
+    var k=d.getAttribute("data-p");
+    var quizKey = (k==="m5") ? "final" : k;
+    if(opened[k] && quizDone[quizKey]) d.classList.add("done");
+  });
+}
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ opened[e.target.getAttribute("data-module")]=true; refreshProgress(); } });
+},{threshold:0.15});
+document.querySelectorAll("section.module").forEach(function(s){ io.observe(s); });
+
+/* ---------- FLOW MODUL 1 ---------- */
+var flowData=[
+ {t:"1 · Perencanaan", d:"<strong>Produk:</strong> Renja satker dan daftar kebutuhan (pegawai, sarana, anggaran).<br><strong>Adm jangkar:</strong> himpun kebutuhan semua seksi teknis — lalu susun prioritasnya.<br><strong>Catatan:</strong> perencanaan yang baik menentukan apakah anggaran tahun depan cukup — atau habis di bulan September."},
+ {t:"2 · Penganggaran", d:"<strong>Produk:</strong> RKA-K/L, lalu DIPA satker.<br><strong>Adm jangkar:</strong> kebutuhan diterjemahkan ke angka rupiah per program dan kegiatan; setelah APBN disahkan, DIPA menjadi dasar belanja.<br><strong>Catatan:</strong> DIPA adalah 'dompet' satker — belanja di luar DIPA tidak bisa dibayar."},
+ {t:"3 · Pelaksanaan Dukungan", d:"<strong>Produk:</strong> pegawai yang ditempatkan, barang yang diadakan, dana yang dicairkan.<br><strong>Adm jangkar:</strong> usul kenaikan pangkat dan mutasi berjenjang; pengadaan lewat mekanisme Perpres 16/2018; pencairan lewat SPM ke KPPN.<br><strong>Catatan:</strong> pelaksanaan yang tertib membuat bidang teknis bisa bekerja tanpa menunggu administrasi."},
+ {t:"4 · Penatausahaan", d:"<strong>Produk:</strong> register, arsip, dan laporan yang rapi.<br><strong>Adm jangkar:</strong> absensi dan SKP tercatat; BMN diinventarisasi; realisasi anggaran dibukukan.<br><strong>Catatan:</strong> penatausahaan adalah 'buku' satker — dan inilah yang pertama kali diperiksa auditor."},
+ {t:"5 · Pengawasan &amp; Evaluasi", d:"<strong>Produk:</strong> monev realisasi anggaran, evaluasi kinerja pegawai, dan laporan berjenjang.<br><strong>Adm jangkar:</strong> laporkan ke Kejati (Asbin) dan Kejagung (Jambin); temuan monev menjadi bahan perencanaan tahun berikutnya.<br><strong>Catatan:</strong> siklusnya berputar — evaluasi tahun ini adalah perencanaan tahun depan."}
+];
+var fd=document.getElementById("flowDetail");
+function setFlow(i){
+  fd.innerHTML="<h4>"+flowData[i].t+"</h4><p>"+flowData[i].d+"</p>";
+  document.querySelectorAll("#flow1 button").forEach(function(b,bi){ b.classList.toggle("active", bi===i); });
+}
+document.querySelectorAll("#flow1 button").forEach(function(b){
+  b.addEventListener("click", function(){ setFlow(parseInt(b.getAttribute("data-flow"),10)); });
+});
+setFlow(0);
+
+/* ---------- FLOW ADM MODUL 3 ---------- */
+var admData=[
+ "<strong>Renja &amp; RKA-K/L:</strong> Subbag Pembinaan menghimpun kebutuhan semua seksi — perkara yang diperkirakan, sidang, sarana yang kurang — lalu menyusun Renja dan menerjemahkannya ke angka dalam RKA-K/L per program dan kegiatan.",
+ "<strong>Penetapan DIPA:</strong> setelah APBN disahkan, satker menerima DIPA — Daftar Isian Pelaksanaan Anggaran. DIPA adalah dasar pelaksanaan belanja satu tahun anggaran; belanja di luar DIPA tidak bisa dibayar.",
+ "<strong>Pelaksanaan belanja:</strong> belanja dilaksanakan sesuai DIPA — pengajuan SPM ke KPPN, pencairan dana (SP2D), pembayaran kepada pihak ketiga. Setiap rupiah harus punya dasar: DIPA, kontrak/SPK, dan bukti penerimaan barang/jasa.",
+ "<strong>Pengadaan barang/jasa:</strong> pengadaan dilaksanakan menurut Perpres 16/2018 jo. Perpres 12/2021 — efisien, efektif, transparan, terbuka, bersaing, adil, dan akuntabel — lewat mekanisme yang sesuai nilai dan jenis pengadaannya (pengadaan langsung, tender/seleksi, atau katalog elektronik).",
+ "<strong>Pertanggungjawaban:</strong> satker menyusun laporan keuangan (laporan realisasi anggaran, neraca, catatan atas laporan keuangan) yang dikonsolidasikan berjenjang — sampai ke pertanggungjawaban APBN menurut UU 17/2003 Pasal 30."
+];
+var ad=document.getElementById("admDetail");
+function setAdm(i){
+  ad.innerHTML="<p>"+admData[i]+"</p>";
+  document.querySelectorAll("#flowAdm button").forEach(function(b,bi){ b.classList.toggle("active", bi===i); });
+}
+document.querySelectorAll("#flowAdm button").forEach(function(b){
+  b.addEventListener("click", function(){ setAdm(parseInt(b.getAttribute("data-adm"),10)); });
+});
+setAdm(0);
+
+/* ---------- FLASHCARDS ---------- */
+function buildFlash(id, cards){
+  var el=document.getElementById(id); if(!el) return;
+  cards.forEach(function(c){
+    var b=document.createElement("button");
+    b.className="flash"; b.type="button";
+    b.setAttribute("aria-label","Flashcard: "+c[0]);
+    b.innerHTML='<span class="flash-inner"><span class="flash-face flash-front">'+c[0]+'<small>klik · balik</small></span><span class="flash-face flash-back">'+c[1]+'</span></span>';
+    b.addEventListener("click", function(){ b.classList.toggle("flipped"); });
+    el.appendChild(b);
+  });
+}
+buildFlash("flashSDM",[
+ ["PNS","Pegawai Negeri Sipil — WNI yang diangkat sebagai Pegawai ASN secara tetap oleh Pejabat Pembina Kepegawaian (UU 20/2023 Pasal 1 angka 3)."],
+ ["PPPK","Pegawai Pemerintah dengan Perjanjian Kerja — diangkat berdasarkan perjanjian kerja untuk jangka waktu tertentu (UU 20/2023 Pasal 1 angka 4)."],
+ ["Manajemen ASN","Serangkaian proses pengelolaan ASN untuk mewujudkan ASN yang profesional, bebas dari intervensi politik, dan bersih dari KKN (UU 20/2023 Pasal 1 angka 5)."],
+ ["SKP","Sasaran Kinerja Pegawai — dokumen perencanaan dan penilaian kinerja PNS (PP 30/2019); dipakai untuk kenaikan pangkat dan tunjangan kinerja."],
+ ["PP 94/2021","Disiplin PNS — Pasal 8: hukuman ringan (teguran lisan/tertulis, pernyataan tidak puas tertulis), sedang (potong tukin 25% 6/9/12 bulan), berat (penurunan jabatan, pembebasan dari jabatan, pemberhentian dengan hormat)."],
+ ["Masuk kerja","Kewajiban PNS: masuk kerja dan menaati ketentuan jam kerja (PP 94/2021 Pasal 4 huruf f) — rekap absensi adalah bukti awal pemeriksaan disiplin."],
+ ["Kode Perilaku Jaksa","Perja PER-014/A/JA/11/2012 — lapisan di atas disiplin PNS; pelanggarannya diperiksa Majelis Kode Perilaku (Pasal 16)."],
+ ["Jenjang JF Jaksa","PERBAN 11/2019 Pasal 17: Ahli Pertama (Ajun Jaksa Madya III/a, Ajun Jaksa III/b) → Ahli Muda (Jaksa Pratama III/c, Jaksa Muda III/d) → Ahli Madya (Jaksa Madya IV/a, Jaksa Utama Pratama IV/b, Jaksa Utama Muda IV/c) → Ahli Utama (Jaksa Utama Madya IV/d, Jaksa Utama IV/e)."],
+ ["Mutasi","Pemindahan tugas PNS — usulannya berjenjang lewat Pembinaan; keputusannya di tangan Pejabat Pembina Kepegawaian, bukan Kajari."],
+ ["Kenaikan pangkat","Berkas usul disusun Subbag Pembinaan (SKP, angka kredit, syarat administrasi) → Kejati (Asbin) → Kejagung (Jambin)."]
+]);
+buildFlash("flashAnggaran",[
+ ["DIPA","Daftar Isian Pelaksanaan Anggaran — dokumen dasar pelaksanaan belanja satker satu tahun anggaran; belanja di luar DIPA tidak bisa dibayar."],
+ ["RKA-K/L","Rencana Kerja dan Anggaran Kementerian/Lembaga — rincian belanja per program, kegiatan, dan output; jembatan antara Renja dan DIPA."],
+ ["Renja","Rencana Kerja satker — himpunan kebutuhan semua seksi (perkara, sidang, sarana, pegawai) yang menjadi dasar penyusunan anggaran."],
+ ["Pengguna Anggaran","Menteri/pimpinan lembaga selaku Pengguna Anggaran (UU 17/2003 Pasal 6 ayat (2) huruf b); Jaksa Agung adalah Pengguna Anggaran Kejaksaan, Kajari adalah Kuasa Pengguna Anggaran."],
+ ["APBN","Anggaran Pendapatan dan Belanja Negara — disusun dan ditetapkan menurut UU 17/2003 BAB III (Pasal 11–15)."],
+ ["SPM","Surat Perintah Membayar — diajukan satker ke KPPN untuk mencairkan dana sesuai DIPA; pencairannya berupa SP2D."],
+ ["Perpres 16/2018","Pengadaan Barang/Jasa Pemerintah, diubah dengan Perpres 12/2021 — prinsip: efisien, efektif, transparan, terbuka, bersaing, adil, akuntabel."],
+ ["Pertanggungjawaban APBN","UU 17/2003 Pasal 30 — laporan keuangan yang telah diperiksa BPK disampaikan ke DPR selambat-lambatnya 6 bulan setelah tahun anggaran berakhir."],
+ ["Pagu","Batas anggaran per jenis belanja dalam DIPA — menggeser antar jenis belanja tanpa persetujuan yang berwenang adalah pelanggaran."],
+ ["Monev anggaran","Monitoring dan evaluasi realisasi anggaran berkala oleh Pembinaan — bila realisasi sudah 90% di bulan September, Pembinaan yang pertama tahu."]
+]);
+buildFlash("flashBMN",[
+ ["BMN","Barang Milik Negara — semua barang yang dibeli atau diperoleh atas beban APBN, dikelola menurut PP 27/2014 jo. PP 28/2020."],
+ ["Perencanaan kebutuhan","PP 27/2014 Pasal 9–11 — kebutuhan barang direncanakan dan dianggarkan; tanpa perencanaan, pengadaan tidak punya dasar."],
+ ["Penggunaan","PP 27/2014 Pasal 14–25 — barang digunakan sesuai peruntukan, termasuk penetapan status penggunaan oleh Pengguna Barang."],
+ ["Pengamanan &amp; pemeliharaan","PP 27/2014 Pasal 42–47 — barang diamankan (fisik, administratif, hukum) dan dipelihara agar tetap berfungsi."],
+ ["Penatausahaan","PP 27/2014 Pasal 84–89 — pencatatan, pembukuan, dan pelaporan BMN: inventarisasi adalah 'buku' BMN satker."],
+ ["Penghapusan","PP 27/2014 Pasal 81–83 — barang yang rusak berat atau tidak lagi digunakan dihapus dengan persetujuan yang berwenang, bukan dibuang diam-diam."],
+ ["Ganti rugi — Pasal 99","PP 27/2014 Pasal 99 — kerugian negara atas BMN yang hilang/rusak karena kelalaian dapat dituntut ganti rugi, dan ada sanksinya."],
+ ["SOP","Standar Operasional Prosedur — setiap proses satker seharusnya punya SOP tertulis: siapa, apa, berapa lama, output apa."]
+]);
+
+/* ---------- QUIZZES ---------- */
+document.querySelectorAll(".quiz").forEach(function(quiz){
+  var key=quiz.getAttribute("data-quiz");
+  var qs=quiz.querySelectorAll(".q");
+  var answered=0, correct=0;
+  qs.forEach(function(q){
+    var ans=parseInt(q.getAttribute("data-answer"),10);
+    var explain=q.getAttribute("data-explain");
+    var fb=q.querySelector(".fb");
+    var btns=q.querySelectorAll(".opts button");
+    btns.forEach(function(btn, bi){
+      btn.addEventListener("click", function(){
+        btns.forEach(function(x){ x.disabled=true; });
+        btns[ans].classList.add("correct");
+        if(bi===ans){ correct++; fb.className="fb show ok"; fb.innerHTML="<strong>Benar.</strong> "+explain; }
+        else{ btn.classList.add("wrong"); fb.className="fb show no"; fb.innerHTML="<strong>Belum tepat.</strong> "+explain; }
+        answered++;
+        var score=quiz.querySelector(".quiz-score");
+        score.textContent="Skor sementara: "+correct+" dari "+answered+" terjawab (total "+qs.length+" soal)";
+        if(answered===qs.length){
+          quizDone[key]=true;
+          score.textContent="Selesai — skor akhir: "+correct+" dari "+qs.length+". "+(correct===qs.length?"Sempurna.":correct>=qs.length-1?"Nyaris sempurna, mantap.":"Tidak apa-apa — baca lagi penjelasan tiap soal, itu inti materinya.");
+          refreshProgress();
+        }
+      });
+    });
+  });
+});
+
+/* ---------- SIMULASI ---------- */
+var simSteps=[
+ {t:"Langkah 1 · Awal tahun: himpun kebutuhan", body:"Januari di Kejari Fiktif. Kasubbag Pembinaan Fiktif menghimpun kebutuhan semua seksi: biaya sidang 40 perkara, biaya penyidikan 3 perkara, biaya perkara perdata, dan biaya kegiatan penyuluhan. Sarana yang diusulkan: 10 laptop baru dan 1 kendaraan dinas pengganti.", q:"Keputusan: apa langkah pertama Subbag Pembinaan?", opts:["Langsung membeli laptop dari kas satker","Menyusun Renja satker dari himpunan kebutuhan seksi — dasar penyusunan RKA-K/L","Menunggu DIPA turun dulu baru merencanakan"], ans:1, why:"<strong>Tepat:</strong> perencanaan mendahului penganggaran. Renja adalah dasar RKA-K/L — tanpa Renja, angka anggaran tidak punya dasar kebutuhan."},
+ {t:"Langkah 2 · Usulan mutasi jaksa masuk", body:"Jaksa Fiktif A — Jaksa Pratama (III/c) di Kejari Fiktif — mengajukan usul mutasi ke Kejari lain dengan alasan keluarga. Suratnya masuk ke Subbag Pembinaan.", q:"Keputusan: bagaimana Subbag Pembinaan menangani usul mutasi ini?", opts:["Kajari memutuskan sendiri mutasinya","Menyusun berkas usul dan meneruskannya berjenjang ke Kejati (Asbin) lalu Kejagung (Jambin) — keputusan di tangan Pejabat Pembina Kepegawaian","Menolak karena jaksa harus bersedia ditempatkan di mana saja"], ans:1, why:"<strong>Benar:</strong> mutasi diputuskan Pejabat Pembina Kepegawaian, bukan Kajari. Tugas Pembinaan adalah menyusun dan meneruskan berkas usul berjenjang. Kewajiban bersedia ditempatkan di seluruh wilayah NKRI (UU 20/2023 Pasal 24) tidak berarti usul mutasi dilarang — ia berarti penugasan yang diputuskan harus diterima."},
+ {t:"Langkah 3 · Dugaan pelanggaran disiplin ringan", body:"Rekap absensi menunjukkan Jaksa Fiktif B tidak masuk kerja 3 hari tanpa keterangan pada bulan lalu. Atasannya melaporkannya ke Kajari. Subbag Pembinaan diminta menyiapkan bahan.", q:"Keputusan: apa yang disiapkan Subbag Pembinaan pertama kali?", opts:["Langsung mengusulkan pemberhentian dengan hormat","Mengumpulkan bukti: rekap absensi dan keterangan atasan langsung — pelanggaran masuk kerja (PP 94/2021 Pasal 4 huruf f) harus dibuktikan dulu","Mengabaikan karena baru 3 hari"], ans:1, why:"<strong>Benar:</strong> temuan belum berarti hukuman. Rekap absensi adalah bukti awal; pemeriksaan menentukan tingkat hukumannya. Pemberhentian dengan hormat adalah hukuman berat (Pasal 8 ayat (4)) — tidak proporsional tanpa pemeriksaan."},
+ {t:"Langkah 4 · Pemeriksaan disiplin", body:"Pemeriksaan menunjukkan Jaksa Fiktif B tidak masuk kerja 3 hari tanpa keterangan, dan hal itu berdampak negatif pada Unit Kerja (sidang tertunda karena jaksa penuntutnya tidak hadir). Tidak ada unsur yang berdampak pada negara.", q:"Keputusan: tingkat hukuman disiplin apa yang sesuai (PP 94/2021)?", opts:["Hukuman berat — pemberhentian dengan hormat","Hukuman sedang — pemotongan tunjangan kinerja 25% selama 12 bulan","Hukuman ringan (Pasal 9 ayat (1)) — teguran lisan, teguran tertulis, atau pernyataan tidak puas tertulis, karena pelanggaran kewajiban Pasal 3 yang berdampak negatif pada Unit Kerja"], ans:2, why:"<strong>Benar:</strong> Pasal 9 ayat (1) — hukuman ringan untuk pelanggaran kewajiban Pasal 3 yang berdampak negatif pada Unit Kerja. Hukuman berat (Pasal 11) hanya untuk pelanggaran yang berdampak negatif pada negara. Menjatuhkan hukuman berat di sini adalah kesalahan yang sama besarnya dengan menutup pelanggaran."},
+ {t:"Langkah 5 · RKA-K/L disusun", body:"Renja selesai. Subbag Pembinaan menyusun RKA-K/L: belanja sidang, belanja penyidikan, belanja perkara perdata, dan pengadaan 10 laptop + 1 kendaraan dinas. Total usulan melebihi pagu indikatif yang diberikan Kejati.", q:"Keputusan: apa yang dilakukan terhadap usulan yang melebihi pagu?", opts:["Diajukan apa adanya — pagu bisa dinegosiasi belakangan","Diprioritaskan dan disesuaikan dengan pagu: kebutuhan wajib (biaya sidang dan penyidikan) didahulukan, pengadaan sarana yang bisa ditunda dijadwalkan ulang","Dipotong merata 20% untuk semua seksi"], ans:1, why:"<strong>Benar:</strong> anggaran adalah soal prioritas. Belanja yang menopang tugas pokok (sidang, penyidikan) tidak boleh dikorbankan untuk sarana yang bisa ditunda — dan pemotongan merata justru menghukum seksi yang kebutuhannya paling mendesak."},
+ {t:"Langkah 6 · DIPA turun", body:"APBN disahkan. Kejari Fiktif menerima DIPA: belanja sidang dan penyidikan sesuai usulan, pengadaan 10 laptop disetujui, kendaraan dinas ditunda ke tahun depan. Di bulan Maret, seksi teknis meminta tambahan dana sidang karena perkara bertambah.", q:"Keputusan: bagaimana Subbag Pembinaan menjawab permintaan tambahan itu?", opts:["Mengambil dari anggaran pengadaan laptop — total DIPA kan sama","Menolak mentah-mentah tanpa penjelasan","Menjelaskan bahwa DIPA mengikat per jenis belanja — penggeseran antar jenis belanja butuh revisi DIPA dengan persetujuan yang berwenang; lalu mengajukan revisi bila memang mendesak"], ans:2, why:"<strong>Benar:</strong> DIPA mengikat per jenis belanja, bukan sekadar total. Menggeser dana laptop ke sidang tanpa revisi adalah pelanggaran — sekalipun totalnya sama. Jalur yang benar adalah revisi DIPA."},
+ {t:"Langkah 7 · Pengadaan 10 laptop", body:"Pengadaan 10 laptop dilaksanakan menurut Perpres 16/2018 jo. Perpres 12/2021 — melalui katalog elektronik. Tiga penyedia mengajukan penawaran; satu penyedia menawarkan harga jauh lebih murah tetapi tidak punya rekam jejak pengiriman ke daerah.", q:"Keputusan: apa yang dilakukan tim pengadaan?", opts:["Memilih yang termurah — prinsip efisiensi","Memilih berdasarkan harga dan rekam jejak: harga termurah tanpa kemampuan pengiriman adalah risiko gagal kirim — dan prinsip pengadaan bukan hanya efisien, tetapi juga efektif dan akuntabel","Membatalkan pengadaan dan membeli langsung di toko"], ans:1, why:"<strong>Benar:</strong> prinsip pengadaan adalah efisien, efektif, transparan, terbuka, bersaing, adil, dan akuntabel — bukan 'termurah menang'. Harga termurah dari penyedia yang tidak mampu mengirim adalah pengadaan yang gagal."},
+ {t:"Langkah 8 · Laptop diterima — pencatatan BMN", body:"10 laptop diterima. Berita acara serah terima ditandatangani, tetapi staf Pembinaan sibuk dan belum mencatatnya dalam inventaris BMN satker. Saat inventarisasi tengah tahun, 10 laptop itu tidak ditemukan dalam buku.", q:"Keputusan: apa yang harus dilakukan?", opts:["Membiarkan — laptopnya ada secara fisik, catatannya bisa menyusul tahun depan","Segera mencatatnya dalam penatausahaan BMN (PP 27/2014 Pasal 84–89) — barang diterima tapi tidak dicatat adalah pelanggaran penatausahaan, dan inventarisasi yang selisih adalah temuan audit","Menuduh staf Pembinaan menghilangkan laptop"], ans:1, why:"<strong>Benar:</strong> penatausahaan (Pasal 84–89) adalah pencatatan, pembukuan, dan pelaporan BMN. Barang ada secara fisik tetapi tidak tercatat sama dengan barang tidak ada di mata auditor. Menuduh tanpa pemeriksaan adalah kesalahan yang sama seperti di Langkah 3."},
+ {t:"Langkah 9 · SKP tengah tahun", body:"Juli. Subbag Pembinaan mengingatkan semua pegawai menyusun laporan realisasi SKP tengah tahun. Jaksa Fiktif A — yang usul mutasinya masih berproses — bertanya apakah SKP-nya tetap dinilai di Kejari Fiktif.", q:"Keputusan: jawaban yang benar?", opts:["SKP tidak perlu dinilai karena ia akan mutasi","SKP tetap disusun dan dinilai oleh atasan langsung di tempat ia bertugas saat ini — penilaian kinerja mengikuti tempat tugas, bukan rencana mutasi","SKP dinilai oleh Subbag Pembinaan"], ans:1, why:"<strong>Benar:</strong> SKP disusun bersama dan dinilai oleh atasan langsung (PP 30/2019) — bukan oleh Subbag Pembinaan, yang hanya menatausahakan. Rencana mutasi tidak menghapus kewajiban penilaian kinerja di tempat tugas saat ini."},
+ {t:"Langkah 10 · Tutup tahun anggaran", body:"Desember. Subbag Pembinaan menyusun laporan keuangan satker (laporan realisasi anggaran, neraca, catatan atas laporan keuangan), menutup inventarisasi BMN, dan melaporkan berjenjang ke Kejati (Asbin). Evaluasi: realisasi anggaran 96%, pengadaan laptop selesai dan tercatat, satu hukuman disiplin ringan dijatuhkan dengan prosedur yang benar.", q:"Keputusan terakhir: apa pelajaran terbesar tahun ini?", opts:["Pembinaan yang tertib membuat bidang teknis bisa bekerja — Renja yang benar, DIPA yang ditaati, BMN yang tercatat, dan disiplin yang ditegakkan dengan prosedur","Yang penting anggaran habis 100%","Yang penting tidak ada temuan audit — caranya tidak penting"], ans:0, why:"<strong>Selesai — kerja bagus, Faris!</strong> Pembinaan yang baik bukan yang paling cepat menghabiskan anggaran atau yang paling pandai menyembunyikan temuan — melainkan yang merencanakan dengan jujur, menaati DIPA, mencatat BMN, dan menegakkan disiplin dengan prosedur. Itulah yang membuat Kejaksaan bisa bekerja. Simulasi selesai."}
+];
+var simIdx=0, simAnswered={};
+var dotsEl=document.getElementById("simDots");
+simSteps.forEach(function(_,i){ var s=document.createElement("span"); s.textContent=(i+1); dotsEl.appendChild(s); });
+var panel=document.getElementById("simPanel");
+function renderSim(){
+  var st=simSteps[simIdx];
+  var html="<h4 style='margin-top:0'>"+st.t+"</h4><p>"+st.body+"</p><p class='qq' style='font-weight:700'>"+st.q+"</p><div class='opts'>";
+  st.opts.forEach(function(o,i){ html+="<button data-sim-opt='"+i+"'>"+o+"</button>"; });
+  html+="</div><div class='fb' id='simFb'></div>";
+  panel.innerHTML=html;
+  document.querySelectorAll("#simDots span").forEach(function(d,i){
+    d.className = simAnswered[i] ? "done" : (i===simIdx ? "cur" : "");
+  });
+  document.getElementById("simPrev").disabled = simIdx===0;
+  document.getElementById("simNext").disabled = simIdx===simSteps.length-1 && !simAnswered[simIdx];
+  document.getElementById("simNext").textContent = simIdx===simSteps.length-1 ? "Langkah terakhir" : "Langkah berikutnya →";
+  panel.querySelectorAll("[data-sim-opt]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var pick=parseInt(btn.getAttribute("data-sim-opt"),10);
+      var fb=document.getElementById("simFb");
+      panel.querySelectorAll("[data-sim-opt]").forEach(function(x){ x.disabled=true; });
+      panel.querySelectorAll("[data-sim-opt]")[st.ans].classList.add("correct");
+      if(pick===st.ans){ fb.className="fb show ok"; fb.innerHTML=st.why; }
+      else{ btn.classList.add("wrong"); fb.className="fb show no"; fb.innerHTML="<strong>Kurang tepat.</strong> "+st.why; }
+      simAnswered[simIdx]=true;
+      document.querySelectorAll("#simDots span")[simIdx].className="done";
+      if(simIdx<simSteps.length-1) document.getElementById("simNext").disabled=false;
+      var allDone=Object.keys(simAnswered).length===simSteps.length;
+      if(allDone){ opened["m5"]=true; refreshProgress(); }
+    });
+  });
+  if(simAnswered[simIdx]){
+    panel.querySelectorAll("[data-sim-opt]").forEach(function(x){ x.disabled=true; });
+    panel.querySelectorAll("[data-sim-opt]")[st.ans].classList.add("correct");
+    var fb2=document.getElementById("simFb"); fb2.className="fb show ok"; fb2.innerHTML=st.why;
+  }
+}
+document.getElementById("simPrev").addEventListener("click", function(){ if(simIdx>0){ simIdx--; renderSim(); } });
+document.getElementById("simNext").addEventListener("click", function(){ if(simIdx<simSteps.length-1){ simIdx++; renderSim(); } });
+renderSim();
+refreshProgress();
+})();
+</script>
+
+
+<script>
+(function(){
+var HASH='4e533dd40116d43b0b2926d0b4f49958849c4f6c8ec3c1f685e8e8e872b344da';
+var gate=document.getElementById('lape-gate');
+function unlock(){try{sessionStorage.setItem('lape-unlocked','1');}catch(e){}if(gate)gate.remove();}
+try{if(sessionStorage.getItem('lape-unlocked')==='1'){unlock();return;}}catch(e){}
+if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){
+gate.style.background='#1d1416';
+var h=gate.querySelector('h1');if(h)h.style.color='#f3e4de';
+var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#c4a49c';}
+var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#2b1d20';inp.style.color='#f3e4de';inp.style.borderColor='#4a3236';}
+var btn=gate.querySelector('button');if(btn){btn.style.background='#4fa3b8';btn.style.color='#17181c';}
+}
+var form=document.getElementById('lape-gate-form');
+var input=document.getElementById('lape-pin');
+var err=document.getElementById('lape-gate-err');
+if(input)input.focus();
+form.addEventListener('submit',function(ev){
+ev.preventDefault();
+var v=(input.value||'').trim();
+if(!v)return;
+function fail(){err.textContent='PIN salah, coba lagi.';input.value='';input.focus();}
+if(window.crypto&&crypto.subtle&&crypto.subtle.digest){
+crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(buf){
+var hex=Array.prototype.map.call(new Uint8Array(buf),function(b){return('00'+b.toString(16)).slice(-2);}).join('');
+if(hex===HASH){unlock();}else{fail();}
+}).catch(fail);
+}else{fail();}
+});
+})();
+</script>
+</body>
+</html>

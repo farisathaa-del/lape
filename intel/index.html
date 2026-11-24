@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet"/>
+<link rel="icon" href="data:,"/>
+<title>Ruang Belajar Intel</title>
+<style>
+:root{
+  --bg:#fdf6f0; --surface:#fffdfb; --surface2:#f7ecdc; --ink:#3d2b2b; --muted:#7d665c; --line:#e9dac6;
+  --teal:#0f4c5c; --gold:#c98a2d; --gold-soft:#f6e3ba;
+  --m1:#0f4c5c; --m2:#8a4a1d; --m3:#47632f; --m4:#7c2d3e; --m5:#2c4a63;
+  --ok:#1e7a3c; --okbg:#e3f2e1; --bad:#b3261e; --badbg:#fbe8e2;
+  --radius:22px;
+  --shadow:0 2px 6px rgba(61,43,43,.05),0 16px 36px -20px rgba(61,43,43,.25);
+  --shadow-lift:0 4px 10px rgba(61,43,43,.06),0 24px 46px -20px rgba(61,43,43,.32);
+  --serif:"Lora",Georgia,"Times New Roman",serif;
+  --sans:"Nunito Sans",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#1d1410; --surface:#2b1e16; --surface2:#3a2a1e; --ink:#f5ead9; --muted:#c6ad9a; --line:#4e3a2b;
+  --teal:#8ec9d8; --gold:#e2ab4f; --gold-soft:#4d3a15;
+  --m1:#8ec9d8; --m2:#e2a468; --m3:#aacb8d; --m4:#e79cae; --m5:#a3c2de;
+  --ok:#82d198; --okbg:#1d3a22; --bad:#f0988d; --badbg:#43221b;
+  --shadow:0 2px 6px rgba(0,0,0,.35),0 16px 36px -20px rgba(0,0,0,.65);
+  --shadow-lift:0 4px 10px rgba(0,0,0,.4),0 24px 46px -20px rgba(0,0,0,.75); }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--sans);line-height:1.62;
+  background:
+    radial-gradient(1100px 540px at 10% -6%, rgba(201,138,45,.15), transparent 60%),
+    radial-gradient(920px 500px at 106% 2%, rgba(15,76,92,.13), transparent 55%),
+    radial-gradient(820px 620px at 50% 116%, rgba(201,138,45,.09), transparent 60%),
+    var(--bg);
+  background-attachment:fixed}
+@media (prefers-color-scheme: dark){
+  body{background:
+    radial-gradient(1100px 540px at 10% -6%, rgba(226,171,79,.10), transparent 60%),
+    radial-gradient(920px 500px at 106% 2%, rgba(142,201,216,.08), transparent 55%),
+    radial-gradient(820px 620px at 50% 116%, rgba(226,171,79,.06), transparent 60%),
+    var(--bg);
+  background-attachment:fixed}
+}
+::selection{background:var(--gold-soft)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+button,[role="button"],select,summary{min-height:2.25rem}
+.sans{font-family:var(--sans)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 16px 64px}
+/* HERO */
+.hero{padding:40px 0 8px}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,5.4vw,3.2rem);line-height:1.08;margin:0 0 12px;letter-spacing:-.01em}
+.hero h1 mark{background:var(--gold-soft);color:inherit;padding:0 .18em;border-radius:6px}
+.hero p.lead{font-size:1.1rem;color:var(--muted);max-width:46rem;margin:0 0 18px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--sans);font-size:.82rem;font-weight:600}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 13px;box-shadow:0 1px 3px rgba(61,43,43,.05)}
+/* PROGRESS */
+.progress-box{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:var(--radius);padding:16px 18px;margin:20px 0 6px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.progress-box:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.progress-box .row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--sans);font-size:.86rem;gap:10px;flex-wrap:wrap}
+.pbar{height:10px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:10px}
+.pbar>div{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:99px;transition:width .5s ease}
+.pdots{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;font-family:var(--sans);font-size:.78rem}
+.pdot{border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--surface2);color:var(--muted)}
+.pdot.done{background:var(--okbg);color:var(--ok);border-color:var(--ok);font-weight:700}
+/* NAV */
+nav.modules{position:sticky;top:0;z-index:20;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+nav.modules .links{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;font-family:var(--sans)}
+nav.modules a{flex:0 0 auto;text-decoration:none;color:var(--ink);border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-size:.88rem;font-weight:700;display:inline-flex;align-items:center;min-height:2.25rem;box-shadow:0 1px 3px rgba(61,43,43,.05);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+nav.modules a .dot{width:9px;height:9px;border-radius:50%;margin-right:8px;display:inline-block}
+nav.modules a:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:var(--shadow)}
+/* SECTIONS */
+section.module{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--mc,var(--gold));border-radius:var(--radius);padding:26px 24px;margin:24px 0;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+section.module:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+section.module h2{font-family:var(--serif);font-weight:600;margin:0 0 6px;font-size:1.65rem;line-height:1.2}
+.kicker{font-family:var(--sans);font-size:.74rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--mc,var(--gold))}
+.sub{color:var(--muted);margin:0 0 16px;font-size:1.02rem}
+h3{font-family:var(--serif);font-weight:600;font-size:1.22rem;margin:24px 0 8px}
+h4{font-family:var(--serif);font-weight:600;font-size:1.04rem;margin:16px 0 6px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:4px 0}
+.callout{border-radius:16px;padding:13px 16px;margin:14px 0;font-size:.97rem}
+.callout.warn{background:var(--badbg);border:1px solid var(--bad)}
+.callout.note{background:var(--surface2);border:1px solid var(--line)}
+.callout.good{background:var(--okbg);border:1px solid var(--ok)}
+.callout b.t{display:block;font-family:var(--sans);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.94rem;background:var(--surface)}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--surface2);font-family:var(--sans);font-size:.82rem;font-weight:800}
+code,.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;background:var(--surface2);padding:1px 5px;border-radius:5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}section.module{padding:22px 16px}}
+.mini-card{border:1px solid var(--line);border-top:4px solid var(--mc,var(--gold));border-radius:16px;padding:14px 16px;background:var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.mini-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.mini-card h4{margin-top:0}
+/* FLOW */
+.flow{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px;font-family:var(--sans)}
+.flow button{flex:1 1 140px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:16px;padding:11px 8px;cursor:pointer;font-size:.86rem;font-weight:700;text-align:center;font-family:var(--sans);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.flow button:hover{transform:translateY(-1px);border-color:var(--gold)}
+.flow button .ic{display:block;font-size:1.3rem;margin-bottom:4px}
+.flow button.active{border-color:var(--gold);background:var(--gold-soft)}
+.flow-detail{border:1.5px dashed var(--gold);border-radius:16px;padding:15px 17px;margin-top:10px;background:var(--surface)}
+.flow-detail h4{margin:0 0 6px}
+/* FLASHCARDS */
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:12px 0}
+.flash{display:block;width:100%;perspective:700px;cursor:pointer;min-height:118px;background:none;border:none;padding:0;font-family:inherit;text-align:center;transition:transform .25s ease}
+.flash:hover{transform:translateY(-2px)}
+.flash-inner{display:block;position:relative;width:100%;height:100%;min-height:118px;transition:transform .45s;transform-style:preserve-3d}
+.flash.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;border:1.5px solid var(--line);box-shadow:var(--shadow)}
+.flash-front{background:var(--surface2);font-weight:800;font-size:1.02rem}
+.flash-front small{font-weight:600;color:var(--muted);font-size:.72rem;font-family:var(--sans);margin-top:6px;letter-spacing:.06em;text-transform:uppercase}
+.flash-back{background:var(--gold-soft);transform:rotateY(180deg);font-size:.92rem;line-height:1.45}
+/* QUIZ */
+.quiz{border:1px solid var(--line);border-top:5px solid var(--mc,var(--gold));border-radius:var(--radius);padding:20px;margin:18px 0;background:var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+.quiz:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.quiz h4{margin:0 0 4px;font-family:var(--sans);font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.q{margin:14px 0;padding-top:12px;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:none;padding-top:4px}
+.q p.qq{font-weight:700;margin:0 0 8px}
+.opts{display:grid;gap:8px}
+.opts button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 13px;text-align:left;cursor:pointer;font-size:.95rem;font-family:inherit;min-height:2.5rem;transition:border-color .2s ease,background .2s ease,transform .2s ease}
+.opts button:hover{border-color:var(--gold);transform:translateY(-1px)}
+.opts button.correct{border-color:var(--ok);background:var(--okbg);font-weight:700}
+.opts button.wrong{border-color:var(--bad);background:var(--badbg)}
+.opts button:disabled{cursor:default;opacity:.92}
+.opts button:disabled:hover{transform:none}
+.fb{display:none;margin-top:8px;border-radius:12px;padding:10px 13px;font-size:.92rem}
+.fb.show{display:block}
+.fb.ok{background:var(--okbg);border:1px solid var(--ok)}
+.fb.no{background:var(--badbg);border:1px solid var(--bad)}
+.quiz-score{font-family:var(--sans);font-size:.88rem;font-weight:800;margin-top:10px}
+/* SIM */
+.sim-steps{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0;font-family:var(--sans)}
+.sim-steps span{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;background:var(--surface2);color:var(--muted)}
+.sim-steps span.cur{border-color:var(--gold);background:var(--gold-soft);color:var(--ink)}
+.sim-steps span.done{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.sim-panel{border:1px solid var(--line);border-top:5px solid var(--mc,var(--gold));border-radius:var(--radius);padding:20px;background:var(--surface);box-shadow:var(--shadow)}
+.sim-nav{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--gold);background:var(--gold);color:#2b1c10;border-radius:999px;padding:9px 20px;font-weight:800;cursor:pointer;font-family:var(--sans);font-size:.9rem;min-height:2.5rem;transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled:hover{transform:none;box-shadow:none}
+footer{color:var(--muted);font-size:.9rem;margin-top:34px}
+footer h3{color:var(--ink)}
+footer li{margin:3px 0}
+.tag{font-family:var(--sans);font-size:.72rem;font-weight:700;border-radius:99px;padding:3px 9px;background:var(--surface2);border:1px solid var(--line);white-space:nowrap;display:inline-block;margin:2px 0}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="lape-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fdf6f0;padding:24px;box-sizing:border-box">
+<form id="lape-gate-form" style="width:100%;max-width:320px;text-align:center;font-family:'Nunito Sans',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<h1 style="font-family:'Lora',Georgia,'Times New Roman',serif;font-size:1.6rem;font-weight:700;margin:0 0 8px;color:#3d2b2b">Ruang Belajar</h1>
+<p style="color:#7a5f5c;font-size:.95rem;margin:0 0 20px">Masukkan PIN untuk masuk.</p>
+<input id="lape-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="••••••" style="width:100%;padding:12px 14px;font-size:1.2rem;text-align:center;letter-spacing:.35em;border:1px solid #eed9cf;border-radius:12px;box-sizing:border-box;background:#fffdfb;color:#3d2b2b" />
+<button type="submit" style="width:100%;margin-top:12px;padding:12px;font-size:1rem;font-weight:800;border:0;border-radius:12px;background:#0f4c5c;color:#fff;cursor:pointer">Masuk</button>
+<p id="lape-gate-err" style="color:#b23a48;font-size:.9rem;min-height:1.2em;margin:10px 0 0"></p>
+</form>
+</div>
+
+
+<div class="wrap">
+
+<header class="hero">
+  <h1>Ruang Belajar <mark>Intel</mark></h1>
+  <p class="lead">Halo Faris — ini bidang Kejaksaan yang bekerja sebelum perkara lahir: Intelijen. Bukan menuntut orang dan bukan menyidik — melainkan mendeteksi dini, mengamankan pembangunan, menggalang kondisi, dan memberi pimpinan produk intelijen untuk mengambil keputusan. Dasarnya satu pasal yang sering dikutip tapi jarang dibaca utuh: Pasal 30B UU 11/2021 — penyelidikan, pengamanan, dan penggalangan untuk kepentingan penegakan hukum.</p>
+  <div class="hero-meta">
+    <span class="chip">5 modul lengkap</span>
+    <span class="chip">Intelijen Penegakan Hukum — Pasal 30B UU 11/2021</span>
+    <span class="chip">Kasus latihan: fiktif, aman untuk belajar</span>
+  </div>
+  <div class="progress-box" role="status" aria-live="polite">
+    <div class="row"><span><strong>Progres belajarmu</strong> <span style="color:var(--muted)">(tersimpan selama halaman ini terbuka)</span></span><span id="progText">0%</span></div>
+    <div class="pbar"><div id="progBar"></div></div>
+    <div class="pdots" id="progDots">
+      <span class="pdot" data-p="m1">Modul 1 · Tupoksi</span>
+      <span class="pdot" data-p="m2">Modul 2 · LID · PAM · GAL</span>
+      <span class="pdot" data-p="m3">Modul 3 · PPS</span>
+      <span class="pdot" data-p="m4">Modul 4 · Penyuluhan &amp; Pakem</span>
+      <span class="pdot" data-p="m5">Modul 5 · Simulasi</span>
+    </div>
+  </div>
+</header>
+
+<nav class="modules" aria-label="Navigasi modul">
+  <div class="links">
+    <a href="#modul1"><span class="dot" style="background:var(--m1)"></span>1 · Tupoksi &amp; Alur</a>
+    <a href="#modul2"><span class="dot" style="background:var(--m2)"></span>2 · Intelijen Penegakan Hukum</a>
+    <a href="#modul3"><span class="dot" style="background:var(--m3)"></span>3 · Pengamanan Pembangunan Strategis</a>
+    <a href="#modul4"><span class="dot" style="background:var(--m4)"></span>4 · Penyuluhan Hukum &amp; Pakem</a>
+    <a href="#modul5"><span class="dot" style="background:var(--m5)"></span>5 · Simulasi Kasus</a>
+    <a href="#sumber">Sumber</a>
+  </div>
+</nav>
+
+<section class="module" id="modul1" style="--mc:var(--m1)" data-module="m1">
+  <p class="kicker">Modul 1</p>
+  <h2>Tupoksi &amp; Alur Intel</h2>
+  <p class="sub">Peta besarnya dulu: apa itu Intelijen Kejaksaan, di mana kedudukannya dalam sistem intelijen negara, siapa yang mengerjakan apa, dan bagaimana satu informasi mentah berubah menjadi produk intelijen yang dipakai pimpinan.</p>
+
+  <h3>Dua pasal yang menjadi fondasi — Pasal 30B UU 11/2021 dan Pasal 30 ayat (3) UU 16/2004</h3>
+  <div class="callout note"><b class="t">Bunyi Pasal 30B UU 11/2021 (terverifikasi via Pasal.id)</b>“Dalam bidang intelijen penegakan hukum, Kejaksaan berwenang: (a) menyelenggarakan fungsi <strong>penyelidikan, pengamanan, dan penggalangan</strong> untuk kepentingan penegakan hukum; (b) <strong>menciptakan kondisi yang mendukung dan mengamankan pelaksanaan pembangunan</strong>; (c) melakukan <strong>kerja sama intelijen penegakan hukum</strong> dengan lembaga intelijen dan/atau penyelenggara intelijen negara lainnya, di dalam maupun di luar negeri; (d) melaksanakan <strong>pencegahan korupsi, kolusi, dan nepotisme</strong>; dan (e) melaksanakan <strong>pengawasan multimedia</strong>.” Tiga kata di huruf (a) itulah yang disingkat <strong>LID – PAM – GAL</strong> dan menjadi isi Modul 2.</div>
+  <p>Di samping itu, <strong>Pasal 30 ayat (3) UU 16/2004</strong> (terverifikasi) menugaskan Kejaksaan — dalam bidang ketertiban dan ketenteraman umum — turut menyelenggarakan: (a) peningkatan kesadaran hukum masyarakat; (b) pengamanan kebijakan penegakan hukum; (c) pengawasan peredaran barang cetakan; (d) pengawasan aliran kepercayaan yang dapat membahayakan masyarakat dan negara; (e) pencegahan penyalahgunaan dan/atau penodaan agama; dan (f) penelitian dan pengembangan hukum serta statistik kriminal. Huruf (a), (d), dan (e) inilah yang menjadi isi Modul 4.</p>
+
+  <h3>Kedudukan dalam sistem Intelijen Negara — UU 17/2011</h3>
+  <p><strong>UU 17/2011 Pasal 9 huruf d</strong> (terverifikasi) menetapkan <strong>Intelijen Kejaksaan Republik Indonesia</strong> sebagai salah satu Penyelenggara Intelijen Negara — sejajar dengan BIN, Intelijen TNI, Intelijen Polri, dan intelijen kementerian/lembaga. <strong>Pasal 13 ayat (1)</strong> menegaskan fungsinya: <strong>Intelijen penegakan hukum</strong>. Dan <strong>Pasal 1 angka 1</strong> memberi definisi kerja yang patut dihafal: Intelijen adalah pengetahuan, organisasi, dan kegiatan yang terkait dengan perumusan kebijakan, strategi nasional, dan pengambilan keputusan berdasarkan analisis dari informasi dan fakta yang terkumpul melalui metode kerja untuk <strong>pendeteksian dan peringatan dini</strong> dalam rangka pencegahan, penangkalan, dan penanggulangan setiap ancaman terhadap keamanan nasional.</p>
+  <div class="callout note"><b class="t">Temuan vs akibat hukum — contoh konkret</b>Temuan: “Ada pola pengumpulan dana oleh sebuah aliran kepercayaan baru di dua desa, dengan ajaran yang menyimpang dari pokok ajaran agama yang dianut.” Akibat hukumnya: temuan itu <strong>belum</strong> menjadi pelanggaran — ia menjadi bahan laporan intelijen dan pemantauan Pakem (Modul 4); pelanggaran baru terjadi bila memenuhi Pasal 1 Penpres 1/1965, dan sanksinya berjenjang (peringatan keras → pembubaran → pidana). Menulis temuan seolah-olah sudah vonis adalah kesalahan yang sama besarnya dengan menulis telaahan tanpa akibat hukum.</div>
+
+  <h3>Struktur Intel — dari Kejagung sampai Kejari</h3>
+  <table>
+    <tr><th style="width:22%">Tingkat</th><th>Struktur Intel</th></tr>
+    <tr><td><strong>Kejagung</strong></td><td><strong>Jamintel</strong> — Jaksa Agung Muda Bidang Intelijen (Perban 3/2024 Pasal 145); di bawahnya antara lain Direktorat Pengamanan Pembangunan Strategis (Direktorat IV).</td></tr>
+    <tr><td><strong>Kejati</strong></td><td><strong>Asintel</strong> — Asisten Bidang Intelijen; penerima laporan berjenjang dari Kejari dan pemberi arahan operasional.</td></tr>
+    <tr><td><strong>Kejari</strong></td><td><strong>Kasi Intel</strong> — Seksi Intelijen tercantum dalam struktur Kejaksaan Negeri Tipe B (Perban 3/2024 Pasal 986). Inilah seksi yang paling dekat dengan pekerjaanmu sehari-hari: LID/PAM/GAL di wilayah hukum, PPS proyek daerah, penyuluhan hukum, dan Pakem.</td></tr>
+  </table>
+  <div class="callout warn"><b class="t">Catatan kejujuran soal Perban 3/2024</b>Nomor Pasal 986 (struktur Kejari Tipe B) dan Pasal 145 (Jamintel) terkonfirmasi lewat pencarian Pasal.id — tetapi teks lengkap kedua pasal itu tidak terbaca dalam salinan Pasal.id saat ruang ini ditulis. Nomor pasal rincian tugas dan fungsi Seksi Intelijen di Kejari <strong>belum terverifikasi</strong> dan karena itu tidak dikutip di sini. Sebelum mengutip rincian fungsi kata-per-kata untuk keperluan resmi, <strong>verifikasi ke teks Perja konsolidasi / peraturan.go.id</strong>.</div>
+
+  <h3>Pembeda paling mendasar: Intel vs penyelidikan penyidikan</h3>
+  <div class="grid2">
+    <div class="mini-card"><h4>Intel (LID – PAM – GAL)</h4><p>Mengumpulkan dan mengolah informasi untuk <strong>deteksi dini dan peringatan dini</strong>. Produknya: laporan intelijen, telaahan, perkiraan intelijen. <strong>Tidak melakukan upaya paksa</strong> — tidak ada penangkapan, penahanan, penggeledahan, atau penyitaan.</p></div>
+    <div class="mini-card"><h4>Penyelidikan &amp; penyidikan</h4><p>Mencari dan mengumpulkan <strong>alat bukti</strong> untuk membuktikan tindak pidana, dengan wewenang upaya paksa menurut KUHAP (UU 20/2025). Hasilnya dipakai di persidangan.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="mini-card"><h4>Yang menghubungkan keduanya</h4><p>Produk Intel sering menjadi <strong>pintu masuk</strong> penyelidikan: laporan intelijen yang memadai dapat menjadi dasar pimpinan memerintahkan pulbaket atau penyelidikan — tetapi laporan intelijen itu sendiri <strong>bukan alat bukti formal</strong> di persidangan. Ia memandu langkah, bukan menggantikan pembuktian.</p></div>
+    <div class="mini-card"><h4>Yang tidak boleh tertukar</h4><p>Jaksa Intel yang “mengumpulkan informasi” tentang seseorang <strong>bukan</strong> sedang menyidik orang itu. Bila pengumpulan informasi itu berubah menjadi pemanggilan, pemeriksaan, atau penggeledahan — itu sudah keluar dari koridor Intel dan harus tunduk pada aturan penyidikan.</p></div>
+  </div>
+
+  <h3>Siklus intelijen 5 tahap — klik tiap tahap</h3>
+  <div class="flow" id="flow1" role="tablist" aria-label="Siklus kerja intelijen">
+    <button data-flow="0" class="active"><span class="ic">🎯</span>Perencanaan</button>
+    <button data-flow="1"><span class="ic">🔍</span>Pengumpulan</button>
+    <button data-flow="2"><span class="ic">🧩</span>Pengolahan</button>
+    <button data-flow="3"><span class="ic">📄</span>Penyajian Produk</button>
+    <button data-flow="4"><span class="ic">🧭</span>Penggunaan</button>
+  </div>
+  <div class="flow-detail" id="flowDetail"></div>
+  <p style="font-size:.9rem;color:var(--muted)">Catatan: lima tahap ini adalah alur kerja baku intelijen (siklus intelijen) sebagaimana dipraktikkan di Kejaksaan; nomor pasal yang mengaturnya dalam Perban 4/2019 tentang Administrasi Intelijen belum terverifikasi, sehingga tidak ada nomor pasal yang dikutip untuk alur ini.</p>
+
+  <div class="callout note"><b class="t">Posisimu di alur ini</b>Sebagai Penelaah di Kejari, kamu akan sering menerima produk Intel sebagai bahan telaah — laporan intelijen tentang dugaan penyimpangan, atau telaahan Intel tentang situasi daerah. Tugas telaahmu: pisahkan <strong>apa yang sudah berupa fakta terverifikasi</strong> dari <strong>apa yang masih berupa informasi mentah atau perkiraan</strong>, lalu tulis akibat hukumnya masing-masing. Modul 2 mengajarimu membaca produk itu dengan benar.</div>
+
+  <div class="quiz" data-quiz="m1">
+    <h4>Kuis Modul 1 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. Pasal 30B UU 11/2021 huruf (a): penyelidikan, pengamanan, dan penggalangan untuk kepentingan penegakan hukum — disingkat LID–PAM–GAL. Pasal 30 ayat (3) mengatur ketertiban umum, bukan intelijen penegakan hukum.">
+      <p class="qq">1. Pasal mana yang menjadi dasar kewenangan intelijen penegakan hukum Kejaksaan (LID–PAM–GAL)?</p>
+      <div class="opts"><button>Pasal 30 ayat (3) UU 16/2004</button><button>Pasal 30B UU 11/2021 — penyelidikan, pengamanan, dan penggalangan</button><button>Pasal 30 ayat (2) UU 16/2004</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. UU 17/2011 Pasal 9 huruf d: Intelijen Kejaksaan RI adalah salah satu Penyelenggara Intelijen Negara; Pasal 13 ayat (1): fungsinya Intelijen penegakan hukum.">
+      <p class="qq">2. Di mana kedudukan Intelijen Kejaksaan dalam sistem Intelijen Negara (UU 17/2011)?</p>
+      <div class="opts"><button>Bagian dari BIN</button><button>Di bawah Intelijen Polri</button><button>Salah satu Penyelenggara Intelijen Negara (Pasal 9 huruf d), dengan fungsi intelijen penegakan hukum (Pasal 13 ayat (1))</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Intel tidak melakukan upaya paksa — tidak ada penangkapan, penahanan, penggeledahan, atau penyitaan. Yang melakukan itu adalah penyidikan, dengan wewenang menurut KUHAP.">
+      <p class="qq">3. Seksi Intel menerima informasi tentang dugaan pungutan liar di sebuah dinas. Apa yang TIDAK boleh dilakukan Intel?</p>
+      <div class="opts"><button>Menangkap dan menahan terduga pelaku</button><button>Mengumpulkan informasi dari sumber terbuka dan sumber manusia</button><button>Menyusun laporan intelijen untuk pimpinan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Laporan intelijen memandu langkah — misalnya menjadi dasar pulbaket atau penyelidikan — tetapi bukan alat bukti formal di persidangan. Pembuktian tetap lewat alat bukti menurut KUHAP.">
+      <p class="qq">4. Apa kedudukan laporan intelijen dalam proses penegakan hukum?</p>
+      <div class="opts"><button>Alat bukti formal yang langsung dipakai hakim di persidangan</button><button>Bahan deteksi dini dan dasar langkah berikutnya (mis. pulbaket/penyelidikan) — bukan alat bukti formal</button><button>Putusan yang mengikat penyidik</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul2" style="--mc:var(--m2)" data-module="m2">
+  <p class="kicker">Modul 2</p>
+  <h2>Intelijen Penegakan Hukum: LID · PAM · GAL</h2>
+  <p class="sub">Tiga fungsi dalam satu huruf Pasal 30B: penyelidikan (LID), pengamanan (PAM), penggalangan (GAL). Ketiganya bekerja dengan informasi — bukan dengan upaya paksa — dan ketiganya bermuara pada satu hal: produk intelijen yang bisa dipakai pimpinan untuk memutuskan.</p>
+
+  <h3>LID — Penyelidikan (intelijen)</h3>
+  <p>Bukan “penyelidikan” dalam arti KUHAP. LID adalah <strong>pengumpulan data dan informasi</strong> secara sistematis tentang suatu persoalan, orang, atau situasi yang berpotensi mengganggu penegakan hukum — sebelum persoalan itu menjadi perkara.</p>
+  <ul>
+    <li><strong>Sumber terbuka (open sources):</strong> berita media, media sosial, dokumen publik, peraturan, laporan resmi, dan data yang dapat diakses siapa pun. Ini sumber pertama dan paling aman — murah, legal, dan sering kali sudah cukup.</li>
+    <li><strong>Sumber manusia (human sources):</strong> keterangan dari orang yang mengetahui situasi di lapangan — masyarakat, aparat, tokoh setempat. Dijaga kerahasiaan identitasnya; informasi darinya selalu <strong>diverifikasi silang</strong> dengan sumber lain sebelum ditulis sebagai fakta.</li>
+    <li><strong>Liaison:</strong> pertukaran informasi dengan penyelenggara intelijen lain (BIN, Intelijen TNI, Intelijen Polri, intelijen kementerian/lembaga) dan dengan instansi terkait — sesuai Pasal 30B huruf (c) UU 11/2021, di dalam maupun di luar negeri.</li>
+    <li><strong>Contoh kerja LID di Kejari:</strong> memetakan pola pengaduan masyarakat tentang pungli di layanan publik; mendeteksi dini gejala konflik agraria sebelum meletus; mengumpulkan informasi awal tentang dugaan penyimpangan proyek daerah.</li>
+  </ul>
+  <div class="callout warn"><b class="t">Aturan main LID yang tidak boleh dilanggar</b>Satu informasi dari satu sumber adalah <strong>dugaan, bukan fakta</strong>. Tulis sumbernya, tulis derajat kepercayaannya, dan jangan pernah menyajikan informasi tunggal seolah-olah sudah terverifikasi. Laporan intelijen yang baik justru jujur soal apa yang belum diketahui.</div>
+
+  <h3>PAM — Pengamanan</h3>
+  <p>Pengamanan dalam arti intelijen: <strong>mencegah kebocoran dan gangguan</strong> terhadap orang, materiil, kegiatan, dan informasi yang berkaitan dengan penegakan hukum.</p>
+  <ul>
+    <li><strong>Pengamanan personil:</strong> melindungi jaksa, saksi, dan pihak terkait dari intimidasi atau ancaman yang menghambat penegakan hukum.</li>
+    <li><strong>Pengamanan materiil:</strong> menjaga aset, dokumen, dan barang bukti dari perusakan, penghilangan, atau pengalihan.</li>
+    <li><strong>Pengamanan kegiatan:</strong> memastikan kegiatan penegakan hukum (mis. eksekusi, penyerahan tersangka dan barang bukti) berjalan tanpa gangguan.</li>
+    <li><strong>Pengamanan informasi &amp; kontra-intelijen:</strong> menjaga kerahasiaan produk dan sumber intelijen, serta mendeteksi upaya pihak lain mengorek informasi Kejaksaan.</li>
+  </ul>
+
+  <h3>GAL — Penggalangan</h3>
+  <p>Penggalangan adalah <strong>menciptakan kondisi yang mendukung</strong> penegakan hukum: membangun kesadaran, dukungan, dan kerja sama dari masyarakat dan pemangku kepentingan, sehingga penegakan hukum tidak berjalan sendirian.</p>
+  <ul>
+    <li><strong>Contoh GAL:</strong> menggalang tokoh masyarakat dan pemda agar mendukung penertiban; membangun komunikasi dengan media agar pemberitaan perkara akurat; mengajak masyarakat melapor lewat saluran pengaduan Kejari.</li>
+    <li><strong>Batas GAL:</strong> penggalangan <strong>bukan</strong> memengaruhi putusan hakim, <strong>bukan</strong> menekan saksi, dan <strong>bukan</strong> membentuk opini untuk memenangkan perkara di luar pengadilan. Yang digalang adalah kondisi — bukan hasil perkara.</li>
+  </ul>
+
+  <h3>Pengolahan &amp; analisis — dari informasi mentah ke perkiraan</h3>
+  <ol>
+    <li><strong>Pengumpulan</strong> — kumpulkan dari berbagai sumber (terbuka, manusia, liaison).</li>
+    <li><strong>Pengolahan</strong> — saring, verifikasi silang, dan klasifikasikan: mana fakta, mana dugaan, mana rumor.</li>
+    <li><strong>Analisis</strong> — cari pola, kaitkan antar-informasi, nilai ancaman dan risikonya.</li>
+    <li><strong>Perkiraan (estimasi)</strong> — susun penilaian tentang apa yang kemungkinan terjadi berikutnya, lengkap dengan derajat kepastiannya.</li>
+    <li><strong>Penyajian</strong> — tulis dalam produk intelijen yang singkat, jelas, dan bisa dipakai pimpinan untuk memutuskan.</li>
+  </ol>
+
+  <h3>Produk intelijen — yang ada di mejamu</h3>
+  <table>
+    <tr><th style="width:26%">Produk</th><th>Isi &amp; kegunaan</th></tr>
+    <tr><td><strong>Laporan intelijen</strong></td><td>Laporan berkala atau insidentil tentang situasi di wilayah hukum: apa yang terjadi, apa yang terverifikasi, apa yang masih dugaan, dan apa rekomendasi tindak lanjutnya. Disampaikan berjenjang: Kejari → Kejati (Asintel) → Kejagung (Jamintel).</td></tr>
+    <tr><td><strong>Telaahan intelijen</strong></td><td>Kajian mendalam atas satu persoalan — misalnya telaahan tentang kerawanan konflik di satu kecamatan, atau telaahan tentang pola penyimpangan di satu sektor. Formatnya dekat dengan telaahan yang kamu kenal: Kasus Posisi, Fakta-Fakta, Analisa, Kesimpulan, Saran.</td></tr>
+    <tr><td><strong>Perkiraan intelijen</strong></td><td>Penilaian tentang perkembangan situasi ke depan (mis. perkiraan kerawanan menjelang pilkada atau menjelang eksekusi besar). Selalu disertai derajat kepastian — “kemungkinan besar”, “kemungkinan”, “kecil kemungkinan” — bukan ramalan yang disajikan sebagai kepastian.</td></tr>
+    <tr><td><strong>Register Intel</strong></td><td>Pencatatan produk, sumber, dan kegiatan intelijen di satker — dijaga kerahasiaannya. Penomoran dan formatnya mengikuti administrasi intelijen yang berlaku (Perban 4/2019 tentang Administrasi Intelijen); cek pedoman yang berlaku di satker sebelum mengutip satu kode.</td></tr>
+  </table>
+
+  <h3>Bagaimana produk Intel menopang Pidum, Pidsus, dan Datun</h3>
+  <div class="grid2">
+    <div class="mini-card"><h4>Menopang Pidum</h4><p>Deteksi dini perkara yang akan masuk: laporan intelijen tentang maraknya pencurian di satu wilayah membantu Pidum menyiapkan pola penuntutan dan koordinasi dengan penyidik — sebelum berkas menumpuk di meja pra-penuntutan.</p></div>
+    <div class="mini-card"><h4>Menopang Pidsus</h4><p>Pemetaan jaringan dan pola penyimpangan: informasi awal tentang proyek daerah yang bermasalah menjadi bahan pulbaket — dan bila cukup, penyelidikan. Di sinilah LID paling terasa nilainya.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="mini-card"><h4>Menopang Datun</h4><p>Informasi tentang aset daerah yang dikuasai pihak lain atau sengketa yang membayangi pemda menjadi bahan awal Datun — sebelum sengketa itu menjadi gugatan yang merugikan negara.</p></div>
+    <div class="mini-card"><h4>Menopang pimpinan</h4><p>Perkiraan intelijen memberi Kajari gambaran situasi wilayah hukumnya: mana yang aman, mana yang rawan, dan mana yang butuh langkah pencegahan minggu ini — bukan setelah kejadian.</p></div>
+  </div>
+
+  <h3>Flashcard LID · PAM · GAL — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashIntel"></div>
+
+  <div class="quiz" data-quiz="m2">
+    <h4>Kuis Modul 2 · Cek Pemahaman</h4>
+    <div class="q" data-answer="0" data-explain="Betul. LID adalah pengumpulan data dan informasi — dari sumber terbuka, sumber manusia, dan liaison — untuk deteksi dini. Bukan penyelidikan KUHAP dan bukan pengumpulan alat bukti.">
+      <p class="qq">1. Apa yang dimaksud LID (penyelidikan intelijen)?</p>
+      <div class="opts"><button>Pengumpulan data dan informasi untuk deteksi dini — dari sumber terbuka, sumber manusia, dan liaison</button><button>Penyelidikan tindak pidana untuk mengumpulkan alat bukti</button><button>Pengamanan jaksa dari ancaman</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Satu sumber = dugaan, bukan fakta. Informasi harus diverifikasi silang dengan sumber lain sebelum ditulis sebagai fakta dalam laporan intelijen.">
+      <p class="qq">2. Seorang informan menyampaikan dugaan pungli di sebuah dinas. Bagaimana informasi itu diperlakukan?</p>
+      <div class="opts"><button>Langsung ditulis sebagai fakta dalam laporan intelijen</button><button>Diperlakukan sebagai dugaan — diverifikasi silang dengan sumber lain dulu</button><button>Langsung dilaporkan ke polisi sebagai tindak pidana</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. GAL menggalang kondisi yang mendukung penegakan hukum — kesadaran, dukungan, kerja sama. Bukan memengaruhi putusan hakim atau menekan saksi.">
+      <p class="qq">3. Mana yang BUKAN penggalangan (GAL) yang sah?</p>
+      <div class="opts"><button>Mengajak masyarakat melapor lewat saluran pengaduan Kejari</button><button>Membangun komunikasi dengan media agar pemberitaan perkara akurat</button><button>Menekan saksi agar keterangannya menguntungkan penuntutan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Pengamanan informasi dan kontra-intelijen adalah bagian dari PAM: menjaga kerahasiaan produk dan sumber intelijen, serta mendeteksi upaya pihak lain mengorek informasi Kejaksaan.">
+      <p class="qq">4. Ada pihak yang mencoba mengorek isi laporan intelijen Kejari. Fungsi apa yang bekerja untuk menangkalnya?</p>
+      <div class="opts"><button>PAM — pengamanan informasi dan kontra-intelijen</button><button>GAL — penggalangan tokoh masyarakat</button><button>Datun — bantuan hukum perdata</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Perkiraan intelijen selalu disertai derajat kepastian — 'kemungkinan besar', 'kemungkinan', 'kecil kemungkinan'. Menyajikan perkiraan sebagai kepastian adalah kesalahan fatal dalam produk intelijen.">
+      <p class="qq">5. Dalam perkiraan intelijen tentang kerawanan menjelang pilkada, apa yang wajib dicantumkan?</p>
+      <div class="opts"><button>Kepastian mutlak tentang apa yang akan terjadi</button><button>Derajat kepastian dari setiap penilaian (kemungkinan besar / kemungkinan / kecil kemungkinan)</button><button>Nama-nama orang yang pasti akan berbuat rusuh</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul3" style="--mc:var(--m3)" data-module="m3">
+  <p class="kicker">Modul 3</p>
+  <h2>Pengamanan Pembangunan Strategis (PPS)</h2>
+  <p class="sub">Proyek strategis — jalan, bendungan, layanan digital pemerintah — adalah tempat uang negara paling besar bergerak, dan tempat risiko hukum paling mudah lahir. PPS adalah Intel yang berdiri di samping proyek itu sejak awal: mendampingi dan mencegah, bukan menunggu perkara.</p>
+
+  <h3>Dasar hukumnya</h3>
+  <ul>
+    <li><strong>Pasal 30B huruf (b) UU 11/2021</strong> (terverifikasi): Kejaksaan berwenang “menciptakan kondisi yang mendukung dan mengamankan pelaksanaan pembangunan”.</li>
+    <li><strong>Pedoman Jaksa Agung Nomor 5 Tahun 2023 tentang Pengamanan Pembangunan Strategis</strong> — PPS adalah bagian dari tugas intelijen penegakan hukum; pedoman ini menjadi acuan satker dalam melaksanakan PPS (terverifikasi lewat JDIH Kejaksaan).</li>
+    <li><strong>Petunjuk Teknis Jaksa Agung Muda Intelijen Nomor B-1450/D/Ds/09/2023</strong> tentang Tata Cara Pelaksanaan PPS — juknis operasionalnya (terverifikasi lewat siaran resmi Kejaksaan).</li>
+  </ul>
+
+  <h3>Apa itu PPS — dan apa yang bukan</h3>
+  <div class="grid2">
+    <div class="mini-card"><h4>PPS adalah…</h4><p><strong>Pendampingan dan pencegahan.</strong> Intel mendampingi proyek strategis (nasional maupun daerah) agar berjalan sesuai aturan: mengidentifikasi risiko hukum sejak awal, memberi peringatan dini, dan membantu menyelesaikan hambatan administratif — supaya proyek selesai tepat waktu tanpa perkara.</p></div>
+    <div class="mini-card"><h4>PPS bukan…</h4><p><strong>Penindakan dan bukan kekebalan hukum.</strong> PPS tidak melegalkan perbuatan melawan hukum dan tidak melindungi siapa pun dari proses hukum. Bila ditemukan indikasi pelanggaran, proses hukum tetap berjalan — PPS-nya yang dihentikan atau dilaporkan, bukan pelanggarannya yang ditutup.</p></div>
+  </div>
+  <div class="callout warn"><b class="t">Kalimat yang wajib dihafal</b>“PPS tidak memberikan kekebalan hukum bagi personel proyek. Jika ditemukan pelanggaran hukum, pelaku tetap bertanggung jawab sesuai ketentuan hukum yang berlaku.” Bila ada pihak proyek yang mengira didampingi Kejaksaan berarti kebal hukum — luruskan di entry meeting, sebelum pakta integritas ditandatangani.</div>
+
+  <h3>AGHT — empat kata yang menggerakkan PPS</h3>
+  <table>
+    <tr><th style="width:20%">Unsur</th><th>Contoh di proyek daerah</th></tr>
+    <tr><td><strong>Ancaman</strong></td><td>Upaya pihak tertentu menggagalkan proyek: intimidasi terhadap pelaksana, sabotase, atau tekanan politik agar proyek dialihkan.</td></tr>
+    <tr><td><strong>Gangguan</strong></td><td>Gangguan terhadap personil pelaksana, materiil/aset proyek, atau terhadap pekerjaan yang sedang berjalan.</td></tr>
+    <tr><td><strong>Hambatan</strong></td><td>Hambatan birokrasi dalam perizinan, tumpang tindih peraturan, atau lahan yang belum bersih sehingga pekerjaan tertunda.</td></tr>
+    <tr><td><strong>Tantangan</strong></td><td>Tantangan yang datang dari dalam: kapasitas pelaksana yang lemah, administrasi proyek yang berantakan, atau komunikasi yang buruk antar-instansi.</td></tr>
+  </table>
+  <p>Tugas Intel dalam PPS adalah <strong>menginventarisasi AGHT</strong> — mencatatnya satu per satu, menilai risikonya, lalu merekomendasikan langkah untuk menetralkannya, sebelum AGHT itu berubah menjadi kerugian negara atau perkara pidana.</p>
+
+  <h3>Tiga sasaran pengamanan</h3>
+  <ul>
+    <li><strong>Pengamanan personil</strong> — pelaksana proyek, pejabat terkait, dan masyarakat di sekitar proyek aman dari intimidasi dan gangguan.</li>
+    <li><strong>Pengamanan materiil</strong> — aset, material, dan dokumen proyek tidak dirusak, dialihkan, atau dimanipulasi.</li>
+    <li><strong>Pengamanan kegiatan</strong> — tahapan proyek (pengadaan, pelaksanaan, serah terima) berjalan sesuai aturan dan jadwal.</li>
+  </ul>
+
+  <h3>Prinsip PPS — enam kata kunci</h3>
+  <p>Menurut Pedoman Jaksa Agung No. 5/2023, PPS dilaksanakan dengan prinsip: <strong>objektif, profesional, koordinatif, kerahasiaan, netralitas, dan akuntabilitas</strong>. Dua yang paling sering diuji di lapangan: <strong>netralitas</strong> — Intel tidak berpihak pada rekanan maupun pada pejabat proyek; dan <strong>kerahasiaan</strong> — informasi proyek yang sensitif tidak dibocorkan ke pihak yang tidak berhak.</p>
+
+  <h3>Alur PPS 5 tahap — klik tahapnya</h3>
+  <div class="flow" id="flowAdm">
+    <button data-adm="0" class="active">Permohonan PPS</button>
+    <button data-adm="1">Entry Meeting &amp; Pakta Integritas</button>
+    <button data-adm="2">Identifikasi AGHT</button>
+    <button data-adm="3">Pendampingan &amp; Pengamanan</button>
+    <button data-adm="4">Exit Meeting &amp; Laporan</button>
+  </div>
+  <div class="flow-detail" id="admDetail"></div>
+  <p style="font-size:.9rem;color:var(--muted)">Catatan praktis: menurut standar pelayanan sejumlah Kejari, total pelayanan PPS maksimal 365 hari (1 tahun) — dari entry meeting sampai exit meeting. Permohonan PPS diajukan oleh kementerian/lembaga, pemerintah daerah, atau BUMN/BUMD, dan ditandatangani oleh pejabat tinggi madya.</p>
+
+  <h3>Bila ditemukan indikasi pelanggaran di tengah PPS</h3>
+  <p>Langkahnya berjenjang dan harus didokumentasikan: <strong>(1)</strong> catat temuan sebagai informasi intelijen — pisahkan fakta terverifikasi dari dugaan; <strong>(2)</strong> sampaikan peringatan kepada pemohon/pelaksana agar menghentikan atau memperbaiki; <strong>(3)</strong> bila indikasi mengarah pada kerugian negara, laporkan berjenjang dan serahkan penanganannya ke jalur yang berwenang (APIP untuk audit, atau Pidsus bila sudah masuk ranah pidana) — dengan mekanisme administrasi yang berlaku, di mana laporan aparat penegak hukum diserahkan kepada APIP untuk diaudit; <strong>(4)</strong> PPS dapat dihentikan bila proyeknya sendiri sudah bermasalah secara hukum. Yang tidak pernah dilakukan: menutup temuan demi “menjaga” proyek.</p>
+
+  <h3>Flashcard PPS — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashPPS"></div>
+
+  <div class="quiz" data-quiz="m3">
+    <h4>Kuis Modul 3 · Cek Pemahaman</h4>
+    <div class="q" data-answer="1" data-explain="Betul. PPS adalah pendampingan dan pencegahan — mendampingi proyek agar berjalan sesuai aturan dan mencegah pelanggaran. Bukan penindakan, dan bukan kekebalan hukum.">
+      <p class="qq">1. Apa hakikat Pengamanan Pembangunan Strategis (PPS)?</p>
+      <div class="opts"><button>Menindak pelaksana proyek yang melanggar hukum</button><button>Pendampingan dan pencegahan — mendampingi proyek agar berjalan sesuai aturan</button><button>Memberi kekebalan hukum kepada personel proyek</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Betul. Pedoman Jaksa Agung No. 5/2023 tentang PPS, dengan dasar Pasal 30B huruf (b) UU 11/2021 — menciptakan kondisi yang mendukung dan mengamankan pelaksanaan pembangunan.">
+      <p class="qq">2. Apa dasar hukum PPS?</p>
+      <div class="opts"><button>Pasal 30B huruf (b) UU 11/2021 jo. Pedoman Jaksa Agung No. 5/2023 tentang PPS</button><button>Pasal 30 ayat (2) UU 16/2004 tentang kuasa khusus</button><button>UU 17/2011 Pasal 9 tentang BIN</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. AGHT = Ancaman, Gangguan, Hambatan, Tantangan. Tugas Intel adalah menginventarisasi AGHT, menilai risikonya, dan merekomendasikan langkah penetralannya.">
+      <p class="qq">3. Dalam PPS, apa yang dimaksud AGHT?</p>
+      <div class="opts"><button>Anggaran, Gaji, Honor, Tunjangan proyek</button><button>Alat, Gedung, Harta, Tanah milik proyek</button><button>Ancaman, Gangguan, Hambatan, Tantangan terhadap pelaksanaan proyek</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. PPS tidak melegalkan perbuatan melawan hukum. Temuan didokumentasikan, diperingatkan, dan bila mengarah pada kerugian negara diteruskan ke jalur yang berwenang (APIP/Pidsus) — PPS-nya yang dihentikan, bukan pelanggarannya yang ditutup.">
+      <p class="qq">4. Di tengah PPS, Intel menemukan indikasi mark-up harga material. Sikap yang benar?</p>
+      <div class="opts"><button>Menutup temuan agar proyek tidak terganggu</button><button>Mendokumentasikan temuan, memberi peringatan, dan meneruskannya ke jalur yang berwenang</button><button>Langsung menangkap pelaksana proyek</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul4" style="--mc:var(--m4)" data-module="m4">
+  <p class="kicker">Modul 4</p>
+  <h2>Penerangan &amp; Penyuluhan Hukum + Pakem</h2>
+  <p class="sub">Intel juga bekerja di ruang publik: membuat masyarakat paham hukum sebelum melanggarnya, dan mengawasi aliran kepercayaan yang membahayakan masyarakat dan negara. Dua tugas yang sama-sama preventif — dan sama-sama rawan bila dikerjakan tanpa dasar hukum yang tepat.</p>
+
+  <h3>Dasar hukumnya — Pasal 30 ayat (3) UU 16/2004</h3>
+  <p>Tiga huruf yang menjadi payung modul ini (terverifikasi): <strong>(a)</strong> peningkatan kesadaran hukum masyarakat; <strong>(d)</strong> pengawasan aliran kepercayaan yang dapat membahayakan masyarakat dan negara; dan <strong>(e)</strong> pencegahan penyalahgunaan dan/atau penodaan agama. Ditambah <strong>(c)</strong> pengawasan peredaran barang cetakan — yang dalam praktik modern bersinggungan dengan pengawasan konten di media (lihat juga Pasal 30B huruf (e) tentang pengawasan multimedia).</p>
+
+  <h3>Penyuluhan hukum — Jaksa Masuk Sekolah dan sejenisnya</h3>
+  <ul>
+    <li><strong>Jaksa Masuk Sekolah (JMS)</strong> — program unggulan Kejaksaan: jaksa turun langsung ke sekolah (SD, SMP, SMA/SMK) memberi penyuluhan hukum dengan bahasa yang mudah dicerna pelajar. Materinya preventif: narkotika, bullying, tawuran, penyalahgunaan media sosial, korupsi, dan kekerasan. Program ini dicanangkan lewat <strong>Keputusan Jaksa Agung Nomor 184/A/JA/11/2015 tentang Pencanangan Program Jaksa Masuk Sekolah</strong>.</li>
+    <li><strong>Penyuluhan ke masyarakat dan pemda</strong> — penyuluhan hukum di desa/kelurahan, di instansi pemerintah daerah, dan di komunitas: tentang hukum yang langsung menyentuh hidup mereka (mis. hukum pertanahan, perlindungan anak, atau bahaya narkoba).</li>
+    <li><strong>Pos Pelayanan Hukum &amp; pengaduan masyarakat</strong> — Kejari menerima pengaduan dan memberi layanan hukum dasar kepada masyarakat; dasarnya antara lain Surat Edaran Jaksa Agung Nomor 006/A/JA/05/2010 tentang Petunjuk Pelaksanaan Pos Pelayanan Hukum dan Penerimaan Pengaduan Masyarakat.</li>
+  </ul>
+  <div class="callout warn"><b class="t">Catatan kejujuran soal JMS</b>Keputusan Jaksa Agung No. 184/A/JA/11/2015 dikutip dari dua sumber akademik (skripsi Universitas Bung Hatta dan jurnal KARYA JPM 2024) — bukan dari teks keputusan itu sendiri. Sebelum mengutipnya untuk keperluan resmi, <strong>verifikasi ke JDIH Kejaksaan</strong>. Yang tidak diragukan: program JMS-nya sendiri nyata dan berjalan di Kejari-Kejari, termasuk sebagai kegiatan Seksi Intelijen.</div>
+
+  <h3>Penerangan hukum &amp; kehumasan</h3>
+  <p>Penerangan hukum adalah <strong>penyampaian informasi hukum kepada publik</strong>: menjelaskan perkara yang sedang ditangani Kejaksaan, meluruskan pemberitaan yang keliru, dan menjaga kepercayaan publik pada penegakan hukum. Di Kejagung tugas ini diemban Pusat Penerangan Hukum (Puspenkum); di Kejari, Kasi Intel yang biasanya menjadi juru bicara dan penanggung jawab kehumasan.</p>
+  <ul>
+    <li><strong>Yang boleh disampaikan:</strong> fakta perkara yang sudah menjadi informasi publik, tahapan proses hukum, dan penjelasan hukum yang umum.</li>
+    <li><strong>Yang tidak boleh:</strong> materi penyidikan/penuntutan yang masih rahasia, identitas saksi/korban yang dilindungi, dan opini tentang bersalah-tidaknya seseorang sebelum ada putusan berkekuatan hukum tetap.</li>
+    <li><strong>Ujian sehari-hari:</strong> wartawan menelepon menanyakan perkara yang sedang berjalan. Jawaban yang benar bukan “no comment” yang defensif — melainkan penjelasan singkat tentang tahapannya, tanpa membocorkan substansi yang masih rahasia.</li>
+  </ul>
+
+  <h3>Pakem — Pengawasan Aliran Kepercayaan Masyarakat</h3>
+  <p>Pakem adalah pengawasan terhadap aliran kepercayaan dan aliran keagamaan dalam masyarakat yang <strong>dapat membahayakan masyarakat dan negara</strong> (Pasal 30 ayat (3) huruf (d) UU 16/2004). Di daerah, pengawasan ini dijalankan oleh <strong>Tim Pakem kabupaten/kota</strong> yang beranggotakan unsur Kejaksaan (termasuk Seksi Intelijen), pemerintah daerah, Kementerian Agama, dan unsur terkait lainnya.</p>
+  <table>
+    <tr><th style="width:28%">Tahapan menurut Penpres 1/1965</th><th>Isi (terverifikasi via Pasal.id)</th></tr>
+    <tr><td><strong>Pasal 1 — Larangan</strong></td><td>Setiap orang dilarang dengan sengaja di muka umum menceritakan, menganjurkan, atau mengusahakan dukungan umum untuk penafsiran tentang suatu agama yang dianut di Indonesia yang menyimpang dari pokok-pokok ajaran agama itu, atau kegiatan keagamaan yang menyerupai kegiatan agama itu.</td></tr>
+    <tr><td><strong>Pasal 2 — Peringatan &amp; pembubaran</strong></td><td>Pelanggar diberi perintah dan peringatan keras untuk menghentikan perbuatannya, dalam keputusan bersama Menteri Agama, Menteri/Jaksa Agung, dan Menteri Dalam Negeri. Bila pelanggarnya organisasi/aliran kepercayaan, Presiden dapat membubarkannya dan menyatakannya terlarang, setelah mendapat pertimbangan dari ketiga menteri itu.</td></tr>
+    <tr><td><strong>Pasal 3 — Pidana</strong></td><td>Bila setelah tindakan Pasal 2 pelanggaran tetap diteruskan, pelakunya dipidana penjara selama-lamanya <strong>5 tahun</strong>.</td></tr>
+  </table>
+  <div class="callout note"><b class="t">Temuan vs akibat hukum — contoh konkret</b>Temuan: “Sebuah aliran kepercayaan baru mengajarkan ajaran yang menyimpang dan mengumpulkan dana dari pengikutnya.” Akibat hukumnya: temuan itu <strong>belum</strong> berarti aliran itu terlarang — ia harus melalui pemantauan Tim Pakem, lalu peringatan keras bersama (Pasal 2 ayat (1)), dan hanya Presiden yang dapat membubarkannya (Pasal 2 ayat (2)). Jaksa Intel yang langsung menyatakan suatu aliran “sesat dan terlarang” di muka umum telah melampaui kewenangannya dan justru menciptakan perkara baru.</div>
+
+  <h3>Peran Intel dalam pencegahan — tiga garis batas</h3>
+  <ul>
+    <li><strong>Pencegahan, bukan penghukuman:</strong> penyuluhan dan Pakem bekerja sebelum pelanggaran terjadi. Begitu pelanggaran sudah terjadi, penanganannya pindah ke jalur pidana atau administratif yang berwenang.</li>
+    <li><strong>Pengawasan, bukan pelarangan sepihak:</strong> Intel mengawasi dan melaporkan; keputusan tentang suatu aliran ada di tangan mekanisme Penpres 1/1965, bukan di tangan satu seksi.</li>
+    <li><strong>Netral dan faktual:</strong> laporan Pakem harus mencatat fakta yang terverifikasi — ajaran apa, kegiatan apa, dampak apa — bukan penilaian teologis sepihak. Bila datanya tipis, tulis bahwa datanya tipis.</li>
+  </ul>
+
+  <h3>Flashcard penyuluhan &amp; Pakem — klik untuk membalik</h3>
+  <div class="flash-grid" id="flashPakem"></div>
+
+  <div class="quiz" data-quiz="m4">
+    <h4>Kuis Modul 4 · Cek Pemahaman</h4>
+    <div class="q" data-answer="0" data-explain="Betul. Pasal 30 ayat (3) huruf (a) UU 16/2004: peningkatan kesadaran hukum masyarakat. JMS adalah wujudnya di sekolah — jaksa turun langsung memberi penyuluhan preventif kepada pelajar.">
+      <p class="qq">1. Program Jaksa Masuk Sekolah (JMS) berpijak pada pasal apa?</p>
+      <div class="opts"><button>Pasal 30 ayat (3) huruf (a) UU 16/2004 — peningkatan kesadaran hukum masyarakat</button><button>Pasal 30 ayat (2) UU 16/2004 — kuasa khusus Datun</button><button>Pasal 30B huruf (e) UU 11/2021 — pengawasan multimedia</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Penpres 1/1965 Pasal 2 ayat (1): pelanggar diberi perintah dan peringatan keras lewat keputusan bersama Menteri Agama, Menteri/Jaksa Agung, dan Menteri Dalam Negeri. Pembubaran hanya oleh Presiden (ayat (2)), dan pidana hanya bila pelanggaran diteruskan setelah itu (Pasal 3).">
+      <p class="qq">2. Sebuah aliran kepercayaan diduga menyimpang dari pokok ajaran agama. Apa langkah pertama menurut Penpres 1/1965?</p>
+      <div class="opts"><button>Langsung membubarkan aliran itu</button><button>Perintah dan peringatan keras untuk menghentikan perbuatannya, lewat keputusan bersama Menag, Jaksa Agung, dan Mendagri (Pasal 2 ayat (1))</button><button>Langsung memidana penganutnya 5 tahun penjara</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Betul. Pembubaran organisasi/aliran kepercayaan hanya dapat dilakukan Presiden, setelah mendapat pertimbangan Menteri Agama, Jaksa Agung, dan Menteri Dalam Negeri (Pasal 2 ayat (2) Penpres 1/1965). Bukan kewenangan Kajari atau Kasi Intel.">
+      <p class="qq">3. Siapa yang berwenang membubarkan sebuah organisasi/aliran kepercayaan menurut Penpres 1/1965?</p>
+      <div class="opts"><button>Kepala Kejaksaan Negeri setempat</button><button>Tim Pakem kabupaten/kota</button><button>Presiden, setelah mendapat pertimbangan Menag, Jaksa Agung, dan Mendagri</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Betul. Yang boleh disampaikan: fakta yang sudah menjadi informasi publik dan tahapan proses hukum. Materi penyidikan/penuntutan yang masih rahasia, identitas saksi/korban yang dilindungi, dan opini tentang bersalah-tidaknya seseorang sebelum putusan inkracht tidak boleh disampaikan.">
+      <p class="qq">4. Wartawan menelepon Kasi Intel menanyakan perkara yang sedang berjalan. Apa yang boleh disampaikan?</p>
+      <div class="opts"><button>Seluruh isi berkas penyidikan agar beritanya lengkap</button><button>Fakta yang sudah menjadi informasi publik dan tahapan proses hukumnya — tanpa membocorkan substansi yang masih rahasia</button><button>Opini bahwa terdakwanya pasti bersalah</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="module" id="modul5" style="--mc:var(--m5)" data-module="m5">
+  <p class="kicker">Modul 5</p>
+  <h2>Simulasi End-to-End: PPS Proyek Jalan di Kabupaten Fiktif</h2>
+  <p class="sub">Kasus hipotetis — semua nama, tempat, dan angka fiktif. Pemerintah Kabupaten Fiktif membangun Jalan Lingkar Fiktif senilai Rp45 miliar; Kejari Fiktif diminta mendampingi lewat PPS. Di tengah jalan muncul dugaan penyimpangan. Jalani 10 langkahnya sebagai Kasi Intel — tanpa upaya paksa, tanpa melampaui kewenangan.</p>
+
+  <div class="sim-steps" id="simDots" aria-hidden="true"></div>
+  <div class="sim-panel" id="simPanel"></div>
+  <div class="sim-nav">
+    <button class="btn ghost" id="simPrev">← Langkah sebelumnya</button>
+    <button class="btn" id="simNext">Langkah berikutnya →</button>
+  </div>
+
+  <div class="quiz" data-quiz="final">
+    <h4>Self-Check Akhir · 5 Soal</h4>
+    <div class="q" data-answer="1" data-explain="Kunci: Pasal 30B UU 11/2021 huruf (a) — penyelidikan, pengamanan, dan penggalangan untuk kepentingan penegakan hukum. Intel tidak melakukan upaya paksa.">
+      <p class="qq">1. Apa isi kewenangan intelijen penegakan hukum menurut Pasal 30B huruf (a) UU 11/2021?</p>
+      <div class="opts"><button>Penangkapan, penahanan, dan penyitaan</button><button>Penyelidikan, pengamanan, dan penggalangan (LID–PAM–GAL)</button><button>Penuntutan dan eksekusi putusan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Kunci: laporan intelijen memandu langkah berikutnya (mis. pulbaket/penyelidikan), tetapi bukan alat bukti formal di persidangan.">
+      <p class="qq">2. Apa kedudukan laporan intelijen dalam penegakan hukum?</p>
+      <div class="opts"><button>Bahan deteksi dini dan dasar langkah berikutnya — bukan alat bukti formal di persidangan</button><button>Alat bukti formal yang langsung dipakai hakim</button><button>Putusan yang mengikat penyidik</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="1" data-explain="Kunci: PPS adalah pendampingan dan pencegahan (Pedoman Jaksa Agung No. 5/2023); PPS tidak memberi kekebalan hukum — bila ada pelanggaran, proses hukum tetap berjalan.">
+      <p class="qq">3. Apa hakikat PPS dan apa batasnya?</p>
+      <div class="opts"><button>PPS adalah penindakan; personel proyek kebal hukum selama didampingi</button><button>PPS adalah pendampingan dan pencegahan; tidak memberi kekebalan hukum</button><button>PPS adalah penyidikan terhadap proyek strategis</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="2" data-explain="Kunci: AGHT = Ancaman, Gangguan, Hambatan, Tantangan. Tugas Intel dalam PPS adalah menginventarisasi AGHT dan merekomendasikan penanganannya.">
+      <p class="qq">4. Apa yang dimaksud AGHT dalam PPS?</p>
+      <div class="opts"><button>Anggaran, Gaji, Honor, Tunjangan</button><button>Alat, Gedung, Harta, Tanah</button><button>Ancaman, Gangguan, Hambatan, Tantangan</button></div>
+      <div class="fb"></div>
+    </div>
+    <div class="q" data-answer="0" data-explain="Kunci: Penpres 1/1965 Pasal 2 ayat (1) — peringatan keras lewat keputusan bersama Menag/Jaksa Agung/Mendagri; pembubaran hanya oleh Presiden (ayat (2)); pidana maks. 5 tahun hanya bila pelanggaran diteruskan (Pasal 3).">
+      <p class="qq">5. Urutan penanganan aliran kepercayaan yang diduga menyimpang menurut Penpres 1/1965 adalah…</p>
+      <div class="opts"><button>Peringatan keras bersama (Pasal 2 ayat (1)) → pembubaran oleh Presiden bila perlu (ayat (2)) → pidana maks. 5 tahun bila pelanggaran diteruskan (Pasal 3)</button><button>Langsung pidana 5 tahun, lalu pembubaran</button><button>Pembubaran oleh Kajari, lalu peringatan</button></div>
+      <div class="fb"></div>
+    </div>
+    <p class="quiz-score" aria-live="polite"></p>
+  </div>
+</section>
+
+<footer id="sumber">
+  <h3>Sumber</h3>
+  <ul>
+    <li>UU 16/2004 jo. UU 11/2021 tentang Kejaksaan RI — Pasal 30 ayat (3) (ketertiban dan ketenteraman umum); UU 11/2021 Pasal 30B (intelijen penegakan hukum: LID–PAM–GAL, pembangunan, kerja sama, pencegahan KKN, pengawasan multimedia)</li>
+    <li>UU 17/2011 tentang Intelijen Negara — Pasal 1 angka 1 (definisi Intelijen), Pasal 9 huruf d (Intelijen Kejaksaan sebagai Penyelenggara Intelijen Negara), Pasal 13 ayat (1) (fungsi Intelijen penegakan hukum)</li>
+    <li>Peraturan Kejaksaan 3/2024 (Perban 3/2024, perubahan keempat atas Perja PER-006/A/JA/07/2017 tentang Organisasi dan Tata Kerja Kejaksaan) — Pasal 145 (Jaksa Agung Muda Bidang Intelijen), Pasal 986 (Seksi Intelijen dalam struktur Kejari Tipe B)</li>
+    <li>Peraturan Kejaksaan 4/2019 tentang Administrasi Intelijen Kejaksaan RI — dirujuk sebagai pedoman administrasi intelijen (nomor pasal rincian tidak dikutip karena belum terverifikasi)</li>
+    <li>Pedoman Jaksa Agung Nomor 5 Tahun 2023 tentang Pengamanan Pembangunan Strategis; Petunjuk Teknis Jaksa Agung Muda Intelijen Nomor B-1450/D/Ds/09/2023 tentang Tata Cara Pelaksanaan PPS</li>
+    <li>Penetapan Presiden Nomor 1 Tahun 1965 tentang Pencegahan Penyalahgunaan dan/atau Penodaan Agama (UU 1/PNPS/1965) — Pasal 1, 2, dan 3</li>
+    <li>Keputusan Jaksa Agung Nomor 184/A/JA/11/2015 tentang Pencanangan Program Jaksa Masuk Sekolah (dikutip dari literatur akademik; verifikasi ke JDIH Kejaksaan sebelum pemakaian resmi)</li>
+    <li>Surat Edaran Jaksa Agung Nomor 006/A/JA/05/2010 tentang Petunjuk Pelaksanaan Pos Pelayanan Hukum dan Penerimaan Pengaduan Masyarakat</li>
+  </ul>
+  <p>Catatan: ruang ini adalah bahan belajar pribadi. Untuk pemakaian resmi, selalu verifikasi ke teks peraturan versi terbaru — terutama teks lengkap Pasal 145 dan Pasal 986 Perban 3/2024 (tidak terbaca utuh dalam salinan Pasal.id), rincian tugas Seksi Intelijen Kejari, nomor pasal siklus intelijen dalam Perban 4/2019, dan Keputusan Jaksa Agung No. 184/A/JA/11/2015. Semua nama, tempat, dan angka dalam simulasi adalah fiktif.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- PROGRESS ---------- */
+var opened={}, quizDone={};
+function refreshProgress(){
+  var total=10, done=0;
+  ["m1","m2","m3","m4","m5"].forEach(function(k){ if(opened[k]) done++; });
+  ["m1","m2","m3","m4","final"].forEach(function(k){ if(quizDone[k]) done++; });
+  var pct=Math.round(done/total*100);
+  document.getElementById("progBar").style.width=pct+"%";
+  document.getElementById("progText").textContent=pct+"% · "+done+" dari "+total+" aktivitas";
+  var map={m1:"m1",m2:"m2",m3:"m3",m4:"m4",m5:"m5"};
+  document.querySelectorAll(".pdot").forEach(function(d){
+    var k=d.getAttribute("data-p");
+    var quizKey = (k==="m5") ? "final" : k;
+    if(opened[k] && quizDone[quizKey]) d.classList.add("done");
+  });
+}
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ opened[e.target.getAttribute("data-module")]=true; refreshProgress(); } });
+},{threshold:0.15});
+document.querySelectorAll("section.module").forEach(function(s){ io.observe(s); });
+
+/* ---------- FLOW MODUL 1 ---------- */
+var flowData=[
+ {t:"1 · Perencanaan", d:"<strong>Produk:</strong> rencana pengumpulan (apa yang dicari, dari mana, dengan cara apa).<br><strong>Adm jangkar:</strong> arahan pimpinan / kebutuhan informasi → tentukan sasaran, sumber, dan metode.<br><strong>Catatan:</strong> perencanaan yang baik menentukan apakah produk akhirnya berguna — atau sekadar tumpukan informasi."},
+ {t:"2 · Pengumpulan", d:"<strong>Produk:</strong> informasi mentah dari berbagai sumber.<br><strong>Adm jangkar:</strong> sumber terbuka (media, dokumen publik) → sumber manusia → liaison dengan penyelenggara intelijen lain (Pasal 30B huruf (c)).<br><strong>Catatan:</strong> catat sumber setiap informasi — informasi tanpa sumber tidak bisa diverifikasi."},
+ {t:"3 · Pengolahan", d:"<strong>Produk:</strong> informasi yang sudah disaring dan diverifikasi silang.<br><strong>Adm jangkar:</strong> saring, verifikasi silang, klasifikasikan: mana fakta, mana dugaan, mana rumor.<br><strong>Catatan:</strong> satu sumber = dugaan. Baru setelah verifikasi silang, informasi boleh ditulis sebagai fakta."},
+ {t:"4 · Penyajian Produk", d:"<strong>Produk:</strong> laporan intelijen / telaahan / perkiraan intelijen.<br><strong>Adm jangkar:</strong> tulis singkat dan jelas: apa yang terjadi, apa yang terverifikasi, apa yang masih dugaan, apa rekomendasinya.<br><strong>Catatan:</strong> produk yang baik jujur soal apa yang belum diketahui — dan selalu mencantumkan derajat kepastian penilaiannya."},
+ {t:"5 · Penggunaan", d:"<strong>Produk:</strong> keputusan pimpinan berdasarkan produk intelijen.<br><strong>Adm jangkar:</strong> pimpinan memakai produk untuk memutuskan: pulbaket, penyelidikan, PPS, penyuluhan, atau pemantauan lanjutan.<br><strong>Catatan:</strong> bila produk tidak dipakai, siklusnya gagal — dan umpan balik dari pengguna menjadi bahan perencanaan siklus berikutnya."},
+ {t:"6 · Siklus berulang", d:"<strong>Produk:</strong> kebutuhan informasi baru dari hasil penggunaan.<br><strong>Adm jangkar:</strong> setiap keputusan melahirkan pertanyaan baru → kembali ke perencanaan.<br><strong>Catatan:</strong> intelijen bukan proyek sekali jalan — ia siklus yang terus berputar mengikuti situasi wilayah hukum."}
+];
+var fd=document.getElementById("flowDetail");
+function setFlow(i){
+  fd.innerHTML="<h4>"+flowData[i].t+"</h4><p>"+flowData[i].d+"</p>";
+  document.querySelectorAll("#flow1 button").forEach(function(b,bi){ b.classList.toggle("active", bi===i); });
+}
+document.querySelectorAll("#flow1 button").forEach(function(b){
+  b.addEventListener("click", function(){ setFlow(parseInt(b.getAttribute("data-flow"),10)); });
+});
+setFlow(0);
+
+/* ---------- FLOW ADM MODUL 3 ---------- */
+var admData=[
+ "<strong>Permohonan PPS:</strong> kementerian/lembaga, pemerintah daerah, atau BUMN/BUMD mengajukan permohonan PPS yang ditandatangani pejabat tinggi madya. Kejari menelaah: apakah proyek itu strategis, dan apakah ada risiko hukum yang nyata?",
+ "<strong>Entry meeting &amp; pakta integritas:</strong> Intel bertemu pemohon dan pelaksana proyek, menjelaskan apa itu PPS — pendampingan dan pencegahan, bukan kekebalan hukum — lalu para pihak menandatangani pakta integritas.",
+ "<strong>Identifikasi AGHT:</strong> Intel menginventarisasi Ancaman, Gangguan, Hambatan, dan Tantangan: personil, materiil, dan kegiatan proyek. Setiap AGHT dicatat, dinilai risikonya, dan diberi rekomendasi penanganan.",
+ "<strong>Pendampingan &amp; pengamanan:</strong> selama proyek berjalan, Intel memantau, memberi peringatan dini bila muncul risiko hukum, dan membantu menyelesaikan hambatan administratif — dengan prinsip objektif, profesional, koordinatif, kerahasiaan, netralitas, dan akuntabilitas (Pedoman 5/2023). Bila muncul indikasi pelanggaran, temuan didokumentasikan dan diteruskan ke jalur yang berwenang.",
+ "<strong>Exit meeting &amp; laporan:</strong> proyek selesai atau masa PPS berakhir: Intel menggelar exit meeting, menyerahkan hasil kegiatan PPS, menutup administrasi, dan melaporkan berjenjang ke Kejati (Asintel) dan Kejagung (Jamintel). Total pelayanan PPS maksimal 365 hari."
+];
+var ad=document.getElementById("admDetail");
+function setAdm(i){
+  ad.innerHTML="<p>"+admData[i]+"</p>";
+  document.querySelectorAll("#flowAdm button").forEach(function(b,bi){ b.classList.toggle("active", bi===i); });
+}
+document.querySelectorAll("#flowAdm button").forEach(function(b){
+  b.addEventListener("click", function(){ setAdm(parseInt(b.getAttribute("data-adm"),10)); });
+});
+setAdm(0);
+
+/* ---------- FLASHCARDS ---------- */
+function buildFlash(id, cards){
+  var el=document.getElementById(id); if(!el) return;
+  cards.forEach(function(c){
+    var b=document.createElement("button");
+    b.className="flash"; b.type="button";
+    b.setAttribute("aria-label","Flashcard: "+c[0]);
+    b.innerHTML='<span class="flash-inner"><span class="flash-face flash-front">'+c[0]+'<small>klik · balik</small></span><span class="flash-face flash-back">'+c[1]+'</span></span>';
+    b.addEventListener("click", function(){ b.classList.toggle("flipped"); });
+    el.appendChild(b);
+  });
+}
+buildFlash("flashIntel",[
+ ["LID — Penyelidikan","Pengumpulan data dan informasi untuk deteksi dini: sumber terbuka, sumber manusia, dan liaison (Pasal 30B huruf (a) dan (c))."],
+ ["PAM — Pengamanan","Mencegah kebocoran dan gangguan terhadap personil, materiil, kegiatan, dan informasi penegakan hukum — termasuk kontra-intelijen."],
+ ["GAL — Penggalangan","Menciptakan kondisi yang mendukung penegakan hukum: kesadaran, dukungan, dan kerja sama. Bukan memengaruhi putusan hakim."],
+ ["Sumber terbuka","Informasi dari media, dokumen publik, dan media sosial — sumber pertama LID: murah, legal, dan sering sudah cukup."],
+ ["Sumber manusia","Keterangan orang yang mengetahui situasi lapangan — identitasnya dijaga, informasinya diverifikasi silang."],
+ ["Liaison","Pertukaran informasi dengan penyelenggara intelijen lain (BIN, TNI, Polri, K/L) — Pasal 30B huruf (c) UU 11/2021."],
+ ["Laporan intelijen","Produk berkala/insidentil tentang situasi wilayah hukum: fakta terverifikasi, dugaan, dan rekomendasi — disampaikan berjenjang."],
+ ["Perkiraan intelijen","Penilaian tentang perkembangan situasi ke depan, selalu disertai derajat kepastian — bukan ramalan yang disajikan sebagai kepastian."],
+ ["Deteksi dini","Mengenali gejala ancaman sebelum menjadi perkara — inti dari definisi Intelijen (UU 17/2011 Pasal 1 angka 1)."],
+ ["Upaya paksa","Penangkapan, penahanan, penggeledahan, penyitaan — wewenang penyidikan menurut KUHAP, BUKAN wewenang Intel."]
+]);
+buildFlash("flashPPS",[
+ ["PPS","Pengamanan Pembangunan Strategis — pendampingan dan pencegahan proyek strategis oleh Intel (Pasal 30B huruf (b) UU 11/2021)."],
+ ["Pedoman 5/2023","Pedoman Jaksa Agung No. 5 Tahun 2023 tentang Pengamanan Pembangunan Strategis — acuan satker melaksanakan PPS."],
+ ["AGHT","Ancaman, Gangguan, Hambatan, Tantangan — empat hal yang diinventarisasi Intel dalam PPS."],
+ ["Entry meeting","Rapat pendahuluan PPS: penjelasan tentang PPS dan penandatanganan pakta integritas."],
+ ["Pakta integritas","Komitmen para pihak proyek untuk melaksanakan PPS dengan jujur — ditandatangani di entry meeting."],
+ ["Exit meeting","Rapat penutup PPS: penyerahan hasil kegiatan dan penutupan administrasi."],
+ ["Netralitas","Prinsip PPS: Intel tidak berpihak pada rekanan maupun pejabat proyek."],
+ ["Kekebalan hukum","Yang TIDAK diberikan PPS: bila ada pelanggaran, pelaku tetap bertanggung jawab sesuai hukum."],
+ ["B-1450/D/Ds/09/2023","Juknis Jamintel tentang Tata Cara Pelaksanaan PPS — pedoman operasionalnya."],
+ ["365 hari","Total pelayanan PPS maksimal 1 tahun (menurut standar pelayanan sejumlah Kejari)."]
+]);
+buildFlash("flashPakem",[
+ ["Pakem","Pengawasan Aliran Kepercayaan Masyarakat — pengawasan aliran kepercayaan/keagamaan yang dapat membahayakan masyarakat dan negara (Pasal 30 ayat (3) huruf (d))."],
+ ["Penpres 1/1965","Pencegahan Penyalahgunaan dan/atau Penodaan Agama: Pasal 1 larangan, Pasal 2 peringatan & pembubaran, Pasal 3 pidana maks. 5 tahun."],
+ ["Tim Pakem","Tim kabupaten/kota: unsur Kejaksaan (termasuk Seksi Intelijen), pemda, Kemenag, dan unsur terkait."],
+ ["JMS","Jaksa Masuk Sekolah — jaksa turun ke sekolah memberi penyuluhan hukum preventif (Kepja 184/A/JA/11/2015)."],
+ ["Penerangan hukum","Penyampaian informasi hukum kepada publik: menjelaskan perkara dan meluruskan pemberitaan — tanpa membocorkan yang masih rahasia."],
+ ["Puspenkum","Pusat Penerangan Hukum Kejagung — penanggung jawab penerangan hukum di tingkat pusat; di Kejari, Kasi Intel yang menjadi juru bicara."],
+ ["Pos Pelayanan Hukum","Layanan hukum dasar dan penerimaan pengaduan masyarakat di Kejari (SEJA 006/A/JA/05/2010)."],
+ ["Pasal 30 ayat (3) huruf (a)","Peningkatan kesadaran hukum masyarakat — payung hukum penyuluhan hukum Kejaksaan."]
+]);
+
+/* ---------- QUIZZES ---------- */
+document.querySelectorAll(".quiz").forEach(function(quiz){
+  var key=quiz.getAttribute("data-quiz");
+  var qs=quiz.querySelectorAll(".q");
+  var answered=0, correct=0;
+  qs.forEach(function(q){
+    var ans=parseInt(q.getAttribute("data-answer"),10);
+    var explain=q.getAttribute("data-explain");
+    var fb=q.querySelector(".fb");
+    var btns=q.querySelectorAll(".opts button");
+    btns.forEach(function(btn, bi){
+      btn.addEventListener("click", function(){
+        btns.forEach(function(x){ x.disabled=true; });
+        btns[ans].classList.add("correct");
+        if(bi===ans){ correct++; fb.className="fb show ok"; fb.innerHTML="<strong>Benar.</strong> "+explain; }
+        else{ btn.classList.add("wrong"); fb.className="fb show no"; fb.innerHTML="<strong>Belum tepat.</strong> "+explain; }
+        answered++;
+        var score=quiz.querySelector(".quiz-score");
+        score.textContent="Skor sementara: "+correct+" dari "+answered+" terjawab (total "+qs.length+" soal)";
+        if(answered===qs.length){
+          quizDone[key]=true;
+          score.textContent="Selesai — skor akhir: "+correct+" dari "+qs.length+". "+(correct===qs.length?"Sempurna.":correct>=qs.length-1?"Nyaris sempurna, mantap.":"Tidak apa-apa — baca lagi penjelasan tiap soal, itu inti materinya.");
+          refreshProgress();
+        }
+      });
+    });
+  });
+});
+
+/* ---------- SIMULASI ---------- */
+var simSteps=[
+ {t:"Langkah 1 · Permohonan PPS masuk", body:"Surat dari Pemkab Fiktif masuk ke Kejari Fiktif: Pemkab meminta PPS untuk Proyek Jalan Lingkar Fiktif senilai Rp45 miliar (APBD), dikerjakan PT Cahaya Fiktif. Surat ditandatangani Sekretaris Daerah Fiktif.", q:"Keputusan: apa yang dicek pertama kali?", opts:["Apakah proyek itu strategis dan ada risiko hukum yang nyata — serta apakah pemohonnya berwenang mengajukan PPS","Langsung menandatangani pakta integritas","Menanyakan fee pendampingan kepada Pemkab"], ans:0, why:"<strong>Tepat:</strong> PPS mendampingi proyek strategis yang berisiko hukum. Telaah dulu permohonan dan kewenangan pemohonnya — PPS bukan layanan yang diberikan untuk sembarang proyek."},
+ {t:"Langkah 2 · Entry meeting & pakta integritas", body:"Kasi Intel Fiktif menggelar entry meeting dengan Dinas PUPR Fiktif dan PT Cahaya Fiktif. Di meja: penjelasan bahwa PPS adalah pendampingan dan pencegahan — bukan kekebalan hukum.", q:"Keputusan: mengapa kalimat 'PPS bukan kekebalan hukum' harus diucapkan di entry meeting?", opts:["Agar tidak ada pihak yang mengira didampingi Kejaksaan berarti kebal hukum","Karena itu formalitas yang wajib dibacakan","Agar proyek terlihat diawasi media"], ans:0, why:"<strong>Benar:</strong> kesalahpahaman ini adalah risiko terbesar PPS. Diluruskan di awal — sebelum pakta integritas ditandatangani — jauh lebih murah daripada meluruskan setelah pelanggaran terjadi."},
+ {t:"Langkah 3 · Identifikasi AGHT", body:"Intel menginventarisasi AGHT: (Ancaman) ada intimidasi terhadap pekerja oleh sekelompok orang yang mengaku 'pengaman' proyek; (Hambatan) sebagian lahan belum dibebaskan; (Tantangan) administrasi proyek berantakan — berita acara serah terima material tidak lengkap.", q:"Keputusan: apa yang dilakukan terhadap temuan AGHT ini?", opts:["Dicatat, dinilai risikonya, dan diberi rekomendasi penanganan — satu per satu","Diabaikan karena proyek baru mulai","Langsung dilaporkan ke polisi sebagai tindak pidana"], ans:0, why:"<strong>Benar:</strong> menginventarisasi AGHT adalah inti PPS. Setiap AGHT dicatat dan dinilai risikonya — intimidasi terhadap pekerja, lahan belum bebas, dan administrasi berantakan adalah tiga risiko yang berbeda dan butuh penanganan yang berbeda."},
+ {t:"Langkah 4 · Pengumpulan informasi (LID)", body:"Intel mengumpulkan informasi: dari sumber terbuka (berita lokal, media sosial), dari sumber manusia (pekerja dan warga sekitar proyek), dan liaison dengan intelijen Polri setempat. Polanya: intimidasi dilakukan oleh orang yang sama yang sebelumnya 'mengamankan' proyek lain.", q:"Keputusan: informasi dari satu pekerja yang menyebut nama pelaku intimidasi — bagaimana memperlakukannya?", opts:["Langsung ditulis sebagai fakta dalam laporan intelijen","Diperlakukan sebagai dugaan — diverifikasi silang dengan sumber lain dulu","Langsung disampaikan ke media"], ans:1, why:"<strong>Benar:</strong> satu sumber = dugaan, bukan fakta. Nama seseorang dalam laporan intelijen tanpa verifikasi silang bisa menjadi fitnah yang dibungkus kop resmi Kejaksaan."},
+ {t:"Langkah 5 · Pengamanan personil (PAM)", body:"Verifikasi silang menguatkan dugaan intimidasi. Intel berkoordinasi dengan Polri setempat agar pekerja proyek aman, dan mengingatkan pelaksana untuk tidak membayar 'uang pengamanan' kepada siapa pun.", q:"Keputusan: mengapa Intel berkoordinasi dengan Polri, bukan menangani sendiri intimidasi itu?", opts:["Karena Intel tidak punya wewenang upaya paksa — penindakan terhadap intimidasi adalah ranah Polri/penyidikan","Karena Intel tidak peduli pada pekerja","Karena Polri yang meminta PPS"], ans:0, why:"<strong>Benar:</strong> PAM dalam arti intelijen adalah pengamanan dan pencegahan — bukan penindakan. Begitu ada tindak pidana (pemerasan/intimidasi), penanganannya ada di jalur pidana, dan Intel cukup memastikan informasi dan pengamanannya berjalan."},
+ {t:"Langkah 6 · Temuan dugaan mark-up", body:"Saat memeriksa administrasi, Intel menemukan dugaan mark-up harga material: harga aspal di dokumen jauh di atas harga pasar, dan berita acara serah terima material tidak lengkap. Temuan masih berupa dugaan — belum ada audit.", q:"Keputusan: apa langkah Intel yang benar?", opts:["Mendokumentasikan temuan sebagai informasi intelijen, memberi peringatan kepada pelaksana, dan melaporkannya berjenjang","Menutup temuan agar proyek tidak terganggu","Langsung menetapkan pelaksana sebagai tersangka"], ans:0, why:"<strong>Benar:</strong> temuan didokumentasikan, diperingatkan, dan dilaporkan berjenjang. Menetapkan tersangka adalah wewenang penyidikan — bukan Intel. Menutup temuan justru membuat Intel ikut bertanggung jawab atas kerugian yang terjadi setelahnya."},
+ {t:"Langkah 7 · Laporan intelijen ke pimpinan", body:"Kasi Intel menyusun laporan intelijen: fakta terverifikasi (intimidasi, lahan belum bebas, administrasi berantakan) dipisah dari dugaan (mark-up harga material — belum diaudit). Rekomendasi: lanjutkan PPS dengan pengawasan ketat, dan teruskan dugaan mark-up ke APIP untuk audit.", q:"Keputusan: mengapa fakta dan dugaan harus dipisah dalam laporan?", opts:["Karena pimpinan hanya membaca fakta","Karena laporan yang mencampur fakta dan dugaan bisa membuat pimpinan mengambil keputusan yang salah — mis. menghentikan proyek atas dasar rumor","Karena format laporan memang begitu"], ans:1, why:"<strong>Benar:</strong> laporan intelijen yang baik jujur soal apa yang terverifikasi dan apa yang masih dugaan. Keputusan pimpinan — apalagi yang menyangkut proyek Rp45 miliar — harus berpijak pada fakta, bukan rumor."},
+ {t:"Langkah 8 · APIP mengaudit", body:"Dugaan mark-up diteruskan ke APIP (Aparat Pengawasan Intern Pemerintah) untuk diaudit. Hasil audit: ada selisih harga Rp1,2 miliar yang tidak dapat dipertanggungjawabkan. PPS atas proyek ini dihentikan — proyeknya sendiri bermasalah secara hukum.", q:"Keputusan: apa arti penghentian PPS di sini?", opts:["PPS gagal dan Intel bersalah","PPS bekerja sebagaimana mestinya: ia mendeteksi masalah sejak dini, dan begitu masalahnya masuk ranah hukum, penanganannya pindah ke jalur yang berwenang","Proyek harus dilanjutkan tanpa pengawasan"], ans:1, why:"<strong>Benar:</strong> PPS bukan tameng proyek bermasalah. Mendeteksi sejak dini lalu menyerahkan ke jalur yang berwenang adalah PPS yang berhasil — bukan PPS yang gagal."},
+ {t:"Langkah 9 · Exit meeting & laporan berjenjang", body:"Intel menggelar exit meeting, menyerahkan hasil kegiatan PPS, menutup administrasi, dan melaporkan berjenjang ke Kejati (Asintel) dan Kejagung (Jamintel). Perkara dugaan mark-up kini ditangani Pidsus berdasarkan hasil audit APIP.", q:"Keputusan: mengapa penutupan administrasi PPS sama pentingnya dengan pendampingannya?", opts:["Karena laporan berjenjang adalah bukti kerja Intel dan bahan evaluasi — perkara yang tidak ditutup administrasinya akan menghantui saat audit","Karena arsip tidak pernah dibaca siapa pun","Karena exit meeting hanya formalitas"], ans:0, why:"<strong>Benar:</strong> penutupan administrasi adalah bagian dari siklus: produk, laporan, dan arsip yang rapi membuat kerja Intel bisa dipertanggungjawabkan — dan menjadi pelajaran untuk PPS berikutnya."},
+ {t:"Langkah 10 · Pelajaran untuk PPS berikutnya", body:"Kasi Intel menulis telaahan singkat: PPS berikutnya harus dimulai lebih awal (sebelum pengadaan), administrasi proyek harus dicek di entry meeting — bukan di tengah jalan — dan koordinasi dengan APIP harus dibangun sejak awal, bukan setelah temuan muncul. Inilah Intel yang belajar dari pekerjaannya sendiri.", q:"Keputusan terakhir: apa nilai terbesar Intel dalam kasus ini?", opts:["Menangkap pelaku mark-up","Mendeteksi masalah sejak dini dan menyerahkannya ke jalur yang berwenang sebelum kerugian membesar — tanpa melampaui kewenangan Intel","Membuat proyek selesai tepat waktu apa pun caranya"], ans:1, why:"<strong>Selesai — kerja bagus, Faris!</strong> Intel yang baik bukan yang paling banyak menangkap orang — melainkan yang paling dini mendeteksi, paling jujur memilah fakta dan dugaan, dan paling tahu kapan menyerahkan ke jalur yang berwenang. Simulasi selesai."}
+];
+var simIdx=0, simAnswered={};
+var dotsEl=document.getElementById("simDots");
+simSteps.forEach(function(_,i){ var s=document.createElement("span"); s.textContent=(i+1); dotsEl.appendChild(s); });
+var panel=document.getElementById("simPanel");
+function renderSim(){
+  var st=simSteps[simIdx];
+  var html="<h4 style='margin-top:0'>"+st.t+"</h4><p>"+st.body+"</p><p class='qq' style='font-weight:700'>"+st.q+"</p><div class='opts'>";
+  st.opts.forEach(function(o,i){ html+="<button data-sim-opt='"+i+"'>"+o+"</button>"; });
+  html+="</div><div class='fb' id='simFb'></div>";
+  panel.innerHTML=html;
+  document.querySelectorAll("#simDots span").forEach(function(d,i){
+    d.className = simAnswered[i] ? "done" : (i===simIdx ? "cur" : "");
+  });
+  document.getElementById("simPrev").disabled = simIdx===0;
+  document.getElementById("simNext").disabled = simIdx===simSteps.length-1 && !simAnswered[simIdx];
+  document.getElementById("simNext").textContent = simIdx===simSteps.length-1 ? "Langkah terakhir" : "Langkah berikutnya →";
+  panel.querySelectorAll("[data-sim-opt]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var pick=parseInt(btn.getAttribute("data-sim-opt"),10);
+      var fb=document.getElementById("simFb");
+      panel.querySelectorAll("[data-sim-opt]").forEach(function(x){ x.disabled=true; });
+      panel.querySelectorAll("[data-sim-opt]")[st.ans].classList.add("correct");
+      if(pick===st.ans){ fb.className="fb show ok"; fb.innerHTML=st.why; }
+      else{ btn.classList.add("wrong"); fb.className="fb show no"; fb.innerHTML="<strong>Kurang tepat.</strong> "+st.why; }
+      simAnswered[simIdx]=true;
+      document.querySelectorAll("#simDots span")[simIdx].className="done";
+      if(simIdx<simSteps.length-1) document.getElementById("simNext").disabled=false;
+      var allDone=Object.keys(simAnswered).length===simSteps.length;
+      if(allDone){ opened["m5"]=true; refreshProgress(); }
+    });
+  });
+  if(simAnswered[simIdx]){
+    panel.querySelectorAll("[data-sim-opt]").forEach(function(x){ x.disabled=true; });
+    panel.querySelectorAll("[data-sim-opt]")[st.ans].classList.add("correct");
+    var fb2=document.getElementById("simFb"); fb2.className="fb show ok"; fb2.innerHTML=st.why;
+  }
+}
+document.getElementById("simPrev").addEventListener("click", function(){ if(simIdx>0){ simIdx--; renderSim(); } });
+document.getElementById("simNext").addEventListener("click", function(){ if(simIdx<simSteps.length-1){ simIdx++; renderSim(); } });
+renderSim();
+refreshProgress();
+})();
+</script>
+
+
+<script>
+(function(){
+var HASH='4e533dd40116d43b0b2926d0b4f49958849c4f6c8ec3c1f685e8e8e872b344da';
+var gate=document.getElementById('lape-gate');
+function unlock(){try{sessionStorage.setItem('lape-unlocked','1');}catch(e){}if(gate)gate.remove();}
+try{if(sessionStorage.getItem('lape-unlocked')==='1'){unlock();return;}}catch(e){}
+if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){
+gate.style.background='#1d1416';
+var h=gate.querySelector('h1');if(h)h.style.color='#f3e4de';
+var ps=gate.querySelectorAll('p');for(var i=0;i<ps.length;i++){if(ps[i].id!=='lape-gate-err')ps[i].style.color='#c4a49c';}
+var inp=document.getElementById('lape-pin');if(inp){inp.style.background='#2b1d20';inp.style.color='#f3e4de';inp.style.borderColor='#4a3236';}
+var btn=gate.querySelector('button');if(btn){btn.style.background='#4fa3b8';btn.style.color='#17181c';}
+}
+var form=document.getElementById('lape-gate-form');
+var input=document.getElementById('lape-pin');
+var err=document.getElementById('lape-gate-err');
+if(input)input.focus();
+form.addEventListener('submit',function(ev){
+ev.preventDefault();
+var v=(input.value||'').trim();
+if(!v)return;
+function fail(){err.textContent='PIN salah, coba lagi.';input.value='';input.focus();}
+if(window.crypto&&crypto.subtle&&crypto.subtle.digest){
+crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(buf){
+var hex=Array.prototype.map.call(new Uint8Array(buf),function(b){return('00'+b.toString(16)).slice(-2);}).join('');
+if(hex===HASH){unlock();}else{fail();}
+}).catch(fail);
+}else{fail();}
+});
+})();
+</script>
+</body>
+</html>
